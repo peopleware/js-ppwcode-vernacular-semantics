@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "dojo/Stateful", "ppwcode_contracts/_Mixin"],
+define(["dojo/_base/declare", "dojo/Stateful", "ppwcode/contracts/_Mixin"],
     function(declare, Stateful, _ContractMixin) {
 
       /*

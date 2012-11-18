@@ -1,4 +1,4 @@
-define(["dojo/main", "ppwcode_contracts/doh", "../SemanticObject"],
+define(["dojo/main", "ppwcode/contracts/doh", "../SemanticObject"],
     function(dojo, doh, SemanticObject) {
 
       doh.register(SemanticObject.prototype.declaredClass, [
