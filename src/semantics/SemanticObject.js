@@ -19,6 +19,7 @@ define(["dojo/_base/declare", "dojo/Stateful", "ppwcode/contracts/_Mixin"],
 
 
         "-chains-": {
+          reload: "after",
           _extendJsonObject: "after",
           _stateToString: "after"
         },
