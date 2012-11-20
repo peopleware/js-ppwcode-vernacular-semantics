@@ -1,5 +1,5 @@
-define(["dojo/_base/declare", "dojo/Stateful", "ppwcode/contracts/_Mixin"],
-    function(declare, Stateful, _ContractMixin) {
+define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contracts/_Mixin"],
+    function(declare, PpwCodeObject, Stateful, _ContractMixin) {
 
       /*
          NOTE!:
@@ -10,25 +10,13 @@ define(["dojo/_base/declare", "dojo/Stateful", "ppwcode/contracts/_Mixin"],
       var statefulPrototype = Stateful.prototype;
       delete statefulPrototype.postscript;
 
-      var SemanticObject = declare("be.ppwcode.vernacular.semantics.SemanticObject",
-                                   [Stateful, _ContractMixin], {
+      return declare("be.ppwcode.vernacular.semantics.SemanticObject", [PpwCodeObject, Stateful, _ContractMixin], {
 
         _c_invar: [
           // MUDO nothing here yet
         ],
 
-
-        "-chains-": {
-          reload: "after",
-          _extendJsonObject: "after",
-          _stateToString: "after"
-        },
-
         constructor: function(/*Object*/ props) {
-          // NOP
-        },
-
-        reload: function(/*Object*/ json) {
           // NOP
         },
 
@@ -36,24 +24,10 @@ define(["dojo/_base/declare", "dojo/Stateful", "ppwcode/contracts/_Mixin"],
           // NOP
         },
 
-        toJsonObject: function() {
-          var json = {};
-          this._extendJsonObject(json);
-          return json; // return Object
-        },
-
         _stateToString: function(/*Array of String*/ toStrings) {
           // NOP
-        },
-
-        toString: function() {
-          var toStrings = [];
-          this._stateToString(toStrings);
-          return this.declaredClass + // return Object
-            " {" + toStrings + "}";
         }
-      });
 
-      return SemanticObject;
+      });
     }
 );

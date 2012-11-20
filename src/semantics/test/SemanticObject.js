@@ -17,30 +17,6 @@ define(["dojo/main", "ppwcode/contracts/doh", "../SemanticObject"],
           // post
         },
 
-        function testReload1() {
-          var subject = new SemanticObject();
-          subject.reload();
-
-          doh.invars(subject);
-          // post
-        },
-
-        function testReload2() {
-          var subject = new SemanticObject();
-          subject.reload({});
-
-          doh.invars(subject);
-          // post
-        },
-
-        function testReload3() {
-          var subject = new SemanticObject();
-          subject.reload({huppeldepup: "happeldepap"});
-
-          doh.invars(subject);
-          // post
-        },
-
         function testToJsonObject() {
           var subject = new SemanticObject();
           var result = subject.toJsonObject();
