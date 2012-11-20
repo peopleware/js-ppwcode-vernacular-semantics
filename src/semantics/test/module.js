@@ -1,4 +1,5 @@
 define([
   "./PpwCodeObject",
-  "./SemanticObject"
+  "./SemanticObject",
+  "./Value"
 ], 1);
