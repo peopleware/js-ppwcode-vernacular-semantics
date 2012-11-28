@@ -9,14 +9,13 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode/contracts/_Mixin"],
         ],
 
         constructor: function(/*Object*/ props) {
-          var thisEntity = this;
-          this._c_pre(function() {return (props != null);});
+          this._c_pre(function() {return props /* exists and not null */;}); // TODO and is an object
 
           // NOP
         },
 
         equals: function(/*Value*/ other) {
-          throw "ABSTRACT";
+          this._c_ABSTRACT();
           return false; // return boolean
         }
 
