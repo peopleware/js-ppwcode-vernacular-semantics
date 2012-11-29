@@ -13,19 +13,19 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
       return declare("be.ppwcode.vernacular.semantics.SemanticObject", [PpwCodeObject, Stateful, _ContractMixin], {
 
         _c_invar: [
-          // MUDO nothing here yet
+          // TODO nothing here yet
         ],
 
         constructor: function(/*Object*/ props) {
-          // NOP
+          this._c_NOP(props);
         },
 
         _extendJsonObject: function(/*Object*/ json) {
-          // NOP
+          this._c_NOP(json);
         },
 
         _stateToString: function(/*Array of String*/ toStrings) {
-          // NOP
+          this._c_NOP(toStrings);
         }
 
       });

@@ -15,15 +15,15 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
         },
 
         constructor: function(/*Object*/ props) {
-          // NOP
+          this._c_NOP(props);
         },
 
         reload: function(/*Object*/ json) {
-          // NOP
+          this._c_NOP(json);
         },
 
         _extendJsonObject: function(/*Object*/ json) {
-          // NOP
+          this._c_NOP(json);
         },
 
         toJsonObject: function() {
@@ -33,7 +33,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
         },
 
         _stateToString: function(/*Array of String*/ toStrings) {
-          // NOP
+          this._c_NOP(toStrings);
         },
 
         toString: function() {
