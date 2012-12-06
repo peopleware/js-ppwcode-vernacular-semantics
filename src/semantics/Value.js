@@ -17,6 +17,11 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode/contracts/_Mixin"],
         equals: function(/*Value*/ other) {
           this._c_ABSTRACT(other);
           return false; // return boolean
+        },
+
+        getValue: function() {
+          this._c_ABSTRACT();
+          return null; // return object
         }
 
       });
