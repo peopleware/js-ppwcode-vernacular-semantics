@@ -42,6 +42,8 @@ define(["dojo/main", "ppwcode/contracts/doh", "../SemanticObject"],
           console.log(result);
         }
 
+        // TODO test set
+
       ]);
 
     }
