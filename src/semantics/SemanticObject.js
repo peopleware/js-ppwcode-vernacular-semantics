@@ -30,6 +30,16 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
           return this; // return be.ppwcode.vernacular.semantics.SemanticObject
         },
 
+        _changeAttrValue: function(name, value){
+          // summary:
+          //   Overwrite Stateful method, so that new values that are `==` do nothing
+          var oldValue = this.get(name);
+          if (value != oldValue) {
+            return this.inherited(arguments);
+          }
+          return this; // return be.ppwcode.vernacular.semantics.SemanticObject
+        },
+
         _extendJsonObject: function(/*Object*/ json) {
           this._c_NOP(json);
         },
