@@ -7,6 +7,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
           // MUDO nothing here yet
         ],
 
+        isEditable: true,
+        isDeletable: true,
 
         "-chains-": {
           reload: "after",
