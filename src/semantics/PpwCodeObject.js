@@ -7,9 +7,6 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
           // MUDO nothing here yet
         ],
 
-        isEditable: true,
-        isDeletable: true,
-
         "-chains-": {
           reload: "after",
           _extendJsonObject: "after",
@@ -19,6 +16,9 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
         constructor: function(/*Object*/ props) {
           this._c_NOP(props);
         },
+
+        isEditable: function() { return true; },
+        isDeletable: function() { return true },
 
         reload: function(/*Object*/ json) {
           this._c_NOP(json);
