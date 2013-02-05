@@ -45,6 +45,12 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
 
         constructor: function(/*Object*/ props) {
           this._c_NOP(props);
+
+          // TODO replace warning with a precondition when all other code is changed
+          // The only good usage is to ALWAYS create semantic objects with an no-ops constructor, and potentionally reload after that.
+          if (props) {
+            console.warn("Code should be rewritten to not use arguments in the constructor.")
+          }
         },
 
         set: function(/*String*/name, /*Object*/value) {
