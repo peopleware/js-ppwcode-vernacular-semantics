@@ -54,8 +54,10 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
             widgetState = { readOnly:true, disabled:false };
         }
         innerWidgets.forEach(function (w) {
-          w.set("readOnly", widgetState.readOnly);
-          w.set("disabled", widgetState.disabled);
+          if (!w.isInstanceOf(_EditableSemanticObjectDetail)) {
+            w.set("readOnly", widgetState.readOnly);
+            w.set("disabled", widgetState.disabled);
+          }
         });
       }
 
