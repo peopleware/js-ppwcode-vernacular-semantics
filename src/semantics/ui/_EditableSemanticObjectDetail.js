@@ -1,7 +1,7 @@
-define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-style", "dojo/has",
+define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-style", "dojo/dom-class", "dojo/has",
         "dijit/_WidgetBase", "../SemanticObject",
         "ppwcode/contracts/doh"], // MUDO REMOVE temp for testing invariants in the field
-    function(declare, _ContractMixin, lang, registry, domStyle, has,
+    function(declare, _ContractMixin, lang, registry, domStyle, domClass, has,
              _WidgetBase, SemanticObject,
              doh) {
 
@@ -28,16 +28,16 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         // and its object must be destroyed.
         "ERROR"];
 
-      function setEditModeOnWidgets(domNode, value) {
+      function setEditModeOnWidgets(domNode, editMode) {
         if (has("dojo-debug-messages")) {
           // make ERROR and WILD mode very clear in debug mode
-          if (value === _EditableSemanticObjectDetail.prototype.NOTARGET) {
+          if (editMode === _EditableSemanticObjectDetail.prototype.NOTARGET) {
             domStyle.set(domNode, "backgroundColor", "gray");
           }
-          else if (value === _EditableSemanticObjectDetail.prototype.ERROR) {
+          else if (editMode === _EditableSemanticObjectDetail.prototype.ERROR) {
             domStyle.set(domNode, "backgroundColor", "red");
           }
-          else if (value === _EditableSemanticObjectDetail.prototype.WILD) {
+          else if (editMode === _EditableSemanticObjectDetail.prototype.WILD) {
             domStyle.set(domNode, "backgroundColor", "yellow");
           }
           else {
@@ -46,7 +46,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         }
         var innerWidgets = registry.findWidgets(domNode);
         var widgetState = null;
-        switch (value) {
+        switch (editMode) {
           case _EditableSemanticObjectDetail.prototype.NOTARGET:
             widgetState = { readOnly:false, disabled:true };
             break;
@@ -68,6 +68,30 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
             w.set("disabled", widgetState.disabled);
           }
         });
+      }
+
+      function setEditModeOnBlock(domNode, editMode) {
+        if (editMode === _EditableSemanticObjectDetail.prototype.VIEW ||
+            editMode === _EditableSemanticObjectDetail.prototype.EDIT ||
+            editMode === _EditableSemanticObjectDetail.prototype.WILD) {
+          domClass.replace(domNode,
+            "editableSemanticObjectDetail_blockEnabled",
+            "editableSemanticObjectDetail_blockDisabled editableSemanticObjectDetail_blockInvisible"
+          );
+        }
+        else if (editMode === _EditableSemanticObjectDetail.prototype.BUSY ||
+                 editMode === _EditableSemanticObjectDetail.prototype.ERROR) {
+          domClass.replace(domNode,
+            "editableSemanticObjectDetail_blockDisabled",
+            "editableSemanticObjectDetail_blockEnabled editableSemanticObjectDetail_blockInvisible"
+          );
+        }
+        else { // no target
+          domClass.replace(domNode,
+            "editableSemanticObjectDetail_blockInvisible",
+            "editableSemanticObjectDetail_blockEnabled editableSemanticObjectDetail_blockDisabled"
+          );
+        }
       }
 
       var _EditableSemanticObjectDetail = declare([_WidgetBase, _ContractMixin], {
@@ -125,7 +149,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         ],
 
         "-chains-": {
-          _propagateTarget: "after"
+          _propagateTarget: "after",
+          _localEditModeChange: "after"
         },
 
         // target: SemanticObject
@@ -200,8 +225,22 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           this._wrappedDetails().forEach(function(wd) {
             wd.set("editMode", value);
           });
+          setEditModeOnBlock(this.get("domNode"), value);
           setEditModeOnWidgets(this.get("domNode"), value);
+          this._localEditModeChange(value);
           doh.validateInvariants(this); // MUDO REMOVE
+        },
+
+        _localEditModeChange: function(/*String*/ editMode) {
+          // summary:
+          //   Make changes to representation to represent the
+          //   new edit mode. Chained. Overwrite when needed.
+          // tags:
+          //   protected
+          // description:
+          //   Does nothing in _EditableSemanticObjectDetail
+
+          this._c_NOP();
         }
 
       });
