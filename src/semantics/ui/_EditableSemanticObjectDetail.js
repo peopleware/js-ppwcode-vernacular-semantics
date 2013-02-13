@@ -1,7 +1,7 @@
-define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "dijit/registry",
+define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-style", "dojo/has",
         "dijit/_WidgetBase", "../SemanticObject",
         "ppwcode/contracts/doh"], // MUDO REMOVE temp for testing invariants in the field
-    function(declare, _ContractMixin, lang, registry,
+    function(declare, _ContractMixin, lang, registry, domStyle, has,
              _WidgetBase, SemanticObject,
              doh) {
 
@@ -26,13 +26,28 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         "ERROR"];
 
       function setEditModeOnWidgets(domNode, value) {
+        if (has("dojo-debug-messages")) {
+          // make ERROR and WILD mode very clear in debug mode
+          if (value === _EditableSemanticObjectDetail.prototype.ERROR) {
+            domStyle.set(domNode, "backgroundColor", "red");
+          }
+          else if (value === _EditableSemanticObjectDetail.prototype.WILD) {
+            domStyle.set(domNode, "backgroundColor", "yellow");
+          }
+          else {
+            domStyle.set(domNode, "backgroundColor", "transparent");
+          }
+        };
         var innerWidgets = registry.findWidgets(domNode);
         var widgetState = null;
         switch (value) {
-          case editModes["EDIT"]:
+          case _EditableSemanticObjectDetail.prototype.EDIT:
             widgetState = { readOnly:false, disabled:false };
             break;
-          case editModes["BUSY"]:
+          case _EditableSemanticObjectDetail.prototype.BUSY:
+            widgetState = { readOnly:false, disabled:true };
+            break;
+          case _EditableSemanticObjectDetail.prototype.ERROR:
             widgetState = { readOnly:false, disabled:true };
             break;
           default:
@@ -66,8 +81,9 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         //   getWrappedDetails to return the wrapped details. All instances need to be instances of this class.
         //   The default implementation returns an empty array.
         //   The target of a wrapped detail might be the same target as our target, but it might be
-        //   another related object, of a different type. _setTargetAttr is chained, so that subclasses
-        //   can add propagation of setting the target. Our implementation only sets our target.
+        //   another related object, of a different type. set("target", ...) will call _propagateTarget, which is
+        //   chained, so that subclasses can add propagation of setting the target. Our implementation only sets our
+        //   target.
 
         _c_invar: [
           function() {return this.get("editMode");},
@@ -97,7 +113,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         ],
 
         "-chains-": {
-          _setTargetAttr: "after"
+          _propagateTarget: "after"
         },
 
         // target: SemanticObject
@@ -107,18 +123,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
 
         // editMode: String
         //    The edit mode is either
-        editMode: editModes["VIEW"],
-
-        constructor: function() {
-          doh.validateInvariants(this); // MUDO REMOVE
-        },
-
-        postCreate: function() {
-          this.inherited(arguments);
-          this.set("editMode", editModes["VIEW"]); // called to init descendant widgets correctly
-
-          doh.validateInvariants(this); // MUDO REMOVE
-        },
+        editMode: editModes[0], // default value
 
         _wrappedDetails: function() {
           // summary:
@@ -138,6 +143,18 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           return SemanticObject;
         },
 
+        _propagateTarget: function(/*SemanticObject*/ so) {
+          // summary:
+          //   Propagate the target as appropriate to wrapped details.
+          //   Chained. Subtypes could add propagation to wrapped details.
+          // tags:
+          //   protected
+          // description:
+          //   Does nothing in _EditableSemanticObjectDetail
+
+          this._c_NOP();
+        },
+
         _setTargetAttr: function(so) {
           // summary:
           //    Sets the target of this instance. Chained. Subtypes could add propagation to wrapped details.
@@ -146,6 +163,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           if (so !== this.get("target")) {
             this._set("target", so);
           }
+          this._propagateTarget(so);
 
           doh.validateInvariants(this); // MUDO REMOVE
         },
@@ -156,6 +174,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           //    Also makes all innerWidgets read-only in editMode VIEW,
           //    disabled in editMode BUSY, and not-read-only and enabled
           //    in the other editModes.
+
+          // Called during create by _WidgetBase with default value automatically
           this._c_pre(function() {return value != null});
           this._c_pre(function() {return _EditableSemanticObjectDetail.prototype.editModes.indexOf(value) >= 0});
 
