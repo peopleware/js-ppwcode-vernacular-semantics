@@ -6,6 +6,9 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
              doh) {
 
       var editModes = [
+        // editMode for when there is no target
+        "NOTARGET",
+
         // editMode for viewing the data. No interaction allowed.
         "VIEW",
 
@@ -28,7 +31,10 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
       function setEditModeOnWidgets(domNode, value) {
         if (has("dojo-debug-messages")) {
           // make ERROR and WILD mode very clear in debug mode
-          if (value === _EditableSemanticObjectDetail.prototype.ERROR) {
+          if (value === _EditableSemanticObjectDetail.prototype.NOTARGET) {
+            domStyle.set(domNode, "backgroundColor", "gray");
+          }
+          else if (value === _EditableSemanticObjectDetail.prototype.ERROR) {
             domStyle.set(domNode, "backgroundColor", "red");
           }
           else if (value === _EditableSemanticObjectDetail.prototype.WILD) {
@@ -37,10 +43,13 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           else {
             domStyle.set(domNode, "backgroundColor", "transparent");
           }
-        };
+        }
         var innerWidgets = registry.findWidgets(domNode);
         var widgetState = null;
         switch (value) {
+          case _EditableSemanticObjectDetail.prototype.NOTARGET:
+            widgetState = { readOnly:false, disabled:true };
+            break;
           case _EditableSemanticObjectDetail.prototype.EDIT:
             widgetState = { readOnly:false, disabled:false };
             break;
@@ -94,6 +103,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           // TODO getTargetType is a subtype of SemanticObject
           function() {return this.get("target") == null ||
                         (this.get("target").isInstanceOf && this.get("target").isInstanceOf(this.getTargetType()));},
+          function() {return (this.get("editMode") === this.NOTARGET) === (this.get("target") === null);},
           function() {return this._wrappedDetails() != null;},
           function() {return lang.isArray(this._wrappedDetails());},
           {
@@ -126,6 +136,10 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         // editMode: String
         //    The edit mode is either
         editMode: editModes[0], // default value
+
+        isInEditMode: function() {
+          return this.editMode === this.EDIT || this.editMode === this.BUSY || this.editMode === this.WILD;
+        },
 
         _wrappedDetails: function() {
           // summary:
@@ -166,6 +180,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
             this._set("target", so);
           }
           this._propagateTarget(so);
+          this.set("editMode", so ? this.VIEW : this.NOTARGET);
 
           doh.validateInvariants(this); // MUDO REMOVE
         },
