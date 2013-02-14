@@ -41,7 +41,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
             domStyle.set(domNode, "backgroundColor", "yellow");
           }
           else {
-            domStyle.set(domNode, "backgroundColor", "transparent");
+            domStyle.set(domNode, "backgroundColor", "");
           }
         }
         var innerWidgets = registry.findWidgets(domNode);
