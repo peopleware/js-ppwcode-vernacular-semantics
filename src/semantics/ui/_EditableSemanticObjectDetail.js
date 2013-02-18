@@ -5,39 +5,40 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
              _WidgetBase, SemanticObject,
              doh) {
 
-      var editModes = [
-        // editMode for when there is no target
-        "NOTARGET",
-
-        // editMode for viewing the data. No interaction allowed.
+      var presentationModes = [
+        // presentationMode and stylePresentationMode for viewing the data. No interaction allowed.
         "VIEW",
 
-        // editMode for editing the data. Interaction allowed.
+        // presentationMode and stylePresentationMode for editing the data. Interaction allowed.
         "EDIT",
 
-        // editMode while the SemanticObject is busy. No interaction allowed.
+        // presentationMode and stylePresentationMode while the SemanticObject is busy. No interaction allowed.
         "BUSY",
 
-        // editMode representing unacceptable data (the object is not civilized,
-        // or we have other means of knowing the data is unacceptable).
+        // presentationMode and stylePresentationMode representing unacceptable data (the object is
+        // not civilized, or we have other means of knowing the data is unacceptable).
         // Interaction must be allowed to reset the object, or ammeliorate the data/
         // This means this is a sub-state of EDIT.
         "WILD",
 
-        // editMode representing an error occured. We cannot proceed. The widget
+        // presentationMode and stylePresentationMode representing an error occured. We cannot proceed. The widget
         // and its object must be destroyed.
         "ERROR"];
 
-      function setEditModeOnWidgets(domNode, editMode) {
+      var stylePresentationModes = presentationModes.slice(0); // copy
+      // stylePresentationMode for when there is no target
+      stylePresentationModes.push("NOTARGET");
+
+      function setStylepresentationModeOnWidgets(domNode, stylePresentationMode) {
         if (has("dojo-debug-messages")) {
           // make ERROR and WILD mode very clear in debug mode
-          if (editMode === _EditableSemanticObjectDetail.prototype.NOTARGET) {
+          if (stylePresentationMode === _EditableSemanticObjectDetail.prototype.NOTARGET) {
             domStyle.set(domNode, "backgroundColor", "gray");
           }
-          else if (editMode === _EditableSemanticObjectDetail.prototype.ERROR) {
+          else if (stylePresentationMode === _EditableSemanticObjectDetail.prototype.ERROR) {
             domStyle.set(domNode, "backgroundColor", "red");
           }
-          else if (editMode === _EditableSemanticObjectDetail.prototype.WILD) {
+          else if (stylePresentationMode === _EditableSemanticObjectDetail.prototype.WILD) {
             domStyle.set(domNode, "backgroundColor", "yellow");
           }
           else {
@@ -46,7 +47,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         }
         var innerWidgets = registry.findWidgets(domNode);
         var widgetState = null;
-        switch (editMode) {
+        switch (stylePresentationMode) {
           case _EditableSemanticObjectDetail.prototype.NOTARGET:
             widgetState = { readOnly:false, disabled:true };
             break;
@@ -70,17 +71,17 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         });
       }
 
-      function setEditModeOnBlock(domNode, editMode) {
-        if (editMode === _EditableSemanticObjectDetail.prototype.VIEW ||
-            editMode === _EditableSemanticObjectDetail.prototype.EDIT ||
-            editMode === _EditableSemanticObjectDetail.prototype.WILD) {
+      function setStylePresentationModeOnBlock(domNode, presentationMode) {
+        if (presentationMode === _EditableSemanticObjectDetail.prototype.VIEW ||
+            presentationMode === _EditableSemanticObjectDetail.prototype.EDIT ||
+            presentationMode === _EditableSemanticObjectDetail.prototype.WILD) {
           domClass.replace(domNode,
             "editableSemanticObjectDetail_blockEnabled",
             "editableSemanticObjectDetail_blockDisabled editableSemanticObjectDetail_blockInvisible"
           );
         }
-        else if (editMode === _EditableSemanticObjectDetail.prototype.BUSY ||
-                 editMode === _EditableSemanticObjectDetail.prototype.ERROR) {
+        else if (presentationMode === _EditableSemanticObjectDetail.prototype.BUSY ||
+                 presentationMode === _EditableSemanticObjectDetail.prototype.ERROR) {
           domClass.replace(domNode,
             "editableSemanticObjectDetail_blockDisabled",
             "editableSemanticObjectDetail_blockEnabled editableSemanticObjectDetail_blockInvisible"
@@ -103,16 +104,19 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         //   What is common to all subtypes is that the widget:
         //   - has a `target` that is a SemanticObject; getTargetType() returns the top-most supported
         //     Constructor of supported targets. All targets must be instances of this type.
-        //   - has an `editMode` (view, edit, busy, wild, error)
+        //   - has an `presentationMode` (view, edit, busy, wild, error)
+        //   - has a `stylePresentationMode`
         //
-        //   The representation should reflect the editMode in a clear visual way to the user.
+        //   The representation should reflect the presentationMode in a clear visual way to the user.
+        //   This is the `stylePresentationModel`. It is the `presentationMode` if `target !== null`,
+        //   and `NOTARGET` otherwise.
         //   Even when the information shown is completely read-only, widgets should extend
         //   this class, to change the representation of the displayed information consistently
-        //   with other information in different editModes, e.g., in "busy" mode.
-        //   The available edit modes are defined in _EditableSemanticObjectDetail.prototype.editModes.
+        //   with other information in different presentationModes, e.g., in "busy" mode.
+        //   The available presentation modes are defined in _EditableSemanticObjectDetail.prototype.presentationModes.
         //
         //   Instances can be wrapped around zero or more _EditableSemanticObjectDetails, recursively (no loops!).
-        //   We take care of propagating `editMode`. Subclasses need to override
+        //   We take care of propagating `presentationMode`. Subclasses need to override
         //   getWrappedDetails to return the wrapped details. All instances need to be instances of this class.
         //   The default implementation returns an empty array.
         //   The target of a wrapped detail might be the same target as our target, but it might be
@@ -121,13 +125,16 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         //   target.
 
         _c_invar: [
-          function() {return this.get("editMode");},
-          function() {return _EditableSemanticObjectDetail.prototype.editModes.indexOf(this.get("editMode")) >= 0;},
+          function() {return this.get("presentationMode");},
+          function() {return this.presentationModes.indexOf(this.get("presentationMode")) >= 0;},
           function() {return this.getTargetType() != null;},
           // TODO getTargetType is a subtype of SemanticObject
           function() {return this.get("target") == null ||
                         (this.get("target").isInstanceOf && this.get("target").isInstanceOf(this.getTargetType()));},
-          function() {return (this.get("editMode") === this.NOTARGET) === (this.get("target") === null);},
+          function() {return this.get("stylePresentationMode");},
+          function() {return this.stylePresentationModes.indexOf(this.get("stylePresentationMode")) >= 0;},
+          function() {return (this.get("stylePresentationMode") === this.NOTARGET) === (this.get("target") === null);},
+          function() {return this.get("target") !== null ? this.get("stylePresentationMode") === this.get("presentationMode") : true;},
           function() {return this._wrappedDetails() != null;},
           function() {return lang.isArray(this._wrappedDetails());},
           {
@@ -140,9 +147,10 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
                   wd.isInstanceOf && wd.isInstanceOf(_EditableSemanticObjectDetail);
               },
               // wrapped details might contain other objects of other types as target,
-              // but the editMode needs to be in sync
+              // or null, but the presentationMode needs to be in sync. The stylePresentationMode
+              // can differ.
               function(wd) {
-                return wd.get("editMode") === this.get("editMode");
+                return wd.get("presentationMode") === this.get("presentationMode");
               }
             ]
           }
@@ -150,7 +158,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
 
         "-chains-": {
           _propagateTarget: "after",
-          _localEditModeChange: "after"
+          _localPresentationModeChange: "after"
         },
 
         // target: SemanticObject
@@ -158,17 +166,27 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         //    Access in declarative template with  ... data-dojo-props="value: at('rel:', BINDING_PROPERTY_NAME)
         target: null,
 
-        // editMode: String
-        //    The edit mode is either
-        editMode: editModes[0], // default value
+        // presentationMode: String
+        //    The presentation mode is either view, edit, busy, wild, or error
+        presentationMode: stylePresentationModes[0], // default value
+
+        // stylePresentationMode: String
+        //    The stylePresentationMode is the same as the presentationMode, except when there is no target.
+        //    Then it is NOTARGET.
+        _getStylePresentationModeAttr: function() {
+          return this.target ? this.get("presentationMode") : this.NOTARGET;
+        },
 
         isInEditMode: function() {
-          return this.editMode === this.EDIT || this.editMode === this.BUSY || this.editMode === this.WILD;
+          // summary:
+          //    This is in a `stylePresentationMode` that allows the user to change the values, if there is a target and
+          //    it is editable.
+          return this.presentationMode === this.EDIT || this.presentationMode === this.BUSY || this.presentationMode === this.WILD;
         },
 
         _wrappedDetails: function() {
           // summary:
-          //   Array containing the wrapped details, a subclass wants the target and editMode propagated to.
+          //   Array containing the wrapped details, a subclass wants the target and presentationMode propagated to.
           // tags:
           //   protected
 
@@ -205,33 +223,35 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
             this._set("target", so);
           }
           this._propagateTarget(so);
-          this.set("editMode", so ? this.VIEW : this.NOTARGET);
+          this.set("presentationMode", this.VIEW);
 
           doh.validateInvariants(this); // MUDO REMOVE
         },
 
-        _setEditModeAttr: function(value) {
+        _setPresentationModeAttr: function(value) {
           // summary:
-          //    Set the editMode, and propagate to the wrapped details.
-          //    Also makes all innerWidgets read-only in editMode VIEW,
-          //    disabled in editMode BUSY, and not-read-only and enabled
-          //    in the other editModes.
+          //    Set the presentationMode, and propagate to the wrapped details.
+          //    Also makes all innerWidgets read-only in presentationMode VIEW,
+          //    disabled in presentationMode BUSY, and not-read-only and enabled
+          //    in the other presentationModes.
 
           // Called during create by _WidgetBase with default value automatically
           this._c_pre(function() {return value != null});
-          this._c_pre(function() {return _EditableSemanticObjectDetail.prototype.editModes.indexOf(value) >= 0});
+          this._c_pre(function() {return _EditableSemanticObjectDetail.prototype.presentationModes.indexOf(value) >= 0});
 
-          this._set("editMode", value);
+          this._set("presentationMode", value);
           this._wrappedDetails().forEach(function(wd) {
-            wd.set("editMode", value);
+            wd.set("presentationMode", value);
           });
-          setEditModeOnBlock(this.get("domNode"), value);
-          setEditModeOnWidgets(this.get("domNode"), value);
-          this._localEditModeChange(value);
+          var myDomNode = this.get("domNode");
+          var stylePresentationMode = this.get("stylePresentationMode");
+          setStylePresentationModeOnBlock(myDomNode, stylePresentationMode);
+          setStylepresentationModeOnWidgets(myDomNode, stylePresentationMode);
+          this._localPresentationModeChange(value);
           doh.validateInvariants(this); // MUDO REMOVE
         },
 
-        _localEditModeChange: function(/*String*/ editMode) {
+        _localPresentationModeChange: function(/*String*/ presentationMode) {
           // summary:
           //   Make changes to representation to represent the
           //   new edit mode. Chained. Overwrite when needed.
@@ -245,9 +265,11 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
 
       });
 
-      // All supported editModes
-      _EditableSemanticObjectDetail.prototype.editModes = editModes;
-      editModes.forEach(function(em) {
+      // All supported presentationModes
+      _EditableSemanticObjectDetail.prototype.presentationModes = presentationModes;
+      // All supported stylePresentationModes
+      _EditableSemanticObjectDetail.prototype.stylePresentationModes = stylePresentationModes;
+      stylePresentationModes.forEach(function(em) {
         _EditableSemanticObjectDetail.prototype[em] = em;
       });
 
