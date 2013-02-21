@@ -1,5 +1,6 @@
 define([
   "./PpwCodeObject",
   "./SemanticObject",
-  "./Value"
+  "./Value",
+  "../ui/test/module"
 ], 1);

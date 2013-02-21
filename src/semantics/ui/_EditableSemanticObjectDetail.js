@@ -1,9 +1,7 @@
 define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-style", "dojo/dom-class", "dojo/has",
-        "dijit/_WidgetBase", "../SemanticObject",
-        "ppwcode/contracts/doh"], // MUDO REMOVE temp for testing invariants in the field
+        "dijit/_WidgetBase", "../SemanticObject"],
     function(declare, _ContractMixin, lang, registry, domStyle, domClass, has,
-             _WidgetBase, SemanticObject,
-             doh) {
+             _WidgetBase, SemanticObject) {
 
       var presentationModes = [
         // presentationMode and stylePresentationMode for viewing the data. No interaction allowed.
@@ -123,6 +121,10 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         //   another related object, of a different type. set("target", ...) will call _propagateTarget, which is
         //   chained, so that subclasses can add propagation of setting the target. Our implementation only sets our
         //   target.
+        //
+        //   This class is concerned with presentation. Other classes might add presentation
+        //   and functionality to support interaction with the user (save and cancel buttons, etc. -
+        //   see e.g. ppwcode persistence).
 
         _c_invar: [
           function() {return this.get("presentationMode");},
@@ -181,12 +183,13 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           // summary:
           //    This is in a `stylePresentationMode` that allows the user to change the values, if there is a target and
           //    it is editable.
-          return this.presentationMode === this.EDIT || this.presentationMode === this.BUSY || this.presentationMode === this.WILD;
+          return this.target &&
+            (this.presentationMode === this.EDIT || this.presentationMode === this.BUSY || this.presentationMode === this.WILD);
         },
 
         _wrappedDetails: function() {
           // summary:
-          //   Array containing the wrapped details, a subclass wants the target and presentationMode propagated to.
+          //   Array containing the wrapped details, a subclass wants the presentationMode propagated to.
           // tags:
           //   protected
 
@@ -209,7 +212,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           // tags:
           //   protected
           // description:
-          //   Does nothing in _EditableSemanticObjectDetail
+          //   Does nothing in _EditableSemanticObjectDetail.
 
           this._c_NOP();
         },
@@ -224,8 +227,6 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           }
           this._propagateTarget(so);
           this.set("presentationMode", this.VIEW);
-
-          doh.validateInvariants(this); // MUDO REMOVE
         },
 
         _setPresentationModeAttr: function(value) {
@@ -248,7 +249,6 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           setStylePresentationModeOnBlock(myDomNode, stylePresentationMode);
           setStylepresentationModeOnWidgets(myDomNode, stylePresentationMode);
           this._localPresentationModeChange(value);
-          doh.validateInvariants(this); // MUDO REMOVE
         },
 
         _localPresentationModeChange: function(/*String*/ presentationMode) {
