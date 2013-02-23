@@ -1,5 +1,5 @@
-define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
-    function(declare, _ContractMixin) {
+define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
+    function(declare, _ContractMixin, kernel) {
 
       return declare("be.ppwcode.vernacular.semantics.PpwCodeObject", [_ContractMixin], {
 
@@ -21,14 +21,54 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
         isDeletable: function() { return true },
 
         reload: function(/*Object*/ json) {
+          // summary:
+          //   Chained method that loads data from `json`.
+          // description:
+          //   Subclasses should overwrite this method
+          //   to load the properties from `json` that are defined
+          //   in that subclass.
+          //   See also _extendJsonObject.
+
           this._c_NOP(json);
         },
 
         _extendJsonObject: function(/*Object*/ json) {
+          // summary:
+          //   Chained method that writes data to `json`.
+          //   Called by toJSON.
+          // description:
+          //   Subclasses should overwrite this method
+          //   to write the properties to `json` that are defined
+          //   in that subclass.
+          //   See also reload.
+
           this._c_NOP(json);
         },
 
+        toJSON: function() {
+          // summary:
+          //   Standard JavaScript function called by
+          //   JSON.stringify when available.
+          //   Calls this._extendJsonObject, which
+          //   is chained. Subclasses should overwrite
+          //   this method to control exactly what
+          //   is serialized. By default, nothing is serialized
+          //   and an empty object is returned.
+          // description:
+          //   See https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/JSON
+
+          var json = {};
+          this._extendJsonObject(json);
+          return json; // return Object
+        },
+
         toJsonObject: function() {
+          // summary:
+          //   Deprecated. Use toJSON instead. Will be removed soon.
+
+          kernel.deprecated("ppwcode/semantics/PpwCodeObject.toJsonObject.",
+                            "Provide the object itself (using toJSON instead).",
+                            "Before 1.0.");
           var json = {};
           this._extendJsonObject(json);
           return json; // return Object

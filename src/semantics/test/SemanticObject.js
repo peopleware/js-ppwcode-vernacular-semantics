@@ -17,9 +17,9 @@ define(["dojo/main", "ppwcode/contracts/doh", "../SemanticObject"],
           // post
         },
 
-        function testToJsonObject() {
+        function testToJSON() {
           var subject = new SemanticObject();
-          var result = subject.toJsonObject();
+          var result = subject.toJSON();
 
           doh.invars(subject);
           // post

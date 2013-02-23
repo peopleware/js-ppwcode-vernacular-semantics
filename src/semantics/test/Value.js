@@ -10,9 +10,9 @@ define(["dojo/main", "ppwcode/contracts/doh", "../Value"],
           // post
         },
 
-        function testToJsonObject() {
+        function testToJSON() {
           var subject = new Value({});
-          var result = subject.toJsonObject();
+          var result = subject.toJSON();
 
           doh.invars(subject);
           // post
