@@ -4,8 +4,8 @@ define(["dojo/main", "ppwcode/contracts/doh", "dojo/_base/lang", "require"],
     var generator = function(/*_SemanticObjectPane*/ pane,
                              /*Function*/ TargetType,
                              /*Function*/ createTargetInstance,
-                             /*String*/ propertyName,
-                             /*Object*/ newPropertyValue,
+                             /*String?*/ propertyName,
+                             /*Object?*/ newPropertyValue,
                              /*String?*/ pathToPropertyField) {
       return [
 
@@ -59,16 +59,18 @@ define(["dojo/main", "ppwcode/contracts/doh", "dojo/_base/lang", "require"],
             pane.set("target", this.targetInstance);
           },
           runTest: function() {
-            this.targetInstance.set(propertyName, newPropertyValue);
-            doh.invars(pane);
-            // doh.is(TargetType, pane.getTargetType());
-            doh.is(pane.VIEW, pane.get("presentationMode"));
-            doh.is(this.targetInstance, pane.get("target"));
-            doh.is(pane.VIEW, pane.get("stylePresentationMode"));
-            doh.f(pane.isInEditMode());
-            if (pathToPropertyField) {
-              var field = lang.getObject(pathToPropertyField, false, pane);
-              doh.is(this.targetInstance.get(propertyName), field.get("value"));
+            if (propertyName) {
+              this.targetInstance.set(propertyName, newPropertyValue);
+              doh.invars(pane);
+              // doh.is(TargetType, pane.getTargetType());
+              doh.is(pane.VIEW, pane.get("presentationMode"));
+              doh.is(this.targetInstance, pane.get("target"));
+              doh.is(pane.VIEW, pane.get("stylePresentationMode"));
+              doh.f(pane.isInEditMode());
+              if (pathToPropertyField) {
+                var field = lang.getObject(pathToPropertyField, false, pane);
+                doh.is(this.targetInstance.get(propertyName), field.get("value"));
+              }
             }
           },
           tearDown: function() {
@@ -83,7 +85,7 @@ define(["dojo/main", "ppwcode/contracts/doh", "dojo/_base/lang", "require"],
             pane.set("target", this.targetInstance);
           },
           runTest: function() {
-            if (pathToPropertyField) {
+            if (propertyName && pathToPropertyField) {
               var field = lang.getObject(pathToPropertyField, false, pane);
               field.set("value", newPropertyValue);
               doh.invars(pane);
