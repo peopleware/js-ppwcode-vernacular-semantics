@@ -52,11 +52,13 @@
   <script type="text/javascript">
     require(["dojo/parser",
              "ppwcode/contracts/doh",
+             "ppwcode/semantics/SemanticObject",
              "ppwcode/semantics/ui/test/mock/viewmodel/Person",
              "dijit/registry",
+             "ppwcode/semantics/ui/test/semanticObjectPaneTestGenerator",
              "ppwcode/semantics/ui/test/mock/presentation/PersonPane",
              "dojo/domReady!"],
-      function(parser, doh, Person, registry) {
+      function(parser, doh, SemanticObject, Person, registry, generator) {
 
         var parsePromise = parser.parse();
         parsePromise.then(function() {
@@ -73,258 +75,14 @@
 
           var subject = registry.byId("subject");
 
-          doh.register("_Semantic Object Pane - Person",[
-
-            function testInitialState() {
-              doh.invars(subject);
-              doh.is(Person, subject.getTargetType());
-              doh.is(subject.VIEW, subject.get("presentationMode"));
-              doh.is(null, subject.get("target"));
-              doh.is(subject.NOTARGET, subject.get("stylePresentationMode"));
-              doh.f(subject.isInEditMode());
-            },
-
-            {
-              name: "set and remove target",
-              setUp: function() {
-                this.person = createPerson();
-              },
-              runTest: function() {
-                subject.set("target", this.person);
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.VIEW, subject.get("presentationMode"));
-                doh.is(this.person, subject.get("target"));
-                doh.is(subject.VIEW, subject.get("stylePresentationMode"));
-                doh.f(subject.isInEditMode());
-                subject.set("target", null);
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.VIEW, subject.get("presentationMode"));
-                doh.is(null, subject.get("target"));
-                doh.is(subject.NOTARGET, subject.get("stylePresentationMode"));
-                doh.f(subject.isInEditMode());
-              }
-            },
-
-            {
-              name: "change name on target",
-              setUp: function() {
-                this.person = createPerson();
-                subject.set("target", this.person);
-              },
-              runTest: function() {
-                this.person.set("name", "NEW NAME");
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.VIEW, subject.get("presentationMode"));
-                doh.is(this.person, subject.get("target"));
-                doh.is(subject.VIEW, subject.get("stylePresentationMode"));
-                doh.f(subject.isInEditMode());
-                doh.is(this.person.get("name"), subject.txtName.get("value"));
-              },
-              tearDown: function() {
-                subject.set("target", null);
-              }
-            },
-
-            {
-              name: "change name on widget",
-              setUp: function() {
-                this.person = createPerson();
-                subject.set("target", this.person);
-              },
-              runTest: function() {
-                subject.txtName.set("value", "NEW NAME");
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.VIEW, subject.get("presentationMode"));
-                doh.is(this.person, subject.get("target"));
-                doh.is(subject.VIEW, subject.get("stylePresentationMode"));
-                doh.f(subject.isInEditMode());
-                doh.is(subject.txtName.get("value"), this.person.get("name"));
-              },
-              tearDown: function() {
-                subject.set("target", null);
-              }
-            },
-
-            {
-              name: "edit mode with a target",
-              setUp: function() {
-                this.person = createPerson();
-                subject.set("target", this.person);
-                subject.set("presentationMode", subject.VIEW);
-              },
-              runTest: function() {
-                subject.set("presentationMode", subject.EDIT);
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.EDIT, subject.get("presentationMode"));
-                doh.is(this.person, subject.get("target"));
-                doh.is(subject.EDIT, subject.get("stylePresentationMode"));
-                doh.t(subject.isInEditMode());
-              },
-              tearDown: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.VIEW);
-              }
-            },
-
-            {
-              name: "busy mode with a target",
-              setUp: function() {
-                this.person = createPerson();
-                subject.set("target", this.person);
-                subject.set("presentationMode", subject.EDIT);
-              },
-              runTest: function() {
-                subject.set("presentationMode", subject.BUSY);
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.BUSY, subject.get("presentationMode"));
-                doh.is(this.person, subject.get("target"));
-                doh.is(subject.BUSY, subject.get("stylePresentationMode"));
-                doh.t(subject.isInEditMode());
-              },
-              tearDown: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.VIEW);
-              }
-            },
-
-            {
-              name: "wild mode with a target",
-              setUp: function() {
-                this.person = createPerson();
-                subject.set("target", this.person);
-                subject.set("presentationMode", subject.BUSY);
-              },
-              runTest: function() {
-                subject.set("presentationMode", subject.WILD);
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.WILD, subject.get("presentationMode"));
-                doh.is(this.person, subject.get("target"));
-                doh.is(subject.WILD, subject.get("stylePresentationMode"));
-                doh.t(subject.isInEditMode());
-              },
-              tearDown: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.VIEW);
-              }
-            },
-
-            {
-              name: "error mode with a target",
-              setUp: function() {
-                this.person = createPerson();
-                subject.set("target", this.person);
-                subject.set("presentationMode", subject.BUSY);
-              },
-              runTest: function() {
-                subject.set("presentationMode", subject.ERROR);
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.ERROR, subject.get("presentationMode"));
-                doh.is(this.person, subject.get("target"));
-                doh.is(subject.ERROR, subject.get("stylePresentationMode"));
-                doh.f(subject.isInEditMode());
-              },
-              tearDown: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.VIEW);
-              }
-            },
-
-            {
-              name: "edit mode without a target",
-              setUp: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.VIEW);
-              },
-              runTest: function() {
-                subject.set("presentationMode", subject.EDIT);
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.EDIT, subject.get("presentationMode"));
-                doh.is(null, subject.get("target"));
-                doh.is(subject.NOTARGET, subject.get("stylePresentationMode"));
-                doh.f(subject.isInEditMode());
-              },
-              tearDown: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.VIEW);
-              }
-            },
-
-            {
-              name: "busy mode without a target",
-              setUp: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.EDIT);
-              },
-              runTest: function() {
-                subject.set("presentationMode", subject.BUSY);
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.BUSY, subject.get("presentationMode"));
-                doh.is(null, subject.get("target"));
-                doh.is(subject.NOTARGET, subject.get("stylePresentationMode"));
-                doh.f(subject.isInEditMode());
-              },
-              tearDown: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.VIEW);
-              }
-            },
-
-            {
-              name: "wild mode without a target",
-              setUp: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.BUSY);
-              },
-              runTest: function() {
-                subject.set("presentationMode", subject.WILD);
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.WILD, subject.get("presentationMode"));
-                doh.is(null, subject.get("target"));
-                doh.is(subject.NOTARGET, subject.get("stylePresentationMode"));
-                doh.f(subject.isInEditMode());
-              },
-              tearDown: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.VIEW);
-              }
-            },
-
-            {
-              name: "error mode without a target",
-              setUp: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.BUSY);
-              },
-              runTest: function() {
-                subject.set("presentationMode", subject.ERROR);
-                doh.invars(subject);
-                doh.is(Person, subject.getTargetType());
-                doh.is(subject.ERROR, subject.get("presentationMode"));
-                doh.is(null, subject.get("target"));
-                doh.is(subject.NOTARGET, subject.get("stylePresentationMode"));
-                doh.f(subject.isInEditMode());
-              },
-              tearDown: function() {
-                subject.set("target", null);
-                subject.set("presentationMode", subject.VIEW);
-              }
-            }
-          ]
-        );
-        doh.run();
-      });
-    });
+          doh.register(
+            "_Semantic Object Pane - Person",
+            generator(subject, SemanticObject, createPerson, "name", "NEW NAME", "txtName")
+          );
+          doh.run();
+        });
+      }
+    );
   </script>
 </head>
 
