@@ -4,7 +4,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
       return declare([_ContractMixin], {
 
         _c_invar: [
-          // MUDO nothing here yet
+          // TODO nothing here yet
         ],
 
         "-chains-": {
