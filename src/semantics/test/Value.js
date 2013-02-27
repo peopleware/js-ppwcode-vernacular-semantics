@@ -1,7 +1,7 @@
 define(["dojo/main", "ppwcode/contracts/doh", "../Value"],
     function(dojo, doh, Value) {
 
-      doh.register(Value.prototype.declaredClass, [
+      doh.register("ppwcode vernacular semantics Value", [
 
         function testConstructor() {
           var subject = new Value({});

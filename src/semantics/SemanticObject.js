@@ -37,7 +37,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
       var statefulPrototype = Stateful.prototype;
       delete statefulPrototype.postscript;
 
-      return declare("be.ppwcode.vernacular.semantics.SemanticObject", [PpwCodeObject, Stateful, _ContractMixin], {
+      return declare([PpwCodeObject, Stateful, _ContractMixin], {
 
         _c_invar: [
           // TODO nothing here yet

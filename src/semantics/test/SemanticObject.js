@@ -1,7 +1,7 @@
 define(["dojo/main", "ppwcode/contracts/doh", "../SemanticObject"],
     function(dojo, doh, SemanticObject) {
 
-      doh.register(SemanticObject.prototype.declaredClass, [
+      doh.register("ppwcode vernacular semantics SemanticObject", [
 
         function testConstructor1() {
           var subject = new SemanticObject({});

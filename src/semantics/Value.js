@@ -1,7 +1,7 @@
 define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode/contracts/_Mixin"],
     function(declare, PpwCodeObject, _ContractMixin) {
 
-      return declare("be.ppwcode.vernacular.semantics.Value", [PpwCodeObject, _ContractMixin], {
+      return declare([PpwCodeObject, _ContractMixin], {
 // immutable
 
         _c_invar: [

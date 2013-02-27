@@ -1,7 +1,7 @@
 define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
     function(declare, _ContractMixin, kernel) {
 
-      return declare("be.ppwcode.vernacular.semantics.PpwCodeObject", [_ContractMixin], {
+      return declare([_ContractMixin], {
 
         _c_invar: [
           // MUDO nothing here yet
@@ -41,6 +41,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
           //   to write the properties to `json` that are defined
           //   in that subclass.
           //   See also reload.
+          // tags:
+          //   protected extension
 
           this._c_NOP(json);
         },
@@ -75,13 +77,27 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
         },
 
         _stateToString: function(/*Array of String*/ toStrings) {
+          // tags:
+          //   protected extension
+
           this._c_NOP(toStrings);
+        },
+
+        getTypeDescription: function() {
+          // summary:
+          //   A string describing the type of this instance for toString.
+          // description:
+          //   The default is the declared class. Subtypes can override.
+          // tags
+          //   protected extension
+
+          return this.declaredClass;
         },
 
         toString: function() {
           var toStrings = [];
           this._stateToString(toStrings);
-          return this.declaredClass + // return Object
+          return this.getTypeDescription() + // return String
               " {" + toStrings + "}";
         }
       });

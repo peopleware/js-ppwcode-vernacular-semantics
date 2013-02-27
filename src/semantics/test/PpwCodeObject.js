@@ -1,7 +1,7 @@
 define(["dojo/main", "ppwcode/contracts/doh", "../PpwCodeObject"],
     function(dojo, doh, PpwCodeObject) {
 
-      doh.register(PpwCodeObject.prototype.declaredClass, [
+      doh.register("ppwcode vernacular semantics PpwCodeObject", [
 
         function testConstructor1() {
           var subject = new PpwCodeObject({});
