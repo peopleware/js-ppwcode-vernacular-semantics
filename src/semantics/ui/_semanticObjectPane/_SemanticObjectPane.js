@@ -57,22 +57,27 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
             stylePresentationMode == _SemanticObjectPane.prototype.EDIT) {
           domClass.replace(domNode,
             "SemanticObjectPane_enabled",
-            "SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error");
+            "SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error");
+        }
+        else if (stylePresentationMode == _SemanticObjectPane.prototype.BUSY) {
+          domClass.replace(domNode,
+            "SemanticObjectPane_busy",
+            "SemanticObjectPane_enabled SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error");
         }
         else if (stylePresentationMode == _SemanticObjectPane.prototype.WILD) {
           domClass.replace(domNode,
             "SemanticObjectPane_wild",
-            "SemanticObjectPane_enabled SemanticObjectPane_disabled SemanticObjectPane_error");
+            "SemanticObjectPane_enabled SemanticObjectPane_busy SemanticObjectPane_disabled SemanticObjectPane_error");
         }
         else if (stylePresentationMode == _SemanticObjectPane.prototype.ERROR) {
           domClass.replace(domNode,
             "SemanticObjectPane_error",
-            "SemanticObjectPane_enabled SemanticObjectPane_wild SemanticObjectPane_disabled");
+            "SemanticObjectPane_enabled SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_disabled");
         }
-        else { // busy
+        else { // NOTARGET
           domClass.replace(domNode,
             "SemanticObjectPane_disabled",
-            "SemanticObjectPane_enabled SemanticObjectPane_wild SemanticObjectPane_error");
+            "SemanticObjectPane_enabled SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_error");
         }
       }
 
