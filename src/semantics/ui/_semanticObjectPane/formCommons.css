@@ -1,0 +1,22 @@
+.dijitTextBoxReadOnly {
+  border-color: white !important;
+}
+
+.boldLabel {
+  font-size: 90%;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.fixedLabel {
+  width: 4.5em;
+  display: inline-block;
+  font-size: 90%;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.fieldsetClass {
+  border:2px groove threedface;
+  padding: 10px;
+}

@@ -4,7 +4,7 @@ define({
     address: "Adress",
     street: "Street + nr",
     zip: "Zip",
-    city: "Muncipality",
+    city: "Muincipality",
     tel: "Tel."
   }
 });

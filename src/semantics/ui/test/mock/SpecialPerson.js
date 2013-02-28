@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "./Person"],
+define(["../../../../../dojo/_base/declare", "./Person"],
     function (declare, Person) {
 
       function nonEmptyStringOrNull(s) {

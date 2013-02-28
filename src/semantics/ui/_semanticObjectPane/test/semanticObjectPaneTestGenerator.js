@@ -1,4 +1,4 @@
-define(["dojo/main", "ppwcode/contracts/doh", "dojo/_base/lang", "require"],
+define(["dojo/main", "ppwcode/contracts/doh", "dojo/_base/lang", "require", "../_SemanticObjectPane"],
   function(dojo, doh) {
 
     var generator = function(/*_SemanticObjectPane*/ pane,

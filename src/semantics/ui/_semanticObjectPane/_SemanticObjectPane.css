@@ -1,0 +1,23 @@
+.SemanticObjectPane_enabled,
+.SemanticObjectPane_disabled,
+.SemanticObjectPane_error {
+  display: block;
+}
+
+.SemanticObjectPane_enabled {
+  color: inherit;
+}
+
+.SemanticObjectPane_disabled {
+  color: #d3d3d3 !important;
+  background-color: #f3f3f3 !important;
+}
+
+.SemanticObjectPane_wild {
+  color: inherit;
+}
+
+.SemanticObjectPane_error {
+  color: #d3d3d3 !important;
+  background-color: #cc9090 !important;
+}

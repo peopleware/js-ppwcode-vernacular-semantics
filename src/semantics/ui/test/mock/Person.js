@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "../../../../SemanticObject"],
+define(["dojo/_base/declare", "../../../SemanticObject"],
     function (declare, SemanticObject) {
 
 

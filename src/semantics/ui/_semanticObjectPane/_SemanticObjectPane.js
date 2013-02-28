@@ -1,5 +1,6 @@
 define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-style", "dojo/dom-class", "dojo/has",
-        "dijit/_WidgetBase", "../SemanticObject"],
+        "dijit/_WidgetBase", "../../SemanticObject",
+         "xstyle/css!./_SemanticObjectPane.css"],
     function(declare, _ContractMixin, lang, registry, domStyle, domClass, has,
              _WidgetBase, SemanticObject) {
 
@@ -27,22 +28,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
       // stylePresentationMode for when there is no target
       stylePresentationModes.push("NOTARGET");
 
-      function setStylepresentationModeOnWidgets(domNode, stylePresentationMode) {
-        if (has("dojo-debug-messages")) {
-          // make ERROR and WILD mode very clear in debug mode
-          if (stylePresentationMode === _SemanticObjectPane.prototype.NOTARGET) {
-            domStyle.set(domNode, "backgroundColor", "gray");
-          }
-          else if (stylePresentationMode === _SemanticObjectPane.prototype.ERROR) {
-            domStyle.set(domNode, "backgroundColor", "red");
-          }
-          else if (stylePresentationMode === _SemanticObjectPane.prototype.WILD) {
-            domStyle.set(domNode, "backgroundColor", "yellow");
-          }
-          else {
-            domStyle.set(domNode, "backgroundColor", "");
-          }
-        }
+      function setStylepresentationMode(sop, stylePresentationMode) {
+        var domNode = sop.get("domNode");
         var innerWidgets = registry.findWidgets(domNode);
         var widgetState = null;
         switch (stylePresentationMode) {
@@ -50,15 +37,14 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
             widgetState = { readOnly:false, disabled:true };
             break;
           case _SemanticObjectPane.prototype.EDIT:
+          case _SemanticObjectPane.prototype.WILD:
             widgetState = { readOnly:false, disabled:false };
             break;
           case _SemanticObjectPane.prototype.BUSY:
-            widgetState = { readOnly:false, disabled:true };
-            break;
           case _SemanticObjectPane.prototype.ERROR:
             widgetState = { readOnly:false, disabled:true };
             break;
-          default:
+          default: // VIEW
             widgetState = { readOnly:true, disabled:false };
         }
         innerWidgets.forEach(function (w) {
@@ -67,29 +53,26 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
             w.set("disabled", widgetState.disabled);
           }
         });
-      }
-
-      function setStylePresentationModeOnBlock(domNode, presentationMode) {
-        if (presentationMode === _SemanticObjectPane.prototype.VIEW ||
-            presentationMode === _SemanticObjectPane.prototype.EDIT ||
-            presentationMode === _SemanticObjectPane.prototype.WILD) {
+        if (stylePresentationMode == _SemanticObjectPane.prototype.VIEW ||
+            stylePresentationMode == _SemanticObjectPane.prototype.EDIT) {
           domClass.replace(domNode,
-            "editableSemanticObjectDetail_blockEnabled",
-            "editableSemanticObjectDetail_blockDisabled editableSemanticObjectDetail_blockInvisible"
-          );
+            "SemanticObjectPane_enabled",
+            "SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error");
         }
-        else if (presentationMode === _SemanticObjectPane.prototype.BUSY ||
-                 presentationMode === _SemanticObjectPane.prototype.ERROR) {
+        else if (stylePresentationMode == _SemanticObjectPane.prototype.WILD) {
           domClass.replace(domNode,
-            "editableSemanticObjectDetail_blockDisabled",
-            "editableSemanticObjectDetail_blockEnabled editableSemanticObjectDetail_blockInvisible"
-          );
+            "SemanticObjectPane_wild",
+            "SemanticObjectPane_enabled SemanticObjectPane_disabled SemanticObjectPane_error");
         }
-        else { // no target
+        else if (stylePresentationMode == _SemanticObjectPane.prototype.ERROR) {
           domClass.replace(domNode,
-            "editableSemanticObjectDetail_blockInvisible",
-            "editableSemanticObjectDetail_blockEnabled editableSemanticObjectDetail_blockDisabled"
-          );
+            "SemanticObjectPane_error",
+            "SemanticObjectPane_enabled SemanticObjectPane_wild SemanticObjectPane_disabled");
+        }
+        else { // busy
+          domClass.replace(domNode,
+            "SemanticObjectPane_disabled",
+            "SemanticObjectPane_enabled SemanticObjectPane_wild SemanticObjectPane_error");
         }
       }
 
@@ -214,7 +197,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           // description:
           //   Does nothing in _SemanticObjectPane.
 
-          this._c_NOP();
+          this._c_NOP(so);
         },
 
         _setTargetAttr: function(so) {
@@ -246,8 +229,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           });
           var myDomNode = this.get("domNode");
           var stylePresentationMode = this.get("stylePresentationMode");
-          setStylePresentationModeOnBlock(myDomNode, stylePresentationMode);
-          setStylepresentationModeOnWidgets(myDomNode, stylePresentationMode);
+          setStylepresentationMode(this, stylePresentationMode);
           this._localPresentationModeChange(value);
         },
 
@@ -260,7 +242,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           // description:
           //   Does nothing in _SemanticObjectPane
 
-          this._c_NOP();
+          this._c_NOP(presentationMode);
         }
 
       });

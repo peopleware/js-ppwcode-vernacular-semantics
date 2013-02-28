@@ -1,3 +1,3 @@
 define([
-  "./_SemanticObjectPane"
+  "../_semanticObjectPane/test/_SemanticObjectPane"
 ], 1);
