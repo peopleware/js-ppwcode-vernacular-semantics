@@ -28,7 +28,25 @@ define(["dojo/Deferred", "dojo/promise/all", "dojo/when", "require"],
     }
 
 
+    function canUseAsIs(valueType) {
+      return valueType === "string" ||
+        valueType === "boolean" ||
+        valueType === "number" ||
+        valueType === "json" ||
+        valueType === "math" ||
+        valueType === "regexp" ||
+        valueType === "date" ||
+        valueType === "error";
+    }
+
     function revive(/*Object*/ graphRoot, /*String*/ serverTypeJsonPropertyName, /*Function*/ serverType2Mid) {
+      // summary:
+      //    Returns a Promise for a result, or a result, transforming
+      //    value, deep, depth-first, to a graph of instances of classes
+      //    whose type is defined in "serverTypeJsonPropertyName"-properties in objects
+      //    in this graph.
+      //    Primitives are just kept what they are. Arrays and objects
+      //    are replaced, so that the orginal structure is unchanged.
       // graphRoot: Object
       //   Anything, root of the graph to revive. Intended to be the naked object
       //   graph, after JSON.parse of a JSON structure, but can deal with more.
@@ -51,8 +69,10 @@ define(["dojo/Deferred", "dojo/promise/all", "dojo/when", "require"],
 
       var cache = [];
       // we only cache arrays, objects,
+      // this is the reason for the call of reviveBackTrack method inside revive: this is shared
+      // between all calls of reviveBackTrack inside one call of revive
 
-      function cachedResult(cachedValue) {
+      function cachedResult(/*Object*/ cachedValue) {
         var matches = cache.filter(function(element) {
           return element.value === cachedValue; // also matches null; don't put null in the cache
         });
@@ -67,32 +87,143 @@ define(["dojo/Deferred", "dojo/promise/all", "dojo/when", "require"],
         }
       }
 
+      function processArrayElements(/*Array|Arguments*/ ar) {
+        var newAr = []; // start by storing the promises, replace when resolved
+        for (var i = 0; i < ar.length; i++) {
+          var iResultOrPromise = reviveBackTrack(ar[i]);
+          newAr[i] = (function (j) { // function to encapsulate counter i in arg j, for later
+            var whenResult = when(
+              iResultOrPromise,
+              function (iResult) {
+                newAr[j] = iResult;
+                return iResult;
+              },
+              function (iErr) {
+                newAr[j] = iErr;
+                return iErr;
+              }
+            );
+            return whenResult;
+          })(i);
+        }
+        return newAr;
+      }
+
+      function processArrayLike(/*Array|Arguments*/ ar, /*Deferred*/ deferred) {
+        var newAr = processArrayElements(ar);
+        all(newAr).then(
+          // all does when internally
+          function (aResults) {
+            deferred.resolve(aResults);
+            return aResults;
+          },
+          function (aErrors) {
+            deferred.reject(aErrors);
+            return aErrors;
+          }
+        );
+      }
+
+      function preProcessObjectElements(/*Object*/ o) {
+        var intermediateObject = Object.keys(o).reduce(
+          function (acc, pName) {
+            var pNameResultOrPromise = reviveBackTrack(o[pName]);
+            acc[pName] = when(
+              pNameResultOrPromise,
+              function (pNameResult) {
+                acc[pName] = pNameResult;
+                return pNameResult;
+              },
+              function (pNameErr) {
+                acc[pName] = pNameErr;
+                return pNameErr;
+              }
+            );
+            return acc[pName];
+          },
+          {} // a fresh intermediate object
+        );
+        return intermediateObject;
+      }
+
+      function isTypedObject(/*Object*/ o) {
+        // json object has "serverTypeJsonPropertyName" property
+        return Object.keys(o).some(function (p) {
+          return p === serverTypeJsonPropertyName;
+        });
+      }
+
+      function processTypedObject(/*Object*/ o, /*Deferred*/ deferred, /*Object*/ intermediateObject) {
+        var mid = serverType2Mid(o[serverTypeJsonPropertyName]);
+          // we don't want to wait for the promises on the intermediateObject
+          // we can use the original value: strings are not revived in any special way
+        var requireErrorHandle = require.on("error", function (err) {
+          requireErrorHandle.remove(); // handler did its work
+          deferred.reject(err); // this turns out to be a different structure than documented, but whatever
+          // can't return anything here
+        });
+        require([mid], function (Constructor) {
+          requireErrorHandle.remove(); // require worked successfully
+          var fresh = new Constructor();
+          all(intermediateObject).then(
+            function (revivedKwargs) {
+              try {
+                fresh.reload(revivedKwargs);
+                deferred.resolve(fresh);
+                return fresh;
+              }
+              catch (exc) {
+                deferred.reject(exc);
+                return exc;
+              }
+            },
+            function (e) {
+              deferred.reject(e);
+              return e;
+            }
+          );
+        });
+      }
+
+      function processSimpleObject(/*Object*/ intermediateObject, /*Deferred*/ deferred) {
+        all(intermediateObject).then(
+          // all does when internally
+          function (oResults) {
+            deferred.resolve(oResults);
+            return oResults;
+          },
+          function (oErrors) {
+            deferred.reject(oErrors);
+            return oErrors;
+          }
+        );
+      }
+
+      function processObject(/*Object*/ o, /*Deferred*/ deferred) {
+        var intermediateObject = preProcessObjectElements(o);
+        if (isTypedObject(o)) {
+          // json object has "serverTypeJsonPropertyName" property; it is a serialized version of a Jsonifiable object.
+          processTypedObject(o, deferred, intermediateObject);
+        }
+        else {
+          // a simple object
+          processSimpleObject(intermediateObject, deferred);
+        }
+      }
+
       function reviveBackTrack(/*Object*/ value) {
-        // summary:
-        //    Returns a Promise for a result, or a result, transforming
-        //    value, deep, depth-first, to a graph of instances of classes
-        //    whose type is defined in "$type"-properties in objects
-        //    in this graph.
-        //    Primitives are just kept what they are. Arrays and objects
-        //    are replaced, so that the orginal structure is unchanged.
+        // decription:
+        //    inner method in revive, because all calls of this method
+        //    inside one revive call need to share the cache
         if (!value) {
           // all falsy's can be returned immediately
           return value; // return Object
         }
-
         var valueType = toType(value);
-        if (valueType === "string"  ||
-            valueType === "boolean" ||
-            valueType === "number"  ||
-            valueType === "json"    ||
-            valueType === "math"    ||
-            valueType === "regexp"  ||
-            valueType === "date"    ||
-            valueType === "error") {
+        if (canUseAsIs(valueType)) {
           // no processing required
           return value; // return Object
         }
-
         var cachedResult = cachedResult(value);
         if (cachedResult) {
           // we already encountered this value (by reference)
@@ -103,112 +234,19 @@ define(["dojo/Deferred", "dojo/promise/all", "dojo/when", "require"],
         // object, array, arguments: many intermediate steps
         var deferred = new Deferred();  // return Object
         // cache the value before we go deep, without the promise for a result
-        var cacheEntry = { value: value, promise: deferred.promise };
-        cache.push(cacheEntry);
-
+        cache.push({ value: value, promise: deferred.promise });
         if (valueType === "arguments" || valueType === "array") {
           // go deep
           // don't use map, because arguments doesn't support it
-          var newStructure = []; // start by storing the promises, replace when resolved
-          for (var i = 0; i < value.length; i ++) {
-            var iResultOrPromise = reviveBackTrack(value[i]);
-            newStructure[i] = (function(j) { // function to encapsulate counter i in arg j, for later
-              var whenResult = when(
-                iResultOrPromise,
-                function(iResult) {
-                  newStructure[j] = iResult;
-                  return iResult;
-                },
-                function(iErr) {
-                  newStructure[j] = iErr;
-                  return iErr;
-                }
-              );
-              return whenResult;
-            })(i);
-          }
-          all(newStructure).then(
-            // all does when internally
-            function(aResults) {
-              deferred.resolve(aResults);
-              return aResults;
-            },
-            function(aErrors) {
-              deferred.reject(aErrors);
-              return aErrors;
-            }
-          );
+          processArrayLike(value, deferred);
         }
         else if (valueType === "object") {
-          var properties = Object.keys(value);
-          var intermediateObject = properties.reduce(
-            function(acc, pName) {
-              var pNameResultOrPromise = reviveBackTrack(value[pName]);
-              acc[pName] = when(
-                pNameResultOrPromise,
-                function(pNameResult) {
-                  acc[pName] = pNameResult;
-                  return pNameResult;
-                },
-                function(pNameErr) {
-                  acc[pName] = pNameErr;
-                  return pNameErr;
-                }
-              );
-              return acc[pName];
-            }
-          );
-
-          if (properties.some(function(p) { return p === serverTypeJsonPropertyName; } )) {
-            // json object has "$type" property; it is a serialized version of a Jsonifiable object.
-            var mid = serverType2Mid(value[serverTypeJsonPropertyName]); // we can use the original value: strings are not revived in any special way
-            var requireErrorHandle = require.on("error", function(err) {
-              requireErrorHandle.remove(); // handler did its work
-              deferred.reject(err); // this turns out to be a different structure than documented, but whatever
-              // can't return anything here
-            });
-            require([mid], function(Constructor) {
-              requireErrorHandle.remove(); // require worked successfully
-              var fresh = new Constructor();
-              all(intermediateObject).then(
-                function(revivedKwargs) {
-                  try {
-                    fresh.reload(revivedKwargs);
-                    deferred.resolve(fresh);
-                    return fresh;
-                  }
-                  catch(exc) {
-                    deferred.reject(exc);
-                    return exc;
-                  }
-                },
-                function(e) {
-                  deferred.reject(e);
-                  return e;
-                }
-              );
-            });
-          }
-          else {
-            // a simple object
-            all(intermediateObject).then(
-              // all does when internally
-              function(oResults) {
-                deferred.resolve(oResults);
-                return oResults;
-              },
-              function(oErrors) {
-                deferred.reject(oErrors);
-                return oErrors;
-              }
-            );
-          }
+          processObject(value, deferred);
         }
         else {
           // includes undefined
           throw "ERROR: impossible type (type of '" + value + "' cannot be " + valueType + ")";
         }
-
         return deferred.promise; // return Promise
         // TODO WHAT ABOUT PROPERTIES OF TYPE CONSTRUCTOR?
       }
