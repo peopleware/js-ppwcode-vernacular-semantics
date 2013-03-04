@@ -2,6 +2,6 @@ define([
   "./PpwCodeObject",
   "./SemanticObject",
   "./Value",
-  "./amdRevive",
+//  "./amdRevive", still experimental
   "../ui/test/module"
 ], 1);
