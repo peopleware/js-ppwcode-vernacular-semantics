@@ -20,8 +20,7 @@ define(["dojo/_base/declare"],
             function() {return this._c_prop_string("street")},
             function() {return this._c_prop_string("zip")},
             function() {return this._c_prop_string("city")},
-            function() {return this._c_prop_string("tel")},
-            function() {return this._c_prop_string("email")}
+            function() {return this._c_prop_string("tel")}
           ],
 
           constructor:function (/*Object*/ props) {
@@ -34,7 +33,6 @@ define(["dojo/_base/declare"],
           zip: null,
           city:null,
           tel: null,
-          email: null,
 
           wildExceptions: function() {
             var cpe = [];// MUDO CompoundPropertyException
@@ -53,7 +51,6 @@ define(["dojo/_base/declare"],
             this.set("zip", nonEmptyStringOrNull(json.zip));
             this.set("city", nonEmptyStringOrNull(json.city));
             this.set("tel", nonEmptyStringOrNull(json.tel));
-            this.set("email", nonEmptyStringOrNull(json.email));
           },
 
           _extendJsonObject:function (/*Object*/ json) {
@@ -62,7 +59,6 @@ define(["dojo/_base/declare"],
             json.zip = this.zip;
             json.city = this.city;
             json.tel = this.tel;
-            json.email = this.email;
           },
 
           _stateToString:function (/*Array of String*/ toStrings) {
@@ -71,7 +67,6 @@ define(["dojo/_base/declare"],
             toStrings.push("zip: " + this.zip);
             toStrings.push("city: " + this.city);
             toStrings.push("tel: " + this.tel);
-            toStrings.push("email: " + this.email);
           }
 
         });
