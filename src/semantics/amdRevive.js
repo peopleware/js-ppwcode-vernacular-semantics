@@ -72,7 +72,7 @@ define(["dojo/Deferred", "dojo/promise/all", "dojo/when", "require"],
       // this is the reason for the call of reviveBackTrack method inside revive: this is shared
       // between all calls of reviveBackTrack inside one call of revive
 
-      function cachedResult(/*Object*/ cachedValue) {
+      function getCachedResult(/*Object*/ cachedValue) {
         var matches = cache.filter(function(element) {
           return element.value === cachedValue; // also matches null; don't put null in the cache
         });
@@ -224,7 +224,7 @@ define(["dojo/Deferred", "dojo/promise/all", "dojo/when", "require"],
           // no processing required
           return value; // return Object
         }
-        var cachedResult = cachedResult(value);
+        var cachedResult = getCachedResult(value);
         if (cachedResult) {
           // we already encountered this value (by reference)
           // return the promise or value we have already
