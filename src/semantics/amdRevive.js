@@ -80,7 +80,7 @@ define(["dojo/Deferred", "dojo/promise/all", "dojo/when", "require"],
           throw "ERROR: more than 1 match in cache";
         }
         else if (matches.length == 1) {
-          return matches[0];
+          return matches[0].result;
         }
         else {
           return undefined;
@@ -226,15 +226,34 @@ define(["dojo/Deferred", "dojo/promise/all", "dojo/when", "require"],
         }
         var cachedResult = getCachedResult(value);
         if (cachedResult) {
-          // we already encountered this value (by reference)
-          // return the promise or value we have already
-          return cachedResult.promise; // return Promise
+          // we already encountered this value (by reference: we only cache objects and arrays)
+          // return the reference to the result
+          // it might be filled in already, or not, but it will be soon
+          // in any case, since this is in the cache, it is not the root object,
+          // so we don't need to return a promise. The root-promise will wait
+          // until this result is filled out, via the original entry, anyway
+          return cachedResult; // return Object|Array
         }
 
         // object, array, arguments: many intermediate steps
         var deferred = new Deferred();  // return Object
-        // cache the value before we go deep, without the promise for a result
-        cache.push({ value: value, promise: deferred.promise });
+        // cache the reference to the new structure before we go deep;
+        // it is empty still, but we will fill it up before we return
+        var newStructure;
+        if (valueType === "arguments" || valueType === "array") {
+          newStructure = [];
+        }
+        else if (valueType === "object") {
+          if (isTypedObject(value)) {
+            newStructure = CAN'T DO THIS: ASYNC!!!! so what is in the cache again is a Promise
+          }
+          else {
+            newStructure = {};
+          }
+        }
+
+
+        cache.push({ value: value, result: newStructure });
         if (valueType === "arguments" || valueType === "array") {
           // go deep
           // don't use map, because arguments doesn't support it
