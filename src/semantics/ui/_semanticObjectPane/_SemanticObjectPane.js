@@ -160,6 +160,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         //    The presentation mode is either view, edit, busy, wild, or error
         presentationMode: stylePresentationModes[0], // default value
 
+        widgetSize: 0,
+
         // stylePresentationMode: String
         //    The stylePresentationMode is the same as the presentationMode, except when there is no target.
         //    Then it is NOTARGET.
@@ -248,6 +250,10 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           //   Does nothing in _SemanticObjectPane
 
           this._c_NOP(presentationMode);
+        },
+
+        getWidgetSize: function() {
+          return this.widgetSize;
         }
 
       });
