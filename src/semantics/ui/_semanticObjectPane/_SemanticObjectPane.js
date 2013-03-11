@@ -1,8 +1,10 @@
 define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-style", "dojo/dom-class", "dojo/has",
         "dijit/_WidgetBase", "../../SemanticObject",
+        "dijit/form/ValidationTextBox", "dojox/mvc/Output",
          "xstyle/css!./_SemanticObjectPane.css"],
     function(declare, _ContractMixin, lang, registry, domStyle, domClass, has,
-             _WidgetBase, SemanticObject) {
+             _WidgetBase, SemanticObject,
+             ValidationTextBox, Output) {
 
       var presentationModes = [
         // presentationMode and stylePresentationMode for viewing the data. No interaction allowed.
@@ -48,7 +50,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
             widgetState = { readOnly:true, disabled:false };
         }
         innerWidgets.forEach(function (w) {
-          if (!w.isInstanceOf(_SemanticObjectPane)) {
+          if (w.isInstanceOf(ValidationTextBox) || w.isInstanceOf(Output)) {
             w.set("readOnly", widgetState.readOnly);
             w.set("disabled", widgetState.disabled);
           }
