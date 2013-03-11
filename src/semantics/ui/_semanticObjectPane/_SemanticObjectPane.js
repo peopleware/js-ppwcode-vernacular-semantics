@@ -1,10 +1,10 @@
 define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-style", "dojo/dom-class", "dojo/has",
         "dijit/_WidgetBase", "../../SemanticObject",
-        "dijit/form/ValidationTextBox", "dojox/mvc/Output",
+        "dijit/form/ValidationTextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/form/SimpleTextArea",
          "xstyle/css!./_SemanticObjectPane.css"],
     function(declare, _ContractMixin, lang, registry, domStyle, domClass, has,
              _WidgetBase, SemanticObject,
-             ValidationTextBox, Output) {
+             ValidationTextBox, Output, CheckedMultiSelect, SimpleTextArea) {
 
       var presentationModes = [
         // presentationMode and stylePresentationMode for viewing the data. No interaction allowed.
@@ -50,7 +50,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
             widgetState = { readOnly:true, disabled:false };
         }
         innerWidgets.forEach(function (w) {
-          if (w.isInstanceOf(ValidationTextBox) || w.isInstanceOf(Output)) {
+          if (w.isInstanceOf(ValidationTextBox) || w.isInstanceOf(Output)
+              || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextArea)) {
             w.set("readOnly", widgetState.readOnly);
             w.set("disabled", widgetState.disabled);
           }
@@ -161,6 +162,11 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         // presentationMode: String
         //    The presentation mode is either view, edit, busy, wild, or error
         presentationMode: stylePresentationModes[0], // default value
+
+        // opener: Function
+        //   Function that attempts to open a new "window" or "pane" for another PersistentObject
+        //   (which is mostly linked to the current one)
+        opener: null,
 
         widgetSize: 0,
 
