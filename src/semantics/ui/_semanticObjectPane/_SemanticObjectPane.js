@@ -1,10 +1,12 @@
 define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-style", "dojo/dom-class", "dojo/has",
         "dijit/_WidgetBase", "../../SemanticObject",
         "dijit/form/ValidationTextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/form/SimpleTextArea",
+         "dijit/form/CheckBox",
          "xstyle/css!./_SemanticObjectPane.css"],
     function(declare, _ContractMixin, lang, registry, domStyle, domClass, has,
              _WidgetBase, SemanticObject,
-             ValidationTextBox, Output, CheckedMultiSelect, SimpleTextArea) {
+             ValidationTextBox, Output, CheckedMultiSelect, SimpleTextArea,
+             CheckBox) {
 
       var presentationModes = [
         // presentationMode and stylePresentationMode for viewing the data. No interaction allowed.
@@ -51,7 +53,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         }
         innerWidgets.forEach(function (w) {
           if (w.isInstanceOf(ValidationTextBox) || w.isInstanceOf(Output)
-              || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextArea)) {
+              || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextArea) || w.isInstanceOf(CheckBox)) {
             w.set("readOnly", widgetState.readOnly);
             w.set("disabled", widgetState.disabled);
           }
@@ -151,6 +153,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
 
         "-chains-": {
           _propagateTarget: "after",
+          _propagateOpener: "after",
           _localPresentationModeChange: "after"
         },
 
@@ -225,6 +228,25 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
           }
           this._propagateTarget(so);
           this.set("presentationMode", this.VIEW);
+        },
+
+        _propagateOpener: function(/*Function*/ opener) {
+          // summary:
+          //   Propagate the opener function as appropriate to wrapped details.
+          //   Chained. Subtypes could add propagation to wrapped details.
+          // tags:
+          //   protected
+          // description:
+          //   Does nothing in _SemanticObjectPane.
+
+          this._c_NOP(opener);
+        },
+
+        _setOpenerAttr: function(opener) {
+          if (opener !== this.get("opener")) {
+            this._set("opener", opener);
+          }
+          this._propagateOpener(opener);
         },
 
         _setPresentationModeAttr: function(value) {
