@@ -24,3 +24,16 @@
 .identifyingField {
   font-size: 14pt;
 }
+
+.listRow {
+  padding: 5px;
+  margin: 2px;
+  border-style: solid;
+  border-color: gray;
+  border-width: 1px;
+  border-radius: 3px;
+}
+
+.listRowIdentifyingField {
+  font-weight: bolder;
+}
