@@ -23,3 +23,11 @@
   color: #d3d3d3 !important;
   background-color: #cc9090 !important;
 }
+
+.SemanticObjectPane_disabled .listRow,
+.SemanticObjectPane_busy .listRow,
+.SemanticObjectPane_notarget .listRow,
+.SemanticObjectPane_wild .listRow,
+.SemanticObjectPane_error .listRow {
+  background-color: transparent;
+}
