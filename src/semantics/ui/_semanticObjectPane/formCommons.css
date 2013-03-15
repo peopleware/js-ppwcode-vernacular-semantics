@@ -12,8 +12,9 @@
 }
 
 .identifyingField {
+  font-weight: bold;
   width: 100%;
-  font-size: 14pt;
+  font-size: 150%;
 }
 
 
