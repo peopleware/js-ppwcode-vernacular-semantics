@@ -1,6 +1,24 @@
+/* fields */
+
 .dijitTextBoxReadOnly {
-  border-color: white !important;
+  border: 1px solid transparent !important;
+  background-color: transparent !important;
 }
+
+.dijitTextBoxReadOnly input {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.identifyingField {
+  width: 100%;
+  font-size: 14pt;
+}
+
+
+
+/* labels */
 
 .boldLabel {
   font-size: 90%;
@@ -21,8 +39,19 @@
   padding: 10px;
 }
 
-.identifyingField {
-  font-size: 14pt;
+
+
+/* lists */
+
+.list.dgrid {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  min-height: 250px;
+}
+
+.listBtnAdd {
+  float: right;
 }
 
 .listRow {
@@ -53,13 +82,23 @@
   background-color: #ff6 !important;
 }
 
-.listRowIdentifyingField {
+.listRow label {
+  display: block;
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listRow label.listRowIdentifyingField {
   font-weight: bolder;
 }
 
-.list.dgrid {
-  width: 100%;
-  border: none;
-  background-color: transparent;
-  min-height: 250px;
+.listRow label.listRowBottomRightMinor {
+  margin-top: 4px;
+  padding-right: 2px; /* allow space for italic last letter */
+  color: gray;
+  font-style: italic;
+  font-size: 75%;
+  text-align: right;
 }
