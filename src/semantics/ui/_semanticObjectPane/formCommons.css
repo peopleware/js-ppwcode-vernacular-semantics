@@ -2,10 +2,10 @@
 
 div.formRow {
   padding-top: 0;
-  padding-bottom: 0.4em;
+  padding-bottom: 1.5ex;
   padding-top: 0;
   padding-top: 0;
-  height: 1.2em;
+  height: 1.8ex;
 }
 
 .dijitTextBoxReadOnly {
@@ -34,37 +34,37 @@ div.formRow {
 .dijitTextBox.fillToRight {
   position: absolute;
   width: inherit !important;
-  line-height: 1.8em;
+  line-height: 3.2ex;
 }
 
 .fillToLeft,
 /* extra mentions necessary to force text boxes to listen */
 .dijitTextBox.fillToLeft {
-  left: 1em;
+  left: 10px;
 }
 
 .afterLabel,
 /* extra mentions necessary to force text boxes to listen */
 .dijitTextBox.afterLabel {
-  left: 5.5em !important; /* see fixedLabel */
+  left: 90px !important; /* see fixedLabel */
 }
 
 .fillToRight,
 /* extra mentions necessary to force text boxes to listen */
 .dijitTextBox.fillToRight {
-  right: 1em;
+  right: 10px;
 }
 
 /* labels */
 
 label.fixedLabel {
   position: absolute;
-  left: 1em;
-  width: 4.5em; /* see .dijitTextBox.afterLabel */
+  left: 10px;
+  width: 75px; /* see .dijitTextBox.afterLabel */
   display: inline-block;
   font-size: 90%;
   font-weight: bold;
-  line-height: 1.8em;
+  padding-top: 0.6ex;
   text-align: right;
   white-space: nowrap;
   overflow: hidden;
@@ -78,9 +78,9 @@ label.fixedLabel {
 fieldset {
   border:2px groove threedface;
   border-color: gray;
-  padding: 0.5em;
-  margin-top: 1em;
-  margin-bottom: 1.5em;
+  padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 
@@ -100,8 +100,8 @@ fieldset {
 
 .listRow {
   padding: 5px;
-  margin-bottom: 2px;
-  margin-top: 2px;
+  margin-bottom: 3px;
+  margin-top: 3px;
   margin-left: 0px;
   margin-right: 4px;
   border-style: solid;
