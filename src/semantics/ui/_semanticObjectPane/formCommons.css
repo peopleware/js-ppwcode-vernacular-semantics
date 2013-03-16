@@ -1,5 +1,13 @@
 /* fields */
 
+div.formRow {
+  padding-top: 0;
+  padding-bottom: 0.4em;
+  padding-top: 0;
+  padding-top: 0;
+  height: 1.2em;
+}
+
 .dijitTextBoxReadOnly {
   border: 1px solid transparent !important;
   background-color: transparent !important;
@@ -13,31 +21,66 @@
 
 .identifyingField {
   font-weight: bold;
-  width: 100%;
   font-size: 150%;
+  width: 100%;
 }
 
+.fillToLeft,
+.afterLabel,
+.fillToRight,
+/* extra mentions necessary to force text boxes to listen */
+.dijitTextBox.fillToLeft,
+.dijitTextBox.afterLabel,
+.dijitTextBox.fillToRight {
+  position: absolute;
+  width: inherit !important;
+  line-height: 1.8em;
+}
 
+.fillToLeft,
+/* extra mentions necessary to force text boxes to listen */
+.dijitTextBox.fillToLeft {
+  left: 1em;
+}
+
+.afterLabel,
+/* extra mentions necessary to force text boxes to listen */
+.dijitTextBox.afterLabel {
+  left: 5.5em !important; /* see fixedLabel */
+}
+
+.fillToRight,
+/* extra mentions necessary to force text boxes to listen */
+.dijitTextBox.fillToRight {
+  right: 1em;
+}
 
 /* labels */
 
-.boldLabel {
-  font-size: 90%;
-  font-weight: bold;
-  margin-top: 4px;
-}
-
-.fixedLabel {
-  width: 4.5em;
+label.fixedLabel {
+  position: absolute;
+  left: 1em;
+  width: 4.5em; /* see .dijitTextBox.afterLabel */
   display: inline-block;
   font-size: 90%;
   font-weight: bold;
-  margin-top: 4px;
+  line-height: 1.8em;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.fieldsetClass {
+.listLabel {
+
+}
+
+fieldset {
   border:2px groove threedface;
-  padding: 10px;
+  border-color: gray;
+  padding: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 1.5em;
 }
 
 
