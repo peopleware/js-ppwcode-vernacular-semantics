@@ -1,6 +1,6 @@
 /* fields */
 
-div.formRow {
+.SemanticObjectPane div.formRow {
   padding-top: 0;
   padding-bottom: 1.5ex;
   padding-top: 0;
@@ -8,73 +8,73 @@ div.formRow {
   height: 1.8ex;
 }
 
-.dijitTextBoxReadOnly,
-.dojoxCheckedMultiSelect * {
+.SemanticObjectPane .dijitTextBoxReadOnly,
+.SemanticObjectPane .dojoxCheckedMultiSelect * {
   border: 1px solid transparent !important;
   background-color: transparent !important;
 }
 
-.dijitTextBoxReadOnly input {
+.SemanticObjectPane .dijitTextBoxReadOnly input {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.formRow .dijitCheckBox {
+.SemanticObjectPane .formRow .dijitCheckBox {
   padding-top: 0.6ex;
   margin-left: 3px;
   width: 14px !important;
 }
 
-.formRow .dojoxMultiSelectItem {
+.SemanticObjectPane .formRow .dojoxMultiSelectItem {
   padding-left: 0;
   margin-left: -3px;
 }
 
-.formRow .dojoxMultiSelectItem .dijitCheckBox {
+.SemanticObjectPane .formRow .dojoxMultiSelectItem .dijitCheckBox {
   padding: 0;
   margin-left: 0px;
 }
 
-.identifyingField {
+.SemanticObjectPane .identifyingField {
   font-weight: bold;
   font-size: 150%;
   width: 99.5%;
 }
 
-.fillToLeft,
-.afterLabel,
-.fillToRight,
+.SemanticObjectPane .fillToLeft,
+.SemanticObjectPane .afterLabel,
+.SemanticObjectPane .fillToRight,
 /* extra mentions necessary to force text boxes to listen */
-.dijitTextBox.fillToLeft,
-.dijitTextBox.afterLabel,
-.dijitTextBox.fillToRight {
+.SemanticObjectPane .dijitTextBox.fillToLeft,
+.SemanticObjectPane .dijitTextBox.afterLabel,
+.SemanticObjectPane .dijitTextBox.fillToRight {
   position: absolute;
   width: inherit !important;
   line-height: 3.2ex;
 }
 
-.fillToLeft,
+.SemanticObjectPane .fillToLeft,
 /* extra mentions necessary to force text boxes to listen */
-.dijitTextBox.fillToLeft {
+.SemanticObjectPane .dijitTextBox.fillToLeft {
   left: 10px;
 }
 
-.afterLabel,
+.SemanticObjectPane .afterLabel,
 /* extra mentions necessary to force text boxes to listen */
-.dijitTextBox.afterLabel {
+.SemanticObjectPane .dijitTextBox.afterLabel {
   left: 90px !important; /* see fixedLabel */
 }
 
-.fillToRight,
+.SemanticObjectPane .fillToRight,
 /* extra mentions necessary to force text boxes to listen */
-.dijitTextBox.fillToRight {
+.SemanticObjectPane .dijitTextBox.fillToRight {
   right: 10px;
 }
 
 /* labels */
 
-label.fixedLabel {
+.SemanticObjectPane label.fixedLabel {
   position: absolute;
   left: 10px;
   width: 75px; /* see .dijitTextBox.afterLabel */
@@ -87,11 +87,7 @@ label.fixedLabel {
   text-overflow: ellipsis;
 }
 
-.listLabel {
-
-}
-
-fieldset {
+.SemanticObjectPane fieldset {
   border:2px groove threedface;
   border-color: gray;
   padding: 5px;
@@ -102,14 +98,14 @@ fieldset {
 
 /* multiselect */
 
-.dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper {
+.SemanticObjectPane .dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper {
   height: auto !important;
   overflow-y: auto;
 }
 
 /* lists */
 
-.list.dgrid {
+.SemanticObjectPane .list.dgrid {
   width: 100%;
   border: none;
   background-color: transparent;
@@ -117,15 +113,16 @@ fieldset {
   height: inherit;
 }
 
-.dgrid-scroller {
+.SemanticObjectPane .dgrid-scroller {
   margin-top: 0 !important;
+  overflow-y: auto;
 }
 
-.listBtnAdd {
+.SemanticObjectPane .listBtnAdd {
   float: right;
 }
 
-.listRow {
+.SemanticObjectPane .listRow {
   padding: 5px;
   margin-bottom: 3px;
   margin-top: 3px;
@@ -137,15 +134,15 @@ fieldset {
   border-radius: 3px;
 }
 
-.claro .listRow.ui-state-default:hover {
+.claro .SemanticObjectPane .listRow.ui-state-default:hover {
   background-color: #e9f2fe !important;
 }
 
-.claro .listRow.ui-state-active {
+.claro .SemanticObjectPane .listRow.ui-state-active {
   background-color: #cee6fa !important;
 }
 
-.claro .listRow.ui-state-active:hover {
+.claro .SemanticObjectPane .listRow.ui-state-active:hover {
   background-color: #9bc6f2 !important;
 }
 
@@ -153,7 +150,7 @@ fieldset {
   background-color: #ff6 !important;
 }
 
-.listRow label {
+.SemanticObjectPane .listRow label {
   display: block;
   margin-top: 3px;
   white-space: nowrap;
@@ -161,11 +158,11 @@ fieldset {
   text-overflow: ellipsis;
 }
 
-.listRow label.listRowIdentifyingField {
+.SemanticObjectPane .listRow label.listRowIdentifyingField {
   font-weight: bolder;
 }
 
-.listRow label.listRowBottomRightMinor {
+.SemanticObjectPane .listRow label.listRowBottomRightMinor {
   margin-top: 4px;
   padding-right: 2px; /* allow space for italic last letter */
   color: gray;
