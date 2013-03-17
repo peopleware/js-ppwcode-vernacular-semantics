@@ -106,11 +106,22 @@
 /* lists */
 
 .SemanticObjectPane .list.dgrid {
-  width: 100%;
+  position: absolute;
+  left: 10px;
+  right: 10px;
   border: none;
   background-color: transparent;
   min-height: 250px;
   height: inherit;
+}
+
+.SemanticObjectPane .dgrid-no-data,
+.SemanticObjectPane .dgrid-loading {
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+  font-size: 75%;
+  color: gray;
 }
 
 .SemanticObjectPane .dgrid-scroller {
@@ -119,7 +130,19 @@
 }
 
 .SemanticObjectPane .listBtnAdd {
-  float: right;
+  position: absolute;
+  right: 10px;
+  margin-top: -1.5px;
+  margin-right: -1.5px;
+}
+
+.SemanticObjectPane .listSearch {
+  position: absolute;
+  width: inherit;
+  left: 90px;
+  right: 40px;
+  font-size: 75%;
+  margin-top: 2px;
 }
 
 .SemanticObjectPane .listRow {
@@ -170,3 +193,4 @@
   font-size: 75%;
   text-align: right;
 }
+
