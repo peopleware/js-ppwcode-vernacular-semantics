@@ -1,6 +1,4 @@
-.SemanticObjectPane_enabled,
-.SemanticObjectPane_disabled,
-.SemanticObjectPane_error {
+.SemanticObjectPane {
   display: block;
 }
 
@@ -24,10 +22,6 @@
   background-color: #cc9090 !important;
 }
 
-.SemanticObjectPane_disabled .listRow,
-.SemanticObjectPane_busy .listRow,
-.SemanticObjectPane_notarget .listRow,
-.SemanticObjectPane_wild .listRow,
-.SemanticObjectPane_error .listRow {
+.SemanticObjectPane.listRow {
   background-color: transparent;
 }
