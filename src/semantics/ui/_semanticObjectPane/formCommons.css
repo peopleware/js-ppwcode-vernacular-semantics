@@ -8,7 +8,8 @@ div.formRow {
   height: 1.8ex;
 }
 
-.dijitTextBoxReadOnly {
+.dijitTextBoxReadOnly,
+.dojoxCheckedMultiSelect * {
   border: 1px solid transparent !important;
   background-color: transparent !important;
 }
@@ -19,10 +20,26 @@ div.formRow {
   text-overflow: ellipsis;
 }
 
+.formRow .dijitCheckBox {
+  padding-top: 0.6ex;
+  margin-left: 3px;
+  width: 14px !important;
+}
+
+.formRow .dojoxMultiSelectItem {
+  padding-left: 0;
+  margin-left: -3px;
+}
+
+.formRow .dojoxMultiSelectItem .dijitCheckBox {
+  padding: 0;
+  margin-left: 0px;
+}
+
 .identifyingField {
   font-weight: bold;
   font-size: 150%;
-  width: 100%;
+  width: 99.5%;
 }
 
 .fillToLeft,
@@ -65,7 +82,6 @@ label.fixedLabel {
   font-size: 90%;
   font-weight: bold;
   padding-top: 0.6ex;
-  text-align: right;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -84,6 +100,12 @@ fieldset {
 }
 
 
+/* multiselect */
+
+.dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper {
+  height: auto !important;
+  overflow-y: auto;
+}
 
 /* lists */
 
@@ -92,6 +114,7 @@ fieldset {
   border: none;
   background-color: transparent;
   min-height: 250px;
+  height: inherit;
 }
 
 .listBtnAdd {
