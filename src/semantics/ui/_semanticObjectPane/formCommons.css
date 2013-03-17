@@ -117,6 +117,10 @@ fieldset {
   height: inherit;
 }
 
+.dgrid-scroller {
+  margin-top: 0 !important;
+}
+
 .listBtnAdd {
   float: right;
 }
