@@ -173,6 +173,10 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
 
         widgetSize: 0,
 
+        postCreate: function() {
+          domClass.add(this.get("domNode"), "SemanticObjectPane");
+        },
+
         // stylePresentationMode: String
         //    The stylePresentationMode is the same as the presentationMode, except when there is no target.
         //    Then it is NOTARGET.
