@@ -1,5 +1,5 @@
-define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contracts/_Mixin", "dojo/when"],
-    function(declare, PpwCodeObject, Stateful, _ContractMixin, when) {
+define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contracts/_Mixin", "dojo/when", "ppwcode/oddsAndEnds/js"],
+    function(declare, PpwCodeObject, Stateful, _ContractMixin, when, js) {
 
       /*
          NOTE:
@@ -36,6 +36,19 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
       // HACK Stateful adapation: Do not blindly copy all properties of the kwargs
       var statefulPrototype = Stateful.prototype;
       delete statefulPrototype.postscript;
+
+      function areDifferentValues(newValue, oldValue) {
+        switch (js.typeOf(newValue)) {
+          case "array":
+            return (js.typeOf(oldValue) !== "array") ||
+              newValue.some(function(element, index) {
+                return areDifferentValues(element, oldValue[index]);
+              });
+            break;
+          default:
+            return newValue != oldValue;
+        }
+      }
 
       return declare([PpwCodeObject, Stateful], {
 
@@ -78,10 +91,10 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
           if(this._watchCallbacks) {
             // HACK send the actual new value in the event, not the supplied value
             var newValue = this.get(name);
-            // HACK only send if something changed
-            if (newValue != oldValue) {
+            // HACK only send if something changed; changed takes into account array-values
+            if (areDifferentValues(newValue, oldValue)) {
               var self = this;
-              // If setter returned a promise, wait for it to complete, otherwise call watches immediatly
+              // If setter returned a promise, wait for it to complete, otherwise call watches immediately
               when(result, function() {
                 // HACK send the actual new value in the event, not the supplied value
                 self._watchCallbacks(name, oldValue, newValue);
