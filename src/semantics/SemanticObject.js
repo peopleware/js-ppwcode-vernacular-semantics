@@ -34,8 +34,9 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
        */
 
       // HACK Stateful adapation: Do not blindly copy all properties of the kwargs
-      var statefulPrototype = Stateful.prototype;
-      delete statefulPrototype.postscript;
+//      var statefulPrototype = Stateful.prototype;
+//      delete statefulPrototype.postscript;
+      // now hack is replaced by overriding postscript in our class; no side effects that way
 
       function areDifferentValues(newValue, oldValue) {
         switch (js.typeOf(newValue)) {
@@ -57,13 +58,20 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
         ],
 
         constructor: function(/*Object*/ props) {
-          this._c_NOP(props);
-
           // TODO replace warning with a precondition when all other code is changed
           // The only good usage is to ALWAYS create semantic objects with an no-ops constructor, and potentionally reload after that.
+          // Not true, see Property Instance
           if (props) {
             console.warn("Code should be rewritten to not use arguments in the constructor.")
           }
+        },
+
+        postscript: function() {
+          // summary:
+          //   Does nothing. This method is here to override the
+          //   stupid implementation of Stateful.
+
+          this._c_NOP();
         },
 
         set: function(/*String*/name, /*Object*/value) {
@@ -110,13 +118,13 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
           if(this._watchCallbacks) {
             // HACK send the actual new value in the event, not the supplied value
             var newValue = this.get(name);
-            // HACK only send if something changed
-            if (newValue != oldValue) {
+            // HACK only send if something changed; changed takes into account array-values
+            if (areDifferentValues(newValue, oldValue)) {
               // HACK send the actual new value in the event, not the supplied value
               this._watchCallbacks(name, oldValue, newValue);
             }
           }
-          return this; // return be.ppwcode.vernacular.semantics.SemanticObject
+          return this; // return SemanticObject
         },
 
         _extendJsonObject: function(/*Object*/ json) {
