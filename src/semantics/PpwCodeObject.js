@@ -13,10 +13,6 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
           _stateToString: "after"
         },
 
-        constructor: function(/*Object*/ props) {
-          this._c_NOP(props);
-        },
-
         isEditable: function() { return true; },
         isDeletable: function() { return true },
 
