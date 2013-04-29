@@ -13,6 +13,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
           _stateToString: "after"
         },
 
+        // TODO needs to go lower: Values don't have a lot of this functionality.
         isEditable: function() { return true; },
         isDeletable: function() { return true },
 
@@ -27,6 +28,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
 
           this._c_NOP(json);
         },
+
+        // Note: below also use by Value
 
         _extendJsonObject: function(/*Object*/ json) {
           // summary:
@@ -96,6 +99,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
           return this.getTypeDescription() + // return String
               " {" + toStrings + "}";
         }
+
       });
     }
 );
