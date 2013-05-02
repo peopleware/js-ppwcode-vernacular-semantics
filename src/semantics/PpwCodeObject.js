@@ -46,6 +46,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
           this._c_NOP(json);
         },
 
+        // TODO this framework for toJSON is not used by Enumeration; needs to be lower or mixed in
+
         toJSON: function() {
           // summary:
           //   Standard JavaScript function called by
@@ -74,6 +76,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
           this._extendJsonObject(json);
           return json; // return Object
         },
+
+        // TODO this framework for toJSON is not used by Enumeration; needs to be lower or mixed in
 
         _stateToString: function(/*Array of String*/ toStrings) {
           // tags:
