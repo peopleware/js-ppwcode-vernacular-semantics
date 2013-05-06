@@ -34,7 +34,7 @@ define(["dojo/main", "ppwcode/contracts/doh",
 
       });
 
-      ValueMock.persistenceType = "value/Value";
+      ValueMock.persistenceType = Value.persistenceType;
 
       function testGeneratorValue(Constructor, kwargs1, kwargs2) {
         if (!Constructor) {

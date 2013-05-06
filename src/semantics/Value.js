@@ -1,7 +1,7 @@
 define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode/contracts/_Mixin",
-        "ppwcode/oddsAndEnds/js"],
+        "ppwcode/oddsAndEnds/js", "module"],
     function(declare, PpwCodeObject, _ContractMixin,
-             js) {
+             js, module) {
 
       var Value = declare([PpwCodeObject, _ContractMixin], {
         // summary:
@@ -42,6 +42,8 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode/contracts/_Mixin",
         }
 
       });
+
+      Value.persistenceType = module.id;
 
       return Value;
     }
