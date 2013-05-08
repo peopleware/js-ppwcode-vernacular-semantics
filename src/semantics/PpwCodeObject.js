@@ -1,35 +1,16 @@
-define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
-    function(declare, _ContractMixin, kernel) {
+define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel", "module"],
+    function(declare, _ContractMixin, kernel, module) {
 
-      return declare([_ContractMixin], {
+      var PpwCodeObject = declare([_ContractMixin], {
 
         _c_invar: [
           // TODO nothing here yet
         ],
 
         "-chains-": {
-          reload: "after",
           _extendJsonObject: "after",
           _stateToString: "after"
         },
-
-        // TODO needs to go lower: Values don't have a lot of this functionality.
-        isEditable: function() { return true; },
-        isDeletable: function() { return true },
-
-        reload: function(/*Object*/ json) {
-          // summary:
-          //   Chained method that loads data from `json`.
-          // description:
-          //   Subclasses should overwrite this method
-          //   to load the properties from `json` that are defined
-          //   in that subclass.
-          //   See also _extendJsonObject.
-
-          this._c_NOP(json);
-        },
-
-        // Note: below also use by Value
 
         _extendJsonObject: function(/*Object*/ json) {
           // summary:
@@ -89,12 +70,19 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
         getTypeDescription: function() {
           // summary:
           //   A string describing the type of this instance for toString.
+          //   This is also used when sending data to the server.
           // description:
-          //   The default is the declared class. Subtypes can override.
+          //   The default is a property `typeDescription` of the Constructor. If this
+          //   does not exist, it is the declared class. Subtypes can override.
           // tags
           //   protected extension
 
-          return this.declaredClass;
+          if (this.constructor.serverType) {
+            return this.constructor.typeDescription;
+          }
+          else {
+            return this.declaredClass;
+          }
         },
 
         toString: function() {
@@ -105,5 +93,9 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel"],
         }
 
       });
+
+      PpwCodeObject.typeDescription = module.id;
+
+      return PpwCodeObject;
     }
 );

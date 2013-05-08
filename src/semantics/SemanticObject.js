@@ -57,6 +57,14 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
           // TODO nothing here yet
         ],
 
+        "-chains-": {
+          reload: "after"
+        },
+
+        // lastReloaded: Date?
+        //   The time of last reload.
+        lastReloaded: null,
+
         constructor: function(/*Object*/ props) {
           // TODO replace warning with a precondition when all other code is changed
           // The only good usage is to ALWAYS create semantic objects with an no-ops constructor, and potentionally reload after that.
@@ -125,6 +133,22 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
             }
           }
           return this; // return SemanticObject
+        },
+
+        isEditable: function() { return true; },
+        isDeletable: function() { return true },
+
+        reload: function(/*Object*/ json) {
+          // summary:
+          //   Chained method that loads data from `json`.
+          // description:
+          //   Subclasses should overwrite this method
+          //   to load the properties from `json` that are defined
+          //   in that subclass.
+          //   See also _extendJsonObject.
+          //   The time of reload is remembered in lastReloaded.
+
+          this._changeAttrValue("lastReloaded", new Date());
         },
 
         _extendJsonObject: function(/*Object*/ json) {
