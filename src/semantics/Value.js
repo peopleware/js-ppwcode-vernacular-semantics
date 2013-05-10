@@ -26,14 +26,14 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode/contracts/_Mixin",
           //   Must be overriden in subtypes with the pattern:
           //   | return this.inherited(arguments) && (EXTRA CONDITIONS);
           //   This implementation checks whether other is null.
+          //
+          //   This method is also used by dojox/mvc/sync! There can be no preconditions!
 
           // Note: not a good candidate for chaining: look at what the overrider should write (it is the same)
-          this._c_pre(function() {
-            return other === null ||
-              (other && other.constructor && (other.constructor === this.constructor)); // same type
-          });
 
-          return other != null; // return boolean
+          return other && // return boolean
+            other.constructor &&
+            (other.constructor === this.constructor); // same type;
         },
 
         getValue: function() { // TODO what is this method for? Remove it?
