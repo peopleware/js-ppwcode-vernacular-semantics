@@ -16,6 +16,18 @@ define(["dojo/main", "ppwcode/contracts/doh",
           this.internalValue = props.internalValue;
         },
 
+        compare: function(/*Value*/ other) {
+          this._c_pre(function() {return !other || (other.isInstanceOf && other.isInstanceOf(this.constructor));});
+
+          if (!other || this.internalValue > other.internalValue) {
+            return +1;
+          }
+          if (this.equals(other)) {
+            return 0;
+          }
+          return -1;
+        },
+
         equals: function(/*Value*/ other) {
           return this.inherited(arguments) && (this.internalValue === other.internalValue);
         },
@@ -147,6 +159,81 @@ define(["dojo/main", "ppwcode/contracts/doh",
               // post
               doh.is("boolean", js.typeOf(result));
               doh.f(result);
+            },
+            tearDown: function() {
+              delete this.subject1;
+              delete this.subject2;
+            }
+          },
+
+          {
+            name: "test compare() 1a",
+            setUp: function() {
+              this.subject1 = new Constructor(kwargs1);
+            },
+            runTest: function() {
+              var result = this.subject1.compare(null);
+
+              doh.invars(this.subject1);
+              // post
+              doh.is("number", js.typeOf(result));
+              doh.t(result > 0);
+            },
+            tearDown: function() {
+              delete this.subject1;
+            }
+          },
+
+          {
+            name: "test compare() 1b",
+            setUp: function() {
+              this.subject1 = new Constructor(kwargs1);
+            },
+            runTest: function() {
+              var result = this.subject1.compare();
+
+              doh.invars(this.subject1);
+              // post
+              doh.is("number", js.typeOf(result));
+              doh.t(result > 0);
+            },
+            tearDown: function() {
+              delete this.subject1;
+            }
+          },
+
+          {
+            name: "test compare() 2",
+            setUp: function() {
+              this.subject1 = new Constructor(kwargs1);
+            },
+            runTest: function() {
+              var result = this.subject1.compare(this.subject1);
+
+              doh.invars(this.subject1);
+              // post
+              doh.is("number", js.typeOf(result));
+              doh.t(result === 0);
+            },
+            tearDown: function() {
+              delete this.subject1;
+            }
+          },
+
+          {
+            name: "test compare() 3",
+            setUp: function() {
+              this.subject1 = new Constructor(kwargs1);
+              this.subject2 = new Constructor(kwargs2);
+            },
+            runTest: function() {
+              var result = this.subject1.compare(this.subject2);
+
+              doh.invars(this.subject1);
+              doh.invars(this.subject2);
+              // post
+              doh.is("number", js.typeOf(result));
+              doh.t(result < 0);
             },
             tearDown: function() {
               delete this.subject1;
