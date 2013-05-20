@@ -8,6 +8,13 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode/contracts/_Mixin",
         //   Values are immutable after construction.
         //   They are constructed with a kwargs argument.
         //   For JSON-inification, toString, typeDescription, see PpwCodeObject.
+        // description:
+        //   Constructors of concrete types should have a property format
+        //   and parse, that are functions that can format (turn into a user-oriented
+        //   string) instances of that type, and parse strings into instances
+        //   of that type.
+        //   format: Value x Options --> String
+        //   parse: String x Options --> Value, ParseException
 
         _c_invar: [
 
