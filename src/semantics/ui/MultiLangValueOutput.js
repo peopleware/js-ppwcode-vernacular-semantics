@@ -55,6 +55,11 @@ define(["dojo/_base/declare", "ppwcode/oddsAndEnds/ui/_MultiLangOutput",
           if (!opt.locale) {
             opt.locale = this._lookUpInWidgetHierarchy("lang", _MultiLangParent) || kernel.locale;
           }
+          // default for escapeXml (where applicable) should be true; default is false in formatter
+          // so, we need to set it to true, if it was not explicitly set to false in the formatOptions
+          if (opt.escapeXml !== false) {
+            opt.escapeXml = true;
+          }
           this._extraFormatOption(opt);
           result = this.value.constructor.format(this.value, opt);
         }
