@@ -72,13 +72,16 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel", "
           //   A string describing the type of this instance for toString.
           //   This is also used when sending data to the server.
           // description:
-          //   The default is a property `typeDescription` of the Constructor. If this
+          //   The default is a property `mid` of the Constructor. If this
           //   does not exist, it is the declared class. Subtypes can override.
           // tags
           //   protected extension
 
+          if (this.constructor.mid) {
+            return this.constructor.mid;
+          }
           if (this.constructor.serverType) {
-            return this.constructor.typeDescription;
+            return this.constructor.typeDescription; // TODO obsolete, remove
           }
           else {
             return this.declaredClass;
@@ -94,7 +97,8 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel", "
 
       });
 
-      PpwCodeObject.typeDescription = module.id;
+      PpwCodeObject.mid = module.id;
+      PpwCodeObject.typeDescription = module.id; // TODO obsolete, remove
 
       return PpwCodeObject;
     }
