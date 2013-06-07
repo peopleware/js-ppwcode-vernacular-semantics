@@ -58,7 +58,7 @@ define(["dojo/_base/declare", "./Value",
       },
 
       toString: function() {
-        return this.representation;
+        return this._representation;
       }
 
     });
