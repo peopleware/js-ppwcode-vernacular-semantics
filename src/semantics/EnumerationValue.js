@@ -84,6 +84,9 @@ define(["dojo/_base/declare", "./Value",
       // pre: json is a String;
       // pre: isEnumJson(EnumDef, json);
 
+      if (!json) {
+        return undefined;
+      }
       var match = Object.keys(EnumDef).filter(function(ed) {return EnumDef[ed]._representation === json;});
       if (match.length > 1) {
         throw "Error: there are different values in enum type " + EnumDef + " with the same value.";
