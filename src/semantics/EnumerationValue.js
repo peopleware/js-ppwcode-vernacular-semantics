@@ -38,8 +38,7 @@ define(["dojo/_base/declare", "./Value",
         //   Note: with the current implementation of declare, we cannot overwrite isInstanceOf.
         //   (the declare definition of isInstanceOf overwrites anything we declare).
 
-        return js.typeOf(EnumDef) === "object" &&
-          Object.keys(EnumDef).some(function(ed) {return EnumDef[ed];});
+        return Object.keys(EnumDef).some(function(ed) {return EnumDef[ed];});
       },
 
       equals: function(/*EnumerationValue*/ other) {
