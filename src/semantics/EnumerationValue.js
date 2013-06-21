@@ -1,8 +1,7 @@
 define(["dojo/_base/declare", "./Value",
-        "ppwcode/oddsAndEnds/js"
-],
+        "ppwcode/oddsAndEnds/js", "dojo/i18n", "dojo/_base/kernel", "dojo/_base/lang", "module"],
   function(declare, Value,
-           js) {
+           js, i18n, kernel, lang, module) {
 
     var EnumerationValue = declare([Value], {
       // summary:
@@ -13,6 +12,13 @@ define(["dojo/_base/declare", "./Value",
       //   This class thus defines the values, but not the type.
       //   This hash is referenced with a Capitalized name, like a Constructor (although it is an object,
       //   and not a function).
+      //   An enumeration value can have a label (a human representation) that is different in different
+      //   languages. To enable this, place a set of nls files in the nls directory next to the module
+      //   definining the enumeration type with the same name as the module itself (or define the
+      //   name used in `bundleName`). The Constructor needs to have a property `mid` containing the
+      //   module id for this to work. The EnumerationValue Constructor then has a `format` and `parse`
+      //   method, that can take an options-argument that has a locale in the regular way.
+      //   If we don't find a locale in the options, we use the default locale.
 
       _c_invar: [
         function() {return js.typeOf(this.toJSON()) === "string" && this.toJSON() != "";}
@@ -58,17 +64,34 @@ define(["dojo/_base/declare", "./Value",
 
       toString: function() {
         return this._representation;
+      },
+
+      getLabel: function(/*String*/ lang) {
+        // summary:
+        //   Shortcut to EnumerationValue.format(this, {locale: lang});
+
+        return EnumerationValue.format(this, {locale: lang});
       }
 
     });
+
+    function values(EnumDef) {
+      // summary:
+      //   The values of EnumDef as a an array.
+
+      if (!EnumDef._values) {
+        EnumDef._values = Object.keys(EnumDef).
+          filter(function(key) {return key != "superclass" && EnumDef[key] && EnumDef[key].isInstanceOf && EnumDef[key].isInstanceOf(EnumerationValue)}).
+          map(function(key) {return EnumDef[key];});
+      }
+      return EnumDef._values;
+    }
 
     function isEnumJson(EnumDef, json) {
       // summary:
       //   Is `json` the String representation of a value defined in EnumDef?
 
-      return Object.keys(EnumDef).
-        map(function(ed) {return EnumDef[ed]._representation;}).
-        indexOf(json) >= 0;
+      return values(EnumDef).some(function(ev) {return ev._representation === json;});
     }
 
     function enumRevive(EnumDef, json) {
@@ -96,8 +119,110 @@ define(["dojo/_base/declare", "./Value",
       return EnumDef[match[0]]; // return EnumerationValue
     }
 
+    function dirFromMid(mid) {
+      // summary:
+      //   Helper function to get the directory from a MID
+
+      var parts = mid.split("/");
+      parts.pop();
+      return parts.join("/");
+    }
+
+    function getParentDirectory(/*Function*/ EnumValueConstructor) {
+      if (!EnumValueConstructor._parentDirectory) {
+        if (!EnumValueConstructor.mid) {
+          throw "ERROR you must defined a property `mid` on the enumeration value constructor";
+        }
+        EnumValueConstructor._parentDirectory = dirFromMid(EnumValueConstructor.mid);
+      }
+      return EnumValueConstructor._parentDirectory;
+    }
+
+    function getBundleName(/*Function*/ EnumValueConstructor) {
+      return EnumValueConstructor.bundleName || EnumValueConstructor.mid.split("/").pop();
+    }
+
+    function getBundle(/*Function*/ EnumValueConstructor, /*String*/ lang) {
+      return i18n.getLocalization(
+        getParentDirectory(EnumValueConstructor),
+        getBundleName(EnumValueConstructor),
+        lang
+      );
+    }
+
+    function format(v, /*Object*/ options) {
+      // summary:
+      //   options.locale can be filled out; if not, the default locale is used.
+      //   If no label is found, the representation itself is returned.
+
+      if (!v) {
+        return null;
+      }
+      var lang = options.locale || kernel.locale;
+      var result = getBundle(v.constructor, lang)[v.toJSON()];
+      if (!result && result != "") {
+        return v.toJSON();
+      }
+      else {
+        return result;
+      }
+    }
+
+    function parse(/*Function*/ EnumValueConstructor, /*String*/ str, /*Object*/ options) {
+      // summary:
+      //   options.locale can be filled out; if not, the default locale is used.
+      //   If no label is found, the representation itself is returned.
+
+      if (!str && str !== "") {
+        return null;
+      }
+      var lang = options.locale || kernel.locale;
+      var bundle = getBundle(EnumValueConstructor, lang);
+      for (var representation in bundle) {
+        if (bundle[representation] === str) {
+          return enumRevive(EnumValueConstructor, representation);
+        }
+      }
+      return undefined;
+    }
+
+    function methodFactory(/*Function*/ EnumValueConstructor, /*Function*/ f) {
+      return lang.partial(f, EnumValueConstructor);
+    }
+
+    function enumDeclare(/*Object*/ prototypeDef, /*Array*/ valueDefinitions, /*module*/ mod, /*String*/ bundleName) {
+      var Enum = declare([EnumerationValue], prototypeDef);
+      Enum._values = [];
+      valueDefinitions.forEach(function(vDef) {
+        var def = js.typeOf(vDef) === "string" ? {representation: vDef} : vDef;
+        Enum[vDef] = new Enum(def);
+        Enum._values.push(Enum[vDef]);
+      });
+      Enum.isJson = methodFactory(Enum, isEnumJson);
+      Enum.revive = methodFactory(Enum, enumRevive);
+      Enum.values = methodFactory(Enum, values);
+      Enum.format = format;
+      Enum.parse = methodFactory(Enum, parse);
+      if (mod) {
+        Enum.mid = mod.id;
+      }
+      if (bundleName) {
+        Enum.bundleName = bundleName;
+      }
+      return Enum;
+    }
+
+    EnumerationValue.mid = module.id;
     EnumerationValue.isJson = isEnumJson;
     EnumerationValue.revive = enumRevive;
+    EnumerationValue.generalValues = values;
+    EnumerationValue.bundleName = null;
+    EnumerationValue.getBundle = getBundle;
+    EnumerationValue.format = format;
+    EnumerationValue.generalParse = parse;
+    EnumerationValue.methodFactory = methodFactory;
+
+    EnumerationValue.declare = enumDeclare;
 
     return EnumerationValue;
   }
