@@ -90,6 +90,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode/contracts/_Mixin",
           if (this.constructor.persistenceType) { // TODO obsolete, remove
             return this.constructor.persistenceType;
           }
+          return undefined;
         }
 
       });

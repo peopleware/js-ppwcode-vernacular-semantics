@@ -39,16 +39,18 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
       // now hack is replaced by overriding postscript in our class; no side effects that way
 
       function areDifferentValues(newValue, oldValue) {
+        var result;
         switch (js.typeOf(newValue)) {
           case "array":
-            return (js.typeOf(oldValue) !== "array") ||
+            result = (js.typeOf(oldValue) !== "array") ||
               newValue.some(function(element, index) {
                 return areDifferentValues(element, oldValue[index]);
               });
             break;
           default:
-            return newValue != oldValue;
+            result = newValue != oldValue;
         }
+        return result;
       }
 
       return declare([PpwCodeObject, Stateful], {
