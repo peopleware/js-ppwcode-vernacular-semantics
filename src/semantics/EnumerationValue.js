@@ -62,6 +62,13 @@ define(["dojo/_base/declare", "./Value",
         return this._representation;
       },
 
+      compare: function(other) {
+        // summary:
+        //   Comparison based on getValue. Can be overriden.
+
+        return this.equals(other) ? 0 : (this.getValue() < other.getValue() ? -1 : +1);
+      },
+
       toString: function() {
         return this._representation;
       },
