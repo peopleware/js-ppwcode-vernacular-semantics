@@ -14,7 +14,7 @@ define(["dojo/_base/declare", "./Value",
       //   and not a function).
       //   An enumeration value can have a label (a human representation) that is different in different
       //   languages. To enable this, place a set of nls files in the nls directory next to the module
-      //   definining the enumeration type with the same name as the module itself (or define the
+      //   defining the enumeration type with the same name as the module itself (or define the
       //   name used in `bundleName`). The Constructor needs to have a property `mid` containing the
       //   module id for this to work. The EnumerationValue Constructor then has a `format` and `parse`
       //   method, that can take an options-argument that has a locale in the regular way.
