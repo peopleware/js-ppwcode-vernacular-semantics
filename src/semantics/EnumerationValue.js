@@ -73,11 +73,14 @@ define(["dojo/_base/declare", "./Value",
         return this._representation;
       },
 
-      getLabel: function(/*String*/ lang) {
+      getLabel: function(/*String|Object?*/ opt) {
         // summary:
         //   Shortcut to EnumerationValue.format(this, {locale: lang});
+        // opt: String|Object?
+        //   If a string, the locale.
+        //   If an object, format options. See EnumerationValue.format
 
-        return EnumerationValue.format(this, {locale: lang});
+        return EnumerationValue.format(this, js.typeOf(opt) === "object" ? opt : {locale: opt /* i.e., lang*/});
       }
 
     });
@@ -160,15 +163,27 @@ define(["dojo/_base/declare", "./Value",
     function format(v, /*Object*/ options) {
       // summary:
       //   options.locale can be filled out; if not, the default locale is used.
-      //   If no label is found, the representation itself is returned.
+      //   The key for label lookup is the value representation, possibly extended with
+      //   options.keyExtension (`this._representation + "_" + options.keyExtension`).
+      //   If no label is found, the representation itself is returned, if the key is not extended.
+      //   A warning is issued if no label is found with a given extension.
 
       if (!v) {
         return null;
       }
-      var lang = options.locale || kernel.locale;
-      var result = getBundle(v.constructor, lang)[v.toJSON()];
+      var lang = (options && options.locale) || kernel.locale;
+      var actualKey = v._representation;
+      if (options && options.keyExtension) {
+        actualKey += "_" + options.keyExtension;
+      }
+      var result = getBundle(v.constructor, lang)[actualKey];
       if (!result && result != "") {
-        return v.toJSON();
+        if (!(options && options.keyExtension)) {
+          return v._representation;
+        }
+        else {
+          return "?" + actualKey + "?";
+        }
       }
       else {
         return result;
