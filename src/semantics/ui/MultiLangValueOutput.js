@@ -8,7 +8,8 @@ define(["dojo/_base/declare", "ppwcode/oddsAndEnds/ui/_MultiLangOutput", "dojo/_
       //   `lang` is the locale, which can change. `value` is the Value.
       //   Setting these re-renders.
       // description:
-      //   Rendering is done using value.constructor.format. The lang of this instance
+      //   Rendering is done using value.constructor.format. This means the formatter used is dynamic.
+      //   The lang of this instance
       //   is injected as the locale in the options to that call, if no locale is set in formatOptions.
 
       "-chains-": {
