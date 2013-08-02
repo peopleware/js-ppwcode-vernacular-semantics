@@ -202,7 +202,7 @@ define(["dojo/_base/declare", "./Value",
       Enum._values = [];
       valueDefinitions.forEach(function(vDef) {
         var def = js.typeOf(vDef) === "string" ? {representation: vDef} : vDef;
-        Enum[vDef] = new Enum(def);
+        Enum[vDef.representation] = new Enum(def);
         Enum._values.push(Enum[vDef]);
       });
       Enum.isJson = methodFactory(Enum, isEnumJson);
