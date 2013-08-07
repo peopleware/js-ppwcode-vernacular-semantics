@@ -212,21 +212,37 @@ define(["dojo/_base/declare", "./Value",
       return lang.partial(f, EnumValueConstructor);
     }
 
-    function enumDeclare(/*Object*/ prototypeDef, /*Array*/ valueDefinitions, /*module*/ mod, /*String*/ bundleName) {
+    function enumDeclare(/*Object*/ prototypeDef, /*Array|Object*/ valueDefinitions, /*module|String*/ mod, /*String*/ bundleName) {
       var Enum = declare([EnumerationValue], prototypeDef);
       Enum._values = [];
-      valueDefinitions.forEach(function(vDef) {
-        var def = js.typeOf(vDef) === "string" ? {representation: vDef} : vDef;
-        Enum[vDef.representation] = new Enum(def);
-        Enum._values.push(Enum[vDef]);
-      });
+
+      function create(instanceName, vDef) {
+        var newValue = new Enum((js.typeOf(vDef) === "string") ? {representation: vDef} : vDef);
+        Enum[instanceName] = newValue;
+        Enum._values.push(newValue);
+      }
+
+      switch (js.typeOf(valueDefinitions)) {
+        case "array":
+          valueDefinitions.forEach(function(vDef) {
+            create((js.typeOf(vDef) === "string") ? vDef : vDef.representation, vDef);
+          });
+          break;
+        case "object":
+          Object.keys(valueDefinitions).forEach(function(instanceName) {
+            create(instanceName, valueDefinitions[instanceName]);
+          });
+          break;
+        default:
+          // NOP
+      }
       Enum.isJson = methodFactory(Enum, isEnumJson);
       Enum.revive = methodFactory(Enum, enumRevive);
       Enum.values = methodFactory(Enum, values);
       Enum.format = format;
       Enum.parse = methodFactory(Enum, parse);
       if (mod) {
-        Enum.mid = mod.id;
+        Enum.mid = (js.typeOf(mod) === "object") ? mod.id : mod;
       }
       if (bundleName) {
         Enum.bundleName = bundleName;
