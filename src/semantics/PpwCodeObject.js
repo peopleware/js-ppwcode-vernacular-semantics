@@ -92,7 +92,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/kernel", "
           var toStrings = [];
           this._stateToString(toStrings);
           return this.getTypeDescription() + // return String
-              " {" + toStrings + "}";
+              " {" + toStrings.join(", ") + "}";
         }
 
       });
