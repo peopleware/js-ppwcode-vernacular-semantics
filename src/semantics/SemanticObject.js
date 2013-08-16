@@ -1,5 +1,5 @@
-define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contracts/_Mixin", "dojo/when", "ppwcode/oddsAndEnds/js"],
-    function(declare, PpwCodeObject, Stateful, _ContractMixin, when, js) {
+define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "ppwcode/oddsAndEnds/js"],
+    function(declare, PpwCodeObject, Stateful, when, js) {
 
       /*
          NOTE:
@@ -48,7 +48,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "ppwcode/contr
               });
             break;
           default:
-            result = newValue != oldValue;
+            result = (newValue != oldValue);
         }
         return result;
       }
