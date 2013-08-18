@@ -48,7 +48,15 @@ define(["dojo/main", "ppwcode/contracts/doh",
 
       ValueMock.persistenceType = Value.persistenceType;
 
-      function testGeneratorValue(Constructor, kwargs1, kwargs2) {
+      function subjectValue(subject, propertyName, renameds) {
+        return renameds && renameds.hasOwnProperty(propertyName) ? subject[renameds[propertyName]] : subject[propertyName];
+      }
+
+      function testGeneratorValue(Constructor, kwargs1, kwargs2, renameds) {
+        // renameds: Object
+        //  Mapping of json names to property names, for those names that have a different name in the subject
+        //  than in the json
+
         if (!Constructor) {
           throw "CANNOT CREATE TESTS: no value type constructor.";
         }
@@ -63,7 +71,7 @@ define(["dojo/main", "ppwcode/contracts/doh",
             doh.invars(subject);
             // post
             for (var pName in kwargs1) {
-              doh.is(kwargs1[pName], subject[pName]);
+              doh.is(kwargs1[pName], subjectValue(subject, pName, renameds));
             }
           },
 
@@ -311,6 +319,8 @@ define(["dojo/main", "ppwcode/contracts/doh",
           internalValue: 7
         }
       );
+
+      testGeneratorValue.subjectValue = subjectValue;
 
       return testGeneratorValue;
     }
