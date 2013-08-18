@@ -75,22 +75,6 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode/contracts/_Mixin",
         getValue: function() { // TODO what is this method for? Remove it?
           this._c_ABSTRACT();
           return null; // return object
-        },
-
-        getTypeDescription: function() {
-          // summary:
-          //   A string describing the type of this instance for toString.
-          //   This is also used when sending data to the server.
-          // description:
-          //   The default is a property `mid` of the Constructor. If this
-          //   does not exist, it is the declared class. Subtypes can override.
-          // tags
-          //   protected extension
-
-          if (this.constructor.persistenceType) { // TODO obsolete, remove
-            return this.constructor.persistenceType;
-          }
-          return undefined;
         }
 
       });
