@@ -212,8 +212,17 @@ define(["dojo/_base/declare", "./Value",
       return lang.partial(f, EnumValueConstructor);
     }
 
-    function enumDeclare(/*Object*/ prototypeDef, /*Array|Object*/ valueDefinitions, /*module|String*/ mod, /*String*/ bundleName) {
-      var Enum = declare([EnumerationValue], prototypeDef);
+    function enumDeclare(/*Function?*/ SuperType, /*Object*/ prototypeDef, /*Array|Object*/ valueDefinitions, /*module|String*/ mod, /*String*/ bundleName) {
+      if (js.typeOf(SuperType) !== "function") {
+        // shift arguments
+        bundleName = mod;
+        mod = valueDefinitions;
+        valueDefinitions = prototypeDef;
+        prototypeDef = SuperType;
+        SuperType = EnumerationValue;
+      }
+
+      var Enum = declare([SuperType], prototypeDef);
       Enum._values = [];
 
       function create(instanceName, vDef) {
