@@ -60,6 +60,8 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
         ],
 
         "-chains-": {
+          _extendJsonObject: "after",
+          _stateToString: "after",
           reload: "after"
         },
 
