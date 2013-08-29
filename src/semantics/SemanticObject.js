@@ -69,15 +69,6 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
         //   The time of last reload.
         lastReloaded: null,
 
-        constructor: function(/*Object*/ props) {
-          // TODO replace warning with a precondition when all other code is changed
-          // The only good usage is to ALWAYS create semantic objects with an no-ops constructor, and potentionally reload after that.
-          // Not true, see Property Instance
-          if (props) {
-            console.warn("Code should be rewritten to not use arguments in the constructor.")
-          }
-        },
-
         postscript: function() {
           // summary:
           //   Does nothing. This method is here to override the
