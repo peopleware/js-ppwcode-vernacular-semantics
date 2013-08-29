@@ -142,6 +142,25 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
         isEditable: function() { return true; },
         isDeletable: function() { return true },
 
+        getLabel: function(/*Object*/ options) {
+          // summary:
+          //   Semantic view model objects are often represented as a label.
+          //   This method should return a string that represents this semantic object.
+          // options: Object
+          //   options.locale is the language the UI asks the label in; for semantic objects
+          //   this can often be ignored
+          //   options.formatLength can be "long" or "short" (the default); mainly, in an object
+          //   graph, we need to show more than only local information for the user to recognize
+          //   an object. It is good practice then to add the short label of parent objects
+          //   in brackets after the local information. To avoid very long labels, the label
+          //   of the parent should be short, and parent information should only be added if
+          //   the UI requests a long label.
+          // description:
+          //   Subclasses should override this with a meaningful implementation. The default is toString.
+
+          return this.toString();
+        },
+
         reload: function(/*Object*/ json) {
           // summary:
           //   Chained method that loads data from `json`.
