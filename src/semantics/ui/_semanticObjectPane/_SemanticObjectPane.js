@@ -1,9 +1,9 @@
-define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-style", "dojo/dom-class", "dojo/has",
+define(["dojo/_base/declare", "ppwcode.contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-class",
         "dijit/_WidgetBase", "../../SemanticObject",
         "dijit/form/ValidationTextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/form/SimpleTextArea",
          "dijit/form/CheckBox",
          "xstyle/css!./_SemanticObjectPane.css"],
-    function(declare, _ContractMixin, lang, registry, domStyle, domClass, has,
+    function(declare, _ContractMixin, lang, registry, domClass,
              _WidgetBase, SemanticObject,
              ValidationTextBox, Output, CheckedMultiSelect, SimpleTextArea,
              CheckBox) {
@@ -36,6 +36,7 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin", "dojo/_base/lang", "di
         var domNode = sop.get("domNode");
         var innerWidgets = registry.findWidgets(domNode);
         var widgetState = null;
+        //noinspection FallthroughInSwitchStatementJS
         switch (stylePresentationMode) {
           case _SemanticObjectPane.prototype.NOTARGET:
             widgetState = { readOnly:false, disabled:true };

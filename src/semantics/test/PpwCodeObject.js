@@ -1,5 +1,5 @@
-define(["dojo/main", "ppwcode/contracts/doh", "../PpwCodeObject"],
-    function(dojo, doh, PpwCodeObject) {
+define(["ppwcode.contracts/doh", "../PpwCodeObject"],
+    function(doh, PpwCodeObject) {
 
       doh.register("ppwcode vernacular semantics PpwCodeObject", [
 

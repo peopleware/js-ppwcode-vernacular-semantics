@@ -1,5 +1,5 @@
-define(["dojo/main", "ppwcode/contracts/doh", "require"],
-  function(dojo, doh, require) {
+define(["ppwcode.contracts/doh", "require"],
+  function(doh, require) {
 
     doh.register("test _SemanticObjectPane Person",
                  require.toUrl("./_SemanticObjectPane_Person.html"), 999999);

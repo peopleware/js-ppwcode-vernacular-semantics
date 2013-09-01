@@ -1,5 +1,5 @@
-define(["dojo/main", "ppwcode/contracts/doh", "../SemanticObject"],
-    function(dojo, doh, SemanticObject) {
+define(["ppwcode.contracts/doh", "../SemanticObject"],
+    function(doh, SemanticObject) {
 
       doh.register("ppwcode vernacular semantics SemanticObject", [
 

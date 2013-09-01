@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "dojo/Stateful", "ppwcode/contracts/_Mixin", "ppwcode/oddsAndEnds/bindingChains", "module"],
+define(["dojo/_base/declare", "dojo/Stateful", "ppwcode.contracts/_Mixin", "ppwcode.oddsAndEnds/bindingChains", "module"],
     function(declare, Stateful, _ContractMixin, bindingChains, module) {
 
       // lang.getObject and lang.setObject don't use get and set

@@ -14,7 +14,7 @@
  limitations under the License.
  */
 
-define(["dojo/_base/declare", "ppwcode/exceptions/SemanticException"],
+define(["dojo/_base/declare", "ppwcode.exceptions/SemanticException"],
   function(declare, SemanticException) {
 
     var ParseException = declare([SemanticException], {

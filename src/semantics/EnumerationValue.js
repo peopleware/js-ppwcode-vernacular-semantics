@@ -1,5 +1,5 @@
 define(["dojo/_base/declare", "./Value",
-        "ppwcode/oddsAndEnds/js", "dojo/i18n", "dojo/_base/kernel", "dojo/_base/lang", "module"],
+        "ppwcode.oddsAndEnds/js", "dojo/i18n", "dojo/_base/kernel", "dojo/_base/lang", "module"],
   function(declare, Value,
            js, i18n, kernel, lang, module) {
 

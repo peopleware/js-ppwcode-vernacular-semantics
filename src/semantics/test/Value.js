@@ -1,7 +1,7 @@
-define(["dojo/main", "ppwcode/contracts/doh",
+define(["ppwcode.contracts/doh",
         "../Value",
-        "dojo/_base/declare", "ppwcode/oddsAndEnds/js"],
-    function(dojo, doh,
+        "dojo/_base/declare", "ppwcode.oddsAndEnds/js"],
+    function(doh,
              Value,
              declare, js) {
 
