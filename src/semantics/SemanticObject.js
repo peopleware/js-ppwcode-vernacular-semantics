@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "ppwcode.util.oddsAndEnds/js"],
+define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "ppwcode-util-oddsAndEnds/js"],
     function(declare, PpwCodeObject, Stateful, when, js) {
 
       /*
@@ -112,7 +112,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
               });
             }
           }
-          return this; // return be.ppwcode.vernacular.semantics.SemanticObject
+          return this; // return be.ppwcode-vernacular-semantics.SemanticObject
         },
 
         _changeAttrValue: function(name, value) {

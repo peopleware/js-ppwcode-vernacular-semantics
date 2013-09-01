@@ -1,5 +1,5 @@
-define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode.util.contracts/_Mixin",
-        "ppwcode.util.oddsAndEnds/js", "module"],
+define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-contracts/_Mixin",
+        "ppwcode-util-oddsAndEnds/js", "module"],
     function(declare, PpwCodeObject, _ContractMixin,
              js, module) {
 
