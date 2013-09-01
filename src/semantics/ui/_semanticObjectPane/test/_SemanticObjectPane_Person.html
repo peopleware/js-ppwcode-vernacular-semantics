@@ -7,8 +7,8 @@
   <title>_SemanticObjectPane Browser Tests - Person</title>
 
   <!-- required: the default dijit theme: -->
-  <link rel="stylesheet" href="../../../../../dojo/resources/dojo.css" />
-  <link id="themeStyles" rel="stylesheet" href="../../../../../dijit/themes/claro/claro.css" />
+  <link rel="stylesheet" href="../../../../../../dojo/dojo/resources/dojo.css" />
+  <link rel="stylesheet" href="../../../../../../dojo/dijit/themes/claro/claro.css" />
 
 
   <!-- SCRIPT -->
@@ -19,11 +19,17 @@
       has: {
         "dojo-debug-messages": true,
         "mvc-bindings-log-api": true
+      },
+      paths: {
+        "ppwcode/contracts": "../../ppwcode/util/contracts",
+        "ppwcode/oddsAndEnds": "../../ppwcode/util/oddsAndEnds",
+        "ppwcode/semantics": "../../ppwcode/vernacular/semantics",
+        "xstyle": "../../xstyle"
       }
     };
   </script>
 
-  <script src="../../../../../dojo/dojo.js"></script>
+    <script src="../../../../../../dojo/dojo/dojo.js"></script>
 
   <script type="text/javascript">
     require(["dojo/parser",
