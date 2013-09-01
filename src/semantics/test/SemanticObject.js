@@ -1,4 +1,4 @@
-define(["ppwcode.contracts/doh", "../SemanticObject"],
+define(["ppwcode.util.contracts/doh", "../SemanticObject"],
     function(doh, SemanticObject) {
 
       doh.register("ppwcode vernacular semantics SemanticObject", [

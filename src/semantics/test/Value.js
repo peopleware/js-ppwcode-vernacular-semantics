@@ -1,6 +1,6 @@
-define(["ppwcode.contracts/doh",
+define(["ppwcode.util.contracts/doh",
         "../Value",
-        "dojo/_base/declare", "ppwcode.oddsAndEnds/js"],
+        "dojo/_base/declare", "ppwcode.util.oddsAndEnds/js"],
     function(doh,
              Value,
              declare, js) {

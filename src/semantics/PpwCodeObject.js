@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "ppwcode.contracts/_Mixin", "dojo/_base/kernel", "module"],
+define(["dojo/_base/declare", "ppwcode.util.contracts/_Mixin", "dojo/_base/kernel", "module"],
     function(declare, _ContractMixin, kernel, module) {
 
       var PpwCodeObject = declare([_ContractMixin], {
@@ -50,7 +50,7 @@ define(["dojo/_base/declare", "ppwcode.contracts/_Mixin", "dojo/_base/kernel", "
           // summary:
           //   Deprecated. Use toJSON instead. Will be removed soon.
 
-          kernel.deprecated("ppwcode.semantics/PpwCodeObject.toJsonObject.",
+          kernel.deprecated("ppwcode.vernacular.semantics/PpwCodeObject.toJsonObject.",
                             "Provide the object itself (using toJSON instead).",
                             "Before 1.0.");
           var json = {};

@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "ppwcode.oddsAndEnds/js"],
+define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "ppwcode.util.oddsAndEnds/js"],
     function(declare, PpwCodeObject, Stateful, when, js) {
 
       /*

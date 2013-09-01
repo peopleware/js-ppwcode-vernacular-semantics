@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "ppwcode.contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-class",
+define(["dojo/_base/declare", "ppwcode.util.contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-class",
         "dijit/_WidgetBase", "../../SemanticObject",
         "dijit/form/ValidationTextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/form/SimpleTextArea",
          "dijit/form/CheckBox",

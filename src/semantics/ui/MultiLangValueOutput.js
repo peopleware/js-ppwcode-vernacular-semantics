@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "ppwcode.oddsAndEnds/ui/MultiLangFormatOutput"],
+define(["dojo/_base/declare", "ppwcode.util.oddsAndEnds/ui/MultiLangFormatOutput"],
   function(declare, MultiLangFormatOutput) {
 
     return declare([MultiLangFormatOutput], {

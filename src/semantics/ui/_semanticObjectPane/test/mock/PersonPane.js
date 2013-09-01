@@ -1,5 +1,5 @@
 define(["dojo/_base/declare",
-        "ppwcode.semantics/ui/_semanticObjectPane/_SemanticObjectPane", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin",
+        "ppwcode.vernacular.semantics/ui/_semanticObjectPane/_SemanticObjectPane", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin",
         "../../../test/mock/Person",
         "dojo/text!./templates/PersonPane.html", "dojo/i18n!./nls/Person",
         "dijit/form/ValidationTextBox", "dojox/mvc/at",

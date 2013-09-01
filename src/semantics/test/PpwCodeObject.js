@@ -1,4 +1,4 @@
-define(["ppwcode.contracts/doh", "../PpwCodeObject"],
+define(["ppwcode.util.contracts/doh", "../PpwCodeObject"],
     function(doh, PpwCodeObject) {
 
       doh.register("ppwcode vernacular semantics PpwCodeObject", [
