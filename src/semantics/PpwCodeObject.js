@@ -1,10 +1,10 @@
-define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/kernel", "module"],
-    function(declare, _ContractMixin, kernel, module) {
+define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/kernel", "ppwcode-util-oddsAndEnds/js", "module"],
+    function(declare, _ContractMixin, kernel, js, module) {
 
       var PpwCodeObject = declare([_ContractMixin], {
 
         _c_invar: [
-          // TODO nothing here yet
+          function() {return js.typeOf(this.getTypeDescription()) === "string";}
         ],
 
         "-chains-": {
@@ -80,9 +80,6 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/kerne
           if (this.constructor.mid) {
             return this.constructor.mid;
           }
-          if (this.constructor.serverType) {
-            return this.constructor.typeDescription; // TODO obsolete, remove
-          }
           else {
             return this.declaredClass;
           }
@@ -98,7 +95,6 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/kerne
       });
 
       PpwCodeObject.mid = module.id;
-      PpwCodeObject.typeDescription = module.id; // TODO obsolete, remove
 
       return PpwCodeObject;
     }
