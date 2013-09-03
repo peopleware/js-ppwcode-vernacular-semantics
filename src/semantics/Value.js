@@ -79,7 +79,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-contracts/_Mixin"
 
       });
 
-      Value.persistenceType = module.id;
+      Value.mid = module.id;
 
       return Value;
     }

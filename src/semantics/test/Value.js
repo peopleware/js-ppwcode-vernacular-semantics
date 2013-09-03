@@ -46,7 +46,7 @@ define(["ppwcode-util-contracts/doh",
 
       });
 
-      ValueMock.persistenceType = Value.persistenceType;
+      ValueMock.mid = Value.mid + ".Mock";
 
       function subjectValue(subject, propertyName, renameds) {
         return renameds && renameds.hasOwnProperty(propertyName) ? subject[renameds[propertyName]] : subject[propertyName];
@@ -60,10 +60,10 @@ define(["ppwcode-util-contracts/doh",
         if (!Constructor) {
           throw "CANNOT CREATE TESTS: no value type constructor.";
         }
-        if (!Constructor.persistenceType) {
-          throw "CANNOT CREATE TESTS: value type constructor has no persistenceType"
+        if (!Constructor.mid) {
+          throw "CANNOT CREATE TESTS: value type constructor has no mid"
         }
-        doh.register(Constructor.persistenceType, [
+        doh.register(Constructor.mid, [
 
           function testConstructor() {
             var subject = new Constructor(kwargs1);
