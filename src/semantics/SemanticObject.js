@@ -56,7 +56,10 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
       return declare([PpwCodeObject, Stateful], {
 
         _c_invar: [
-          // TODO nothing here yet
+          function() {return this._c_prop_bool("editable")},
+          function() {return this._c_prop_mandatory("editable")},
+          function() {return this._c_prop_bool("deletable")},
+          function() {return this._c_prop_mandatory("deletable")}
         ],
 
         "-chains-": {
@@ -130,8 +133,33 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
           return this; // return SemanticObject
         },
 
-        isEditable: function() { return true; },
-        isDeletable: function() { return true },
+        _editableSetter: function(value) {
+          // summary:
+          //   Default is that this cannot be set in the application, but can be overridden.
+
+          throw "ERROR: editable is read-only - calculated in the server";
+        },
+
+        _editableGetter: function() {
+          // summary:
+          //   Default is true, but can be overridden.
+
+          return true;
+        },
+
+        _deletableSetter: function(value) {
+          // summary:
+          //   Default is that this cannot be set in the application, but can be overridden.
+
+          throw "ERROR: deletable is read-only - calculated in the server";
+        },
+
+        _deletableGetter: function() {
+          // summary:
+          //   Default is true, but can be overridden.
+
+          return true
+        },
 
         getLabel: function(/*Object*/ options) {
           // summary:

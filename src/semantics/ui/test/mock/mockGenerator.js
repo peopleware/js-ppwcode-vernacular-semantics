@@ -99,7 +99,7 @@ define(["dojo/_base/declare"],
             toStrings.push("email: " + this.email);
           },
 
-          isDeletable: function() {
+          _deletableGetter: function() {
             return false;
           }
 
