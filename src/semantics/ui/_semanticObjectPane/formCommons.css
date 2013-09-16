@@ -33,7 +33,7 @@
 
 .SemanticObjectPane .formRow .dojoxMultiSelectItem .dijitCheckBox {
   padding: 0;
-  margin-left: 0px;
+  margin-left: 0;
 }
 
 .SemanticObjectPane .identifyingField {
@@ -88,8 +88,9 @@
 }
 
 .SemanticObjectPane fieldset {
-  border:2px groove threedface;
+  border-style: groove;
   border-color: gray;
+  border-width: 2px;
   padding: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -105,7 +106,8 @@
 
 /* lists */
 
-.SemanticObjectPane .list.dgrid {
+.SemanticObjectPane .dgrid-grid.list,
+.SemanticObjectPane .dgrid-grid.grdSingularProperties {
   position: absolute;
   left: 10px;
   right: 10px;
@@ -113,6 +115,13 @@
   background-color: transparent;
   min-height: 250px;
   height: inherit;
+}
+
+.SemanticObjectPane .dgrid-grid.grdSingularProperties {
+  border-radius: 3px;
+  border-color: gray;
+  border-width: 1px;
+  border-style: solid;
 }
 
 .SemanticObjectPane .dgrid-no-data,
@@ -124,9 +133,22 @@
   color: gray;
 }
 
-.SemanticObjectPane .dgrid-scroller {
+.SemanticObjectPane .dgrid-grid.list .dgrid-scroller,
+.SemanticObjectPane .dgrid-grid.grdSingularProperties .dgrid-scroller {
   margin-top: 0 !important;
   overflow-y: auto;
+}
+
+.SemanticObjectPane .dgrid-grid.grdSingularProperties .dgrid-row {
+  background-color: transparent;
+}
+
+.SemanticObjectPane .dgrid-grid.grdSingularProperties .dgrid-cell.field-propertyName {
+  color: gray;
+  font-weight: bold;
+  font-size: 90%;
+  text-align: right;
+  width: 7em;
 }
 
 .SemanticObjectPane .listBtnAdd {
@@ -149,7 +171,7 @@
   padding: 5px;
   margin-bottom: 3px;
   margin-top: 3px;
-  margin-left: 0px;
+  margin-left: 0;
   margin-right: 4px;
   border-style: solid;
   border-color: gray;
