@@ -1,11 +1,11 @@
 define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-class",
         "dijit/_WidgetBase", "../../SemanticObject",
-        "dijit/form/ValidationTextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/form/SimpleTextArea",
+        "dijit/form/ValidationTextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/form/SimpleTextarea",
          "dijit/form/CheckBox",
          "xstyle/css!./_SemanticObjectPane.css"],
     function(declare, _ContractMixin, lang, registry, domClass,
              _WidgetBase, SemanticObject,
-             ValidationTextBox, Output, CheckedMultiSelect, SimpleTextArea,
+             ValidationTextBox, Output, CheckedMultiSelect, SimpleTextarea,
              CheckBox) {
 
       var presentationModes = [
@@ -54,7 +54,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         }
         innerWidgets.forEach(function (w) {
           if (w.isInstanceOf(ValidationTextBox) || w.isInstanceOf(Output)
-              || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextArea) || w.isInstanceOf(CheckBox)) {
+              || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextarea) || w.isInstanceOf(CheckBox)) {
             w.set("readOnly", widgetState.readOnly);
             w.set("disabled", widgetState.disabled);
           }
