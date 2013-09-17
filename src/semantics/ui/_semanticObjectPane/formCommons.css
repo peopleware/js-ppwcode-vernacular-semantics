@@ -107,6 +107,7 @@
 /* lists */
 
 .SemanticObjectPane .dgrid-grid.list,
+.SemanticObjectPane .dgrid-grid.grdComposition,
 .SemanticObjectPane .dgrid-grid.grdSingularProperties {
   position: absolute;
   left: 10px;
@@ -117,6 +118,7 @@
   height: inherit;
 }
 
+.SemanticObjectPane .dgrid-grid.grdComposition,
 .SemanticObjectPane .dgrid-grid.grdSingularProperties {
   border-radius: 3px;
   border-color: gray;
@@ -134,15 +136,18 @@
 }
 
 .SemanticObjectPane .dgrid-grid.list .dgrid-scroller,
+.SemanticObjectPane .dgrid-grid.grdComposition .dgrid-scroller,
 .SemanticObjectPane .dgrid-grid.grdSingularProperties .dgrid-scroller {
   margin-top: 0 !important;
   overflow-y: auto;
 }
 
+.SemanticObjectPane .dgrid-grid.grdComposition .dgrid-row,
 .SemanticObjectPane .dgrid-grid.grdSingularProperties .dgrid-row {
   background-color: transparent;
 }
 
+.SemanticObjectPane .dgrid-grid.grdComposition .dgrid-cell.field-component,
 .SemanticObjectPane .dgrid-grid.grdSingularProperties .dgrid-cell.field-propertyName {
   color: gray;
   font-weight: bold;
