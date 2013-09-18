@@ -8,7 +8,7 @@ define(["ppwcode-util-contracts/doh", "dojo/_base/lang",
                              /*String?*/ propertyName,
                              /*Object?*/ newPropertyValue,
                              /*String?*/ pathToPropertyField) {
-      return [
+      var tests = [
 
         // TODO doh.is(TargetType, pane.getTargetType()); fails
         /*
@@ -50,56 +50,6 @@ define(["ppwcode-util-contracts/doh", "dojo/_base/lang",
             doh.is(null, pane.get("target"));
             doh.is(pane.NOTARGET, pane.get("stylePresentationMode"));
             doh.f(pane.isInEditMode());
-          }
-        },
-
-        {
-          name: "change property on target",
-          setUp: function() {
-            this.targetInstance = createTargetInstance();
-            pane.set("target", this.targetInstance);
-          },
-          runTest: function() {
-            if (propertyName) {
-              this.targetInstance.set(propertyName, newPropertyValue);
-              doh.invars(pane);
-              // doh.is(TargetType, pane.getTargetType());
-              doh.is(pane.VIEW, pane.get("presentationMode"));
-              doh.is(this.targetInstance, pane.get("target"));
-              doh.is(pane.VIEW, pane.get("stylePresentationMode"));
-              doh.f(pane.isInEditMode());
-              if (pathToPropertyField) {
-                var field = lang.getObject(pathToPropertyField, false, pane);
-                doh.is(this.targetInstance.get(propertyName), field.get("value"));
-              }
-            }
-          },
-          tearDown: function() {
-            pane.set("target", null);
-          }
-        },
-
-        {
-          name: "change property on widget",
-          setUp: function() {
-          this.targetInstance = createTargetInstance();
-            pane.set("target", this.targetInstance);
-          },
-          runTest: function() {
-            if (propertyName && pathToPropertyField) {
-              var field = lang.getObject(pathToPropertyField, false, pane);
-              field.set("value", newPropertyValue);
-              doh.invars(pane);
-              // doh.is(TargetType, pane.getTargetType());
-              doh.is(pane.VIEW, pane.get("presentationMode"));
-              doh.is(this.targetInstance, pane.get("target"));
-              doh.is(pane.VIEW, pane.get("stylePresentationMode"));
-              doh.f(pane.isInEditMode());
-              doh.is(field.get("value"), this.targetInstance.get(propertyName));
-            }
-          },
-          tearDown: function() {
-            pane.set("target", null);
           }
         },
 
@@ -275,6 +225,64 @@ define(["ppwcode-util-contracts/doh", "dojo/_base/lang",
           }
         }
       ];
+
+      if (propertyName && (newPropertyValue !== undefined) && pathToPropertyField) {
+
+        tests = tests.concat([
+          {
+            name: "change property on target",
+            setUp: function() {
+              this.targetInstance = createTargetInstance();
+              pane.set("target", this.targetInstance);
+            },
+            runTest: function() {
+              if (propertyName) {
+                this.targetInstance.set(propertyName, newPropertyValue);
+                doh.invars(pane);
+                // doh.is(TargetType, pane.getTargetType());
+                doh.is(pane.VIEW, pane.get("presentationMode"));
+                doh.is(this.targetInstance, pane.get("target"));
+                doh.is(pane.VIEW, pane.get("stylePresentationMode"));
+                doh.f(pane.isInEditMode());
+                if (pathToPropertyField) {
+                  var field = lang.getObject(pathToPropertyField, false, pane);
+                  doh.is(this.targetInstance.get(propertyName), field.get("value"));
+                }
+              }
+            },
+            tearDown: function() {
+              pane.set("target", null);
+            }
+          },
+
+          {
+            name: "change property on widget",
+            setUp: function() {
+            this.targetInstance = createTargetInstance();
+              pane.set("target", this.targetInstance);
+            },
+            runTest: function() {
+              if (propertyName && pathToPropertyField) {
+                var field = lang.getObject(pathToPropertyField, false, pane);
+                field.set("value", newPropertyValue);
+                doh.invars(pane);
+                // doh.is(TargetType, pane.getTargetType());
+                doh.is(pane.VIEW, pane.get("presentationMode"));
+                doh.is(this.targetInstance, pane.get("target"));
+                doh.is(pane.VIEW, pane.get("stylePresentationMode"));
+                doh.f(pane.isInEditMode());
+                doh.is(field.get("value"), this.targetInstance.get(propertyName));
+              }
+            },
+            tearDown: function() {
+              pane.set("target", null);
+            }
+          }
+        ]);
+
+      }
+
+      return tests;
     };
 
     return generator;
