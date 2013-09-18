@@ -42,7 +42,8 @@
   width: 99.5%;
 }
 
-.SemanticObjectPane .secondary {
+.SemanticObjectPane .secondary,
+.miniWidget .secondary {
   float: right;
   color: gray;
   font-size: 75%;
