@@ -72,7 +72,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-contracts/_Mixin"
                     (other.constructor === this.constructor)); // same type;
         },
 
-        getValue: function() { // TODO what is this method for? Remove it?
+        getValue: function() {
           this._c_ABSTRACT();
           return null; // return object
         }

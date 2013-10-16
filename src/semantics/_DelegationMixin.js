@@ -83,14 +83,14 @@ define(["dojo/_base/declare", "dojo/Stateful", "ppwcode-util-contracts/_Mixin", 
         },
 
         "-delegated-": {
-          something: {path: "one.two.three", readOnly: true} // MUDO change and document, take union over inheritance
+          something: {path: "one.two.three", readOnly: true} // TODO change and document, take union over inheritance
         },
 
         _stateToString: function(/*Array of String*/ toStrings) {
           // tags:
           //   protected extension
 
-          // MUDO; inherit from PpwCodeObject?
+          // TODO; inherit from PpwCodeObject?
         }
 
       });
