@@ -100,20 +100,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
             result = setter.apply(this, Array.prototype.slice.call(arguments, 1));
           } else {
             // no setter so set attribute directly
-            this[name] = value;
-          }
-          if(this._watchCallbacks) {
-            // HACK send the actual new value in the event, not the supplied value
-            var newValue = this.get(name);
-            // HACK only send if something changed; changed takes into account array-values
-            if (areDifferentValues(newValue, oldValue)) {
-              var self = this;
-              // If setter returned a promise, wait for it to complete, otherwise call watches immediately
-              when(result, function() {
-                // HACK send the actual new value in the event, not the supplied value
-                self._watchCallbacks(name, oldValue, newValue);
-              });
-            }
+            this._changeAttrValue(name, value);
           }
           return this; // return be.ppwcode-vernacular-semantics.SemanticObject
         },
