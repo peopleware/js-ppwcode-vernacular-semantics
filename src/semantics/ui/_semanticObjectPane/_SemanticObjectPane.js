@@ -286,10 +286,6 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
           //   Does nothing in _SemanticObjectPane
 
           this._c_NOP(presentationMode);
-        },
-
-        getWidgetSize: function() {
-          return this.widgetSize;
         }
 
       });
