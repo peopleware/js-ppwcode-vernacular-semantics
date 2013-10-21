@@ -32,9 +32,20 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
       // stylePresentationMode for when there is no target
       stylePresentationModes.push("NOTARGET");
 
+
+      function recursiveChildWidgets(domNode) {
+        return registry.findWidgets(domNode).reduce(
+          function(acc, w) {
+            acc.push(w);
+            return acc.concat(recursiveChildWidgets(w.domNode));
+          },
+          []
+        );
+      }
+
       function setStylepresentationMode(sop, stylePresentationMode) {
         var domNode = sop.get("domNode");
-        var innerWidgets = registry.findWidgets(domNode);
+        var innerWidgets = recursiveChildWidgets(domNode);
         var widgetState = null;
         //noinspection FallthroughInSwitchStatementJS
         switch (stylePresentationMode) {
