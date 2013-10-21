@@ -1,12 +1,12 @@
 define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang", "dijit/registry", "dojo/dom-class",
         "dijit/_WidgetBase", "../../SemanticObject",
         "dijit/form/ValidationTextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/form/SimpleTextarea",
-         "dijit/form/CheckBox",
+         "dijit/form/CheckBox", "dijit/form/Select",
          "xstyle/css!./_SemanticObjectPane.css"],
     function(declare, _ContractMixin, lang, registry, domClass,
              _WidgetBase, SemanticObject,
              ValidationTextBox, Output, CheckedMultiSelect, SimpleTextarea,
-             CheckBox) {
+             CheckBox, Select) {
 
       var presentationModes = [
         // presentationMode and stylePresentationMode for viewing the data. No interaction allowed.
@@ -65,7 +65,8 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         }
         innerWidgets.forEach(function (w) {
           if (w.isInstanceOf(ValidationTextBox) || w.isInstanceOf(Output)
-              || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextarea) || w.isInstanceOf(CheckBox)) {
+              || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextarea) || w.isInstanceOf(CheckBox)
+              || w.isInstanceOf(Select)) {
             w.set("readOnly", widgetState.readOnly);
             w.set("disabled", widgetState.disabled);
           }
@@ -182,8 +183,6 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         //   Function that attempts to open a new "window" or "pane" for another PersistentObject
         //   (which is mostly linked to the current one)
         opener: null,
-
-        widgetSize: 0,
 
         postCreate: function() {
           this.inherited(arguments);
