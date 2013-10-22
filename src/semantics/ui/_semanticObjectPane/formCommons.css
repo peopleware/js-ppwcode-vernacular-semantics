@@ -249,7 +249,8 @@
   /*font-size: 75%;*/
 /*}*/
 
-.SemanticObjectPane .toMany .toManyTop {
+.SemanticObjectPane .toMany .toManyTop,
+.SemanticObjectPane .properties .propertiesTop {
   height: 36px;  /* icon button + padding */
   padding: 0;
 }
@@ -264,12 +265,20 @@
   line-height: 35px;
 }
 
+.SemanticObjectPane .properties .propertiesTop label {
+  font-size: 90%;
+  line-height: 35px;
+  font-weight: bold;
+}
+
 .SemanticObjectPane .toMany .toManyTop.search label {
   line-height: 1;
 }
 
 .SemanticObjectPane .toMany .toManyTop .dijitButton,
-.SemanticObjectPane .toMany .toManyTop .dijitDropDownButton {
+.SemanticObjectPane .toMany .toManyTop .dijitDropDownButton,
+.SemanticObjectPane .properties .propertiesTop .dijitButton,
+.SemanticObjectPane .properties .propertiesTop .dijitDropDownButton {
   position: absolute;
   right: 0;
   bottom: 5px;
@@ -284,7 +293,8 @@
   bottom: 9px;
 }
 
-.SemanticObjectPane .toMany .dgrid.dgrid-grid {
+.SemanticObjectPane .toMany .dgrid.dgrid-grid,
+.SemanticObjectPane .properties .dgrid.dgrid-grid{
   margin-left: 0;
   margin-right: 0;
   border-style: none !important;
@@ -295,7 +305,14 @@
 
 
 
+.extraButtons.dijitContentPane {
+  padding: 0;
+}
 
+.extraButtons .dijitButton,
+.extraButtons .dijitDropDownButton {
+  float: right;
+}
 
 /* dgrid list rows */
 
