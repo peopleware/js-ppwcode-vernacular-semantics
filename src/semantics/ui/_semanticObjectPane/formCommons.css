@@ -126,6 +126,9 @@
   padding: 0; /* override dijit ContentPane setting */
 }
 
+.SemanticObjectPane  .dijitGutterV {
+  width: 10px;
+}
 
 /* lists */
 
