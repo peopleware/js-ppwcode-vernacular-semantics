@@ -247,16 +247,26 @@
 /*}*/
 
 .SemanticObjectPane .toMany .toManyTop {
-  height: 6ex;
+  height: 36px;  /* icon button + padding */
+  padding: 0;
+}
+
+.SemanticObjectPane .toMany .toManyTop.search {
+  height: 7ex;
 }
 
 .SemanticObjectPane .toMany .toManyTop label {
-  margin-left: 2px;
   font-size: 110%;
   text-decoration: underline;
+  line-height: 35px;
 }
 
-.SemanticObjectPane .toMany .toManyTop .dijitButton {
+.SemanticObjectPane .toMany .toManyTop.search label {
+  line-height: 1;
+}
+
+.SemanticObjectPane .toMany .toManyTop .dijitButton,
+.SemanticObjectPane .toMany .toManyTop .dijitDropDownButton {
   position: absolute;
   right: 0;
   bottom: 5px;
@@ -266,18 +276,22 @@
 .SemanticObjectPane .toMany .toManyTop .dijitTextBox {
   position: absolute;
   font-size: 75%;
-  left: 10px;
+  left: 0;
   width: 200px;
   bottom: 9px;
 }
 
 .SemanticObjectPane .toMany .dgrid.dgrid-grid {
-  margin-left: 10px;
+  margin-left: 0;
   margin-right: 0;
-  border-style: none;
-  border-width: 0;
-  background-color: transparent;
+  border-style: none !important;
+  border-width: 0! important;
+  border-color: transparent !important;
+  background-color: transparent !important;
 }
+
+
+
 
 
 /* dgrid list rows */
