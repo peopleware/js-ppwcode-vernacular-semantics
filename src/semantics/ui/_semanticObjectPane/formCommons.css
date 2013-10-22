@@ -22,8 +22,7 @@
 
 .SemanticObjectPane .dijitTextBoxReadOnly,
 .SemanticObjectPane .dijitValidationTextBoxReadOnly,
-.SemanticObjectPane .dijitSelectReadOnly
-.SemanticObjectPane .dojoxCheckedMultiSelect * {
+.SemanticObjectPane .dijitSelectReadOnly {
   border: 1px solid transparent !important;
   background-color: transparent !important;
 }
@@ -38,16 +37,6 @@
 .SemanticObjectPane .formRow .dijitCheckBox {
   padding-top: 1.1ex;
   margin-left: 3px;
-}
-
-.SemanticObjectPane .formRow .dojoxMultiSelectItem {
-  padding-left: 0;
-  margin-left: -3px;
-}
-
-.SemanticObjectPane .formRow .dojoxMultiSelectItem .dijitCheckBox {
-  padding: 0;
-  margin-left: 0;
 }
 
 .SemanticObjectPane .identifyingField {
@@ -107,6 +96,9 @@
 }
 
 
+.SemanticObjectPane .dojoxCheckedMultiSelectHidden {
+  display: none;
+}
 
 
 
@@ -144,17 +136,6 @@
 /* mini-widgets */
 
 .miniWidget {
-}
-
-
-
-
-
-/* multiselect */
-
-.SemanticObjectPane .dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper {
-  height: auto !important;
-  overflow-y: auto;
 }
 
 
