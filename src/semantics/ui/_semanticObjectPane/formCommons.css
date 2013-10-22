@@ -122,11 +122,12 @@
 
 /* layout */
 
+.SemanticObjectPane .toMany .dijitLayoutContainerPane,
 .SemanticObjectPane .fields.dijitLayoutContainerPane {
   padding: 0; /* override dijit ContentPane setting */
 }
 
-.SemanticObjectPane  .dijitGutterV {
+.SemanticObjectPane .dijitGutterV {
   width: 10px;
 }
 
@@ -183,17 +184,18 @@
 }
 
 .SemanticObjectPane .listBtnAdd {
-  float: right;
   margin-right: 0;
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+}
+.SemanticObjectPane .toMany .dgrid-grid,
+.SemanticObjectPane .toMany .listSearch {
+  margin-left: 10px;
 }
 
-.SemanticObjectPane .listSearch {
-  position: absolute;
-  width: inherit;
-  left: 90px;
-  right: 40px;
+.SemanticObjectPane .toMany .listSearch {
   font-size: 75%;
-  margin-top: 2px;
 }
 
 .SemanticObjectPane .listRow {
