@@ -21,12 +21,15 @@
 }
 
 .SemanticObjectPane .dijitTextBoxReadOnly,
+.SemanticObjectPane .dijitValidationTextBoxReadOnly,
+.SemanticObjectPane .dijitSelectReadOnly
 .SemanticObjectPane .dojoxCheckedMultiSelect * {
   border: 1px solid transparent !important;
   background-color: transparent !important;
 }
 
-.SemanticObjectPane .dijitTextBoxReadOnly input {
+.SemanticObjectPane .dijitTextBoxReadOnly input,
+.SemanticObjectPane .dijitValidationTextBoxReadOnly input {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -65,7 +68,6 @@
 .SemanticObjectPane .fillToLeft,
 .SemanticObjectPane .afterLabel,
 .SemanticObjectPane .fillToRight,
-.SemanticObjectPane label.fixedLabel,
 /* extra mentions necessary to force text boxes to listen */
 .SemanticObjectPane .dijitTextBox.fillToLeft,
 .SemanticObjectPane .dijitTextBox.afterLabel,
@@ -118,6 +120,7 @@
 }
 
 .SemanticObjectPane label.fixedLabel {
+  position: absolute;
   width: 75px; /* see .dijitTextBox.afterLabel */
   display: inline-block;
   font-weight: bold;
