@@ -45,57 +45,59 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
 
       function setStylepresentationMode(sop, stylePresentationMode) {
         var domNode = sop.get("domNode");
-        var innerWidgets = recursiveChildWidgets(domNode);
-        var widgetState = null;
-        //noinspection FallthroughInSwitchStatementJS
-        switch (stylePresentationMode) {
-          case _SemanticObjectPane.prototype.NOTARGET:
-            widgetState = { readOnly:false, disabled:true };
-            break;
-          case _SemanticObjectPane.prototype.EDIT:
-          case _SemanticObjectPane.prototype.WILD:
-            widgetState = { readOnly:false, disabled:false };
-            break;
-          case _SemanticObjectPane.prototype.BUSY:
-          case _SemanticObjectPane.prototype.ERROR:
-            widgetState = { readOnly:false, disabled:true };
-            break;
-          default: // VIEW
-            widgetState = { readOnly:true, disabled:false };
-        }
-        innerWidgets.forEach(function (w) {
-          if (w.isInstanceOf(ValidationTextBox) || w.isInstanceOf(Output)
-              || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextarea) || w.isInstanceOf(CheckBox)
-              || w.isInstanceOf(Select)) {
-            w.set("readOnly", widgetState.readOnly);
-            w.set("disabled", widgetState.disabled);
+        if (domNode) {
+          var widgetState = null;
+          //noinspection FallthroughInSwitchStatementJS
+          switch (stylePresentationMode) {
+            case _SemanticObjectPane.prototype.NOTARGET:
+              widgetState = { readOnly:false, disabled:true };
+              break;
+            case _SemanticObjectPane.prototype.EDIT:
+            case _SemanticObjectPane.prototype.WILD:
+              widgetState = { readOnly:false, disabled:false };
+              break;
+            case _SemanticObjectPane.prototype.BUSY:
+            case _SemanticObjectPane.prototype.ERROR:
+              widgetState = { readOnly:false, disabled:true };
+              break;
+            default: // VIEW
+              widgetState = { readOnly:true, disabled:false };
           }
-        });
-        if (stylePresentationMode == _SemanticObjectPane.prototype.VIEW ||
-            stylePresentationMode == _SemanticObjectPane.prototype.EDIT) {
-          domClass.replace(domNode,
-            "SemanticObjectPane_enabled",
-            "SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error SemanticObjectPane_notarget");
-        }
-        else if (stylePresentationMode == _SemanticObjectPane.prototype.BUSY) {
-          domClass.replace(domNode,
-            "SemanticObjectPane_busy",
-            "SemanticObjectPane_enabled SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error SemanticObjectPane_notarget");
-        }
-        else if (stylePresentationMode == _SemanticObjectPane.prototype.WILD) {
-          domClass.replace(domNode,
-            "SemanticObjectPane_wild",
-            "SemanticObjectPane_enabled SemanticObjectPane_busy SemanticObjectPane_disabled SemanticObjectPane_error SemanticObjectPane_notarget");
-        }
-        else if (stylePresentationMode == _SemanticObjectPane.prototype.ERROR) {
-          domClass.replace(domNode,
-            "SemanticObjectPane_error",
-            "SemanticObjectPane_enabled SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_notarget");
-        }
-        else { // NOTARGET
-          domClass.replace(domNode,
-            " SemanticObjectPane_notarget",
-            "SemanticObjectPane_enabled SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_error SemanticObjectPane_disabled");
+          var innerWidgets = recursiveChildWidgets(domNode);
+          innerWidgets.forEach(function (w) {
+            if (w.isInstanceOf(ValidationTextBox) || w.isInstanceOf(Output)
+                || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextarea) || w.isInstanceOf(CheckBox)
+                || w.isInstanceOf(Select)) {
+              w.set("readOnly", widgetState.readOnly);
+              w.set("disabled", widgetState.disabled);
+            }
+          });
+          if (stylePresentationMode == _SemanticObjectPane.prototype.VIEW ||
+              stylePresentationMode == _SemanticObjectPane.prototype.EDIT) {
+            domClass.replace(domNode,
+              "SemanticObjectPane_enabled",
+              "SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error SemanticObjectPane_notarget");
+          }
+          else if (stylePresentationMode == _SemanticObjectPane.prototype.BUSY) {
+            domClass.replace(domNode,
+              "SemanticObjectPane_busy",
+              "SemanticObjectPane_enabled SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error SemanticObjectPane_notarget");
+          }
+          else if (stylePresentationMode == _SemanticObjectPane.prototype.WILD) {
+            domClass.replace(domNode,
+              "SemanticObjectPane_wild",
+              "SemanticObjectPane_enabled SemanticObjectPane_busy SemanticObjectPane_disabled SemanticObjectPane_error SemanticObjectPane_notarget");
+          }
+          else if (stylePresentationMode == _SemanticObjectPane.prototype.ERROR) {
+            domClass.replace(domNode,
+              "SemanticObjectPane_error",
+              "SemanticObjectPane_enabled SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_notarget");
+          }
+          else { // NOTARGET
+            domClass.replace(domNode,
+              " SemanticObjectPane_notarget",
+              "SemanticObjectPane_enabled SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_error SemanticObjectPane_disabled");
+          }
         }
       }
 
@@ -280,7 +282,6 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
           this._wrappedDetails().forEach(function(wd) {
             wd.set("presentationMode", value);
           });
-          var myDomNode = this.get("domNode");
           var stylePresentationMode = this.get("stylePresentationMode");
           setStylepresentationMode(this, stylePresentationMode);
           this._localPresentationModeChange(value);
