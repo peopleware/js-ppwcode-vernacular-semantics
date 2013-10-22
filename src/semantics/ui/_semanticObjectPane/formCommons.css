@@ -119,6 +119,14 @@
   overflow-y: auto;
 }
 
+
+/* layout */
+
+.SemanticObjectPane .fields.dijitLayoutContainerPane {
+  padding: 0; /* override dijit ContentPane setting */
+}
+
+
 /* lists */
 
 .SemanticObjectPane .dgrid-grid.list,
@@ -172,10 +180,8 @@
 }
 
 .SemanticObjectPane .listBtnAdd {
-  position: absolute;
-  right: 10px;
-  margin-top: -1.5px;
-  margin-right: -1.5px;
+  float: right;
+  margin-right: 0;
 }
 
 .SemanticObjectPane .listSearch {
