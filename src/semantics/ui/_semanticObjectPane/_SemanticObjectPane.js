@@ -284,7 +284,10 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
           });
           var stylePresentationMode = this.get("stylePresentationMode");
           setStylepresentationMode(this, stylePresentationMode);
-          this._localPresentationModeChange(value);
+          if (!this._destroyed) {
+            // if we are destroyed, there are no more domNodes
+            this._localPresentationModeChange(value);
+          }
         },
 
         _localPresentationModeChange: function(/*String*/ presentationMode) {
