@@ -249,7 +249,8 @@
 }
 
 .extraButtons .dijitButton,
-.extraButtons .dijitDropDownButton {
+.extraButtons .dijitDropDownButton,
+.extraButtons .dijitToggleButton{
   float: right;
 }
 
