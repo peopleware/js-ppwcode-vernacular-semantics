@@ -43,7 +43,9 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         );
       }
 
-      function setStylepresentationMode(sop, stylePresentationMode) {
+      function setStylepresentationMode(sop, stylePresentationMode, /*Boolean?*/ created) {
+        // create:
+        //   Only relevant for "EDIT". Falsy if we are editing a fresh object, truthy if not.
         var domNode = sop.get("domNode");
         if (domNode) {
           var widgetState = null;
@@ -68,7 +70,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
             if (w.isInstanceOf(ValidationTextBox) || w.isInstanceOf(Output)
                 || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextarea) || w.isInstanceOf(CheckBox)
                 || w.isInstanceOf(Select)) {
-              w.set("readOnly", widgetState.readOnly);
+              w.set("readOnly", widgetState.readOnly || !!(created && w.cannotBeChangedAfterCreate));
               w.set("disabled", widgetState.disabled);
             }
           });
@@ -283,7 +285,8 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
             wd.set("presentationMode", value);
           });
           var stylePresentationMode = this.get("stylePresentationMode");
-          setStylepresentationMode(this, stylePresentationMode);
+          var target = this.get("target");
+          setStylepresentationMode(this, stylePresentationMode, target && target.get("persistenceId"));
           if (!this._destroyed) {
             // if we are destroyed, there are no more domNodes
             this._localPresentationModeChange(value);
