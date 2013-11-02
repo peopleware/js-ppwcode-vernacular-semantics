@@ -247,7 +247,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
             this._set("target", so);
           }
           this._propagateTarget(so);
-          this.set("presentationMode", so !== null && so.persistenceId === null ? this.EDIT : this.VIEW);
+          this.set("presentationMode", so && so.persistenceId === null ? this.EDIT : this.VIEW);
         },
 
         _propagateOpener: function(/*Function*/ opener) {
