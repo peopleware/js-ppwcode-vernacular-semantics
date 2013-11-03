@@ -157,6 +157,13 @@
   width: 10px;
 }
 
+.SemanticObjectPane .dijitTabPaneWrapper,
+.SemanticObjectPane .dijitTabContainerTop-child {
+  padding: 0;
+  background-color: transparent;
+}
+
+
 /* lists */
 
 /*.SemanticObjectPane .dgrid-grid.list,*/
