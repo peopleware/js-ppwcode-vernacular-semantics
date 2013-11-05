@@ -75,6 +75,64 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-contracts/_Mixin"
         getValue: function() {
           this._c_ABSTRACT();
           return null; // return object
+        },
+
+        canCoerceTo: function() {
+          // summary:
+          //   Array of the types this can coerceTo. Types to which we coerce with more
+          //   of our information intact should come earlier than types to which we coerce
+          //   with more loss of information.
+
+          return [this.constructor];
+        },
+
+        coerceTo: function(/*Function*/ Type) {
+          // summary:
+          //   Try to return a value of Type, that is similar to this.
+          //   It might contain less information.
+          //   If this is not possible, returns undefined.
+          //   The default implementation returns this only for its exact type, and undefined otherwise.
+
+          function coercionChain(FromType) {
+            if (FromType.prototype.canCoerceTo().indexOf(Type) >= 0) {
+              return [Type];
+            }
+            // else, maybe one of the types FromType can coerce to, can itself coerce to Type
+            var FromFromTypes = FromType.prototype.canCoerceTo();
+            var FromFromType = FromFromTypes.shift();
+            while (FromFromType) {
+              if (FromFromType !== FromType) { // otherwise we have an infinite loop
+                var partialChain = coercionChain(FromFromType);
+                if (partialChain) { // we have a solution
+                  return partialChain;
+                }
+              }
+            }
+            // we have no solution
+            return undefined;
+          }
+
+          return coercionChain(this.constructor).reduce(
+            function(acc, ToType) {
+              return acc._coerceTo(ToType);
+            },
+            this
+          );
+        },
+
+        _coerceTo: function(/*Function*/ Type) {
+            // summary:
+            //   Try to return a value of Type, that is similar to this.
+            //   It might contain less information. NEVER coerce to a Type that requires more information,
+            //   e.g., by using a default for the missing information. This will result in module dependency
+            //   cycles!
+            //   If this is not possible, return undefined.
+            //   The default implementation returns this only for its exact type, and undefined otherwise.
+
+          if (Type === this.constructor) {
+            return this;
+          }
+          return undefined;
         }
 
       });
