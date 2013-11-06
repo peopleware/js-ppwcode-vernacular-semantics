@@ -163,6 +163,19 @@
   background-color: transparent;
 }
 
+.SemanticObjectPane .dijitAccordionContainer .dijitAccordionChildWrapper,
+.SemanticObjectPane .dijitAccordionContainer .dijitAccordionContainer-child,
+.SemanticObjectPane .dijitAccordionContainer .dijitAccordionInnerContainerSelected {
+  padding: 0;
+  background-color: transparent;
+}
+
+.SemanticObjectPane .dijitAccordionContainer .dijitAccordionChildWrapper {
+  margin: 0;
+  border-style: none;
+  border-width: 0;
+}
+
 
 /* lists */
 
