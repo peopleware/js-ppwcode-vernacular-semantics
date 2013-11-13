@@ -139,8 +139,8 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         _c_invar: [
           function() {return this.get("presentationMode");},
           function() {return this.presentationModes.indexOf(this.get("presentationMode")) >= 0;},
-          function() {return this.getTargetType() != null;},
-          // TODO getTargetType is a subtype of SemanticObject
+          function() {return this.getTargetType();},
+          function() {return this.getTargetType().prototype.isInstanceOf(SemanticObject);},
           function() {return this.get("target") == null ||
                         (this.get("target").isInstanceOf && this.get("target").isInstanceOf(this.getTargetType()));},
           function() {return this.get("stylePresentationMode");},
