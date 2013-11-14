@@ -104,20 +104,28 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-contracts/_Mixin"
               if (FromFromType !== FromType) { // otherwise we have an infinite loop
                 var partialChain = coercionChain(FromFromType);
                 if (partialChain) { // we have a solution
+                  partialChain.shift(FromFromType);
                   return partialChain;
                 }
               }
+              FromFromType = FromFromTypes.shift();
             }
             // we have no solution
             return undefined;
           }
 
-          return coercionChain(this.constructor).reduce(
-            function(acc, ToType) {
-              return acc._coerceTo(ToType);
-            },
-            this
-          );
+          var chain = coercionChain(this.constructor);
+          if (chain) {
+            return chain.reduce(
+              function(acc, ToType) {
+                return acc._coerceTo(ToType);
+              },
+              this
+            );
+          }
+          else {
+            return undefined;
+          }
         },
 
         _coerceTo: function(/*Function*/ Type) {
