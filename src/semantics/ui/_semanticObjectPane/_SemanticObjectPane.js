@@ -69,9 +69,12 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
           innerWidgets.forEach(function (w) {
             if (w.isInstanceOf(ValidationTextBox) || w.isInstanceOf(Output)
                 || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(SimpleTextarea) || w.isInstanceOf(CheckBox)
-                || w.isInstanceOf(Select) || (w.isInstanceOf(InlineEditBox))) {
+                || w.isInstanceOf(Select)) {
               w.set("readOnly", widgetState.readOnly || !!(created && w.cannotBeChangedAfterCreate));
               w.set("disabled", widgetState.disabled);
+            }
+            else if (w.isInstanceOf(InlineEditBox)) { // only supports disabled, which === readOnly
+              w.set("disabled", widgetState.disabled || widgetState.readOnly || !!(created && w.cannotBeChangedAfterCreate));
             }
           });
           if (stylePresentationMode == _SemanticObjectPane.prototype.VIEW ||
