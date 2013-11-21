@@ -1,3 +1,19 @@
+/*
+ Copyright 2012 - $Date $ by PeopleWare n.v.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+
 define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "ppwcode-util-oddsAndEnds/js"],
     function(declare, PpwCodeObject, Stateful, when, js) {
 
@@ -91,18 +107,17 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
             return this;
           }
 
-          var names = this._getAttrNames(name),
-            oldValue = this._get(name, names),
-            setter = this[names.s],
-            result;
+          var names = this._getAttrNames(name);
+          var oldValue = this._get(name, names);
+          var setter = this[names.s];
           if (typeof setter === "function") {
             // use the explicit setter
-            result = setter.apply(this, Array.prototype.slice.call(arguments, 1));
+            setter.apply(this, Array.prototype.slice.call(arguments, 1));
           } else {
             // no setter so set attribute directly
             this._changeAttrValue(name, value);
           }
-          return this; // return be.ppwcode-vernacular-semantics.SemanticObject
+          return this; // return SemanticObject
         },
 
         _changeAttrValue: function(name, value) {
