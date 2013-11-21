@@ -39,7 +39,7 @@ define(["dojo/_base/declare", "dojo/Stateful", "ppwcode-util-contracts/_Mixin", 
         //   Mixin that adds the ability to create virtual properties that delegate to other properties.
         //   Only makes sense with Stateful.
 
-        // IDEA created to save code that is ultimately not used; untested
+        // TODO created to save code that is ultimately not used; untested; DO NOT USE IN THIS STATE!
 
         _c_invar: [
         ],

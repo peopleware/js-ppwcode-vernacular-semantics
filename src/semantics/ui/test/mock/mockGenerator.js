@@ -39,11 +39,6 @@ define(["dojo/_base/declare"],
             function() {return this._c_prop_string("tel")}
           ],
 
-          constructor:function (/*Object*/ props) {
-            this._c_pre(function() {return !props});
-            // TODO this should be removed when the superclass does it for us
-          },
-
           name: null,
           street: null,
           zip: null,
@@ -51,7 +46,7 @@ define(["dojo/_base/declare"],
           tel: null,
 
           wildExceptions: function() {
-            var cpe = [];// MUDO CompoundPropertyException
+            var cpe = [];// TODO CompoundPropertyException
             if (! this.get("name") || this.get("name") === "") {
               cpe.push({source: this, propertyName: "name", message: "MANDATORY"});
             }

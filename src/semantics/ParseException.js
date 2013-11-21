@@ -51,7 +51,7 @@ define(["dojo/_base/declare", "ppwcode-vernacular-exceptions/SemanticException"]
           this.options === other.options;
       }
 
-      // TODO need JSON and toString
+      // TODO need JSON and toString?
 
     });
 
