@@ -14,8 +14,10 @@
  limitations under the License.
 */
 
-define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "ppwcode-util-oddsAndEnds/js"],
-    function(declare, PpwCodeObject, Stateful, when, js) {
+define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "ppwcode-util-oddsAndEnds/js",
+        "ppwcode-vernacular-exceptions/SemanticException", "ppwcode-vernacular-exceptions/CompoundSemanticException", "ppwcode-vernacular-exceptions/PropertyException"],
+    function(declare, PpwCodeObject, Stateful, when, js,
+             SemanticException, CompoundSemanticException, PropertyException) {
 
       /*
          NOTE:
@@ -87,6 +89,35 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
         // lastReloaded: Date?
         //   The time of last reload.
         lastReloaded: null,
+
+        constructor: function() {
+          var self = this;
+          var previousWildExceptions = {wildExceptions: new CompoundSemanticException()};
+          var holisticWildExceptionsListener = self.watch(function(propertyName) {
+            if (propertyName !== "wildExceptions") { // otherwise we have a loop
+              var currentWildExceptions = self.getWildExceptions();
+              var perProperty = currentWildExceptions.children.reduce(
+                function(acc, semanticException) {
+                  if (semanticException.isInstanceOf(PropertyException) && semanticException.sender === self) {
+                    if (!acc[semanticException.propertyName]) {
+                      acc[semanticException.propertyName] = new CompoundSemanticException();
+                    }
+                    acc[semanticException.propertyName].add(semanticException);
+                  }
+                },
+                {wildExceptions: currentWildExceptions}
+              );
+              for (var propName in perProperty) {
+                if (previousWildExceptions[propName] ?
+                    !perProperty[propName].like(previousWildExceptions[propName]) :
+                    !perProperty[propName].isEmpty()) {
+                  self._watchCallbacks(propName, previousWildExceptions[propName], perProperty[propName]);
+                  previousWildExceptions[propName] = perProperty[propName];
+                }
+              }
+            }
+          });
+        },
 
         postscript: function() {
           // summary:
@@ -161,6 +192,79 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
           //   Default is true, but can be overridden.
 
           return true
+        },
+
+        _wildExceptionsGetter: function() {
+          // summary:
+          //   Watchable property that reports the current wildExceptions for all properties of this object.
+
+          return this.getWildExceptions();
+        },
+
+        _wildExceptionsSetter: function() {
+          throw "ERROR: wild exceptions cannot be set.";
+        },
+
+        getWildExceptions: function(/*String?*/ propertyName, /*CompoundPropertyException?*/ compoundSemanticException) {
+          // summary:
+          //   Get the wild exceptions for the current state of this concerning `propertyName`, or the entire object
+          //   if no propertyName is given. This method always returns an unclosed CompoundPropertyException, which
+          //   might be empty.
+          //   If a CompoundPropertyException is given as the second argument, it is returned, with optionally
+          //   children added to it. If no second argument is given, a new CompoundPropertyException is returned.
+          // description:
+          //   To calculate the wild exceptions for a given property, add a method with name "_PROPERTYNAMEValidator".
+          //   It will be called with the current value of the given property as argument. The method must return an array
+          //   always, that might be empty. The elements of the array are, or represent, SemanticExceptions.
+          //   If the element is not a SemanticException, but a String, we create a PropertyException for you,
+          //   for the property we are validating with this as sender. The String is used as key. Otherwise,
+          //   we will interpret the element as kwargs for the construction of a new PropertyException, if we find
+          //   a sender or a propertyName in there.
+          //   Other elements are not allowed.
+          //
+          //   Pseudo-properties exist for the validation of each property, and the object as a whole. These are provided
+          //   to make it possible to bind to the validation state of each property or the object as a whole. Events
+          //   are send for the pseudo-properties when the validation state of a property changes.
+          //   The name of the pseudo-property for a given PROPERTYNAME is "PROPERTYNAME-wildExceptions".
+          //   The name of the pseudo-property for the object as a whole is "wildExceptions".
+
+          var self = this;
+          var cpe = compoundSemanticException || new CompoundSemanticException();
+          if (propertyName || propertyName === "") {
+            var validatorName = "_" + propertyName + "Validator";
+            var validator = self[validatorName];
+            if (js.typeOf(validator) === "function") {
+              var currentValue = self.get("propertyName");
+              var validatorResult = validator.call(self, currentValue);
+              if (!js.typeOf(validatorResult)) {
+                throw "ERROR: validator must return an array (" + validatorName + " on " + self.toString() + ")";
+              }
+              validatorResult.forEach(function(wildExceptionDefinition) {
+                if (js.typeOf(wildExceptionDefinition) === "string") {
+                  // just a key; create a PropertyException for this propertyName and this
+                  cpe.add(new PropertyException({key: wildExceptionDefinition, sender: self, propertyName: propertyName}));
+                }
+                else if (wildExceptionDefinition.isInstanceOf && wildExceptionDefinition.isInstanceOf(SemanticException)) {
+                  cpe.add(wildExceptionDefinition);
+                }
+                else if (wildExceptionDefinition.sender || wildExceptionDefinition.propertyName) {
+                  // we interpret it as the kwargs of a PropertyException if we have a sender or a propertyName
+                  cpe.add(new PropertyException(wildExceptionDefinition));
+                }
+                else {
+                  throw "ERROR: could not interpret validator result " + wildExceptionDefinition + " (" + validatorName + " on " + self.toString() + ")";
+                }
+              });
+            }
+            // else, return the empty cpe
+          }
+          else { // validate the whole object
+            var allKeys = js.getAllKeys(self);
+            allKeys.forEach(function(possiblePropertyName) {
+              self.getWildExceptions(possiblePropertyName, cpe);
+            });
+          }
+          return cpe; // return CompoundPropertyException
         },
 
         getLabel: function(/*Object*/ options) {
