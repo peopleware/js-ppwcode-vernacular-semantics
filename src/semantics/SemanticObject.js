@@ -60,10 +60,13 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
         var result;
         switch (js.typeOf(newValue)) {
           case "array":
-            result = (js.typeOf(oldValue) !== "array") ||
+            result = (
+              js.typeOf(oldValue) !== "array") ||
+              (newValue.length === 0 && oldValue.length !== 0) ||
               newValue.some(function(element, index) {
                 return areDifferentValues(element, oldValue[index]);
-              });
+              }
+            );
             break;
           default:
             result = (newValue != oldValue);
