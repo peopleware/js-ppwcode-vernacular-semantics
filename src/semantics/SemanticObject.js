@@ -94,7 +94,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
           var self = this;
           var previousWildExceptions = {wildExceptions: new CompoundSemanticException()};
           var holisticWildExceptionsListener = self.watch(function(propertyName) {
-            if (propertyName !== "wildExceptions") { // otherwise we have a loop
+            if (!propertyName || propertyName.indexOf("wildExceptions") < 0) { // otherwise we have a loop
               var currentWildExceptions = self.getWildExceptions();
               var perProperty = currentWildExceptions.children.reduce(
                 function(acc, semanticException) {
@@ -104,6 +104,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
                     }
                     acc[semanticException.propertyName].add(semanticException);
                   }
+                  return acc;
                 },
                 {wildExceptions: currentWildExceptions}
               );
@@ -111,7 +112,8 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
                 if (previousWildExceptions[propName] ?
                     !perProperty[propName].like(previousWildExceptions[propName]) :
                     !perProperty[propName].isEmpty()) {
-                  self._watchCallbacks(propName, previousWildExceptions[propName], perProperty[propName]);
+                  var pseudoPropName = (propName === "wildExceptions" ? propName : propName + "-wildExceptions");
+                  self._watchCallbacks(pseudoPropName, previousWildExceptions[propName], perProperty[propName]);
                   previousWildExceptions[propName] = perProperty[propName];
                 }
               }
@@ -234,7 +236,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
             var validatorName = "_" + propertyName + "Validator";
             var validator = self[validatorName];
             if (js.typeOf(validator) === "function") {
-              var currentValue = self.get("propertyName");
+              var currentValue = self.get(propertyName);
               var validatorResult = validator.call(self, currentValue);
               if (!js.typeOf(validatorResult)) {
                 throw "ERROR: validator must return an array (" + validatorName + " on " + self.toString() + ")";
