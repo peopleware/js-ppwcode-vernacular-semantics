@@ -171,6 +171,46 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
           return this; // return SemanticObject
         },
 
+        watch: function(/*String?*/name, /*Function*/callback){
+          // summary:
+          //		Watches a property for changes
+          //   This changes the standard Stateful method so that we can listen to prototype properties too.
+          // name:
+          //		Indicates the property to watch. This is optional (the callback may be the
+          //		only parameter), and if omitted, all the properties will be watched
+          // returns:
+          //		An object handle for the watch. The unwatch method of this object
+          //		can be used to discontinue watching this property:
+          //		|	var watchHandle = obj.watch("foo", callback);
+          //		|	watchHandle.unwatch(); // callback won't be called now
+          // callback:
+          //		The function to execute when the property changes. This will be called after
+          //		the property has been changed. The callback will be called with the |this|
+          //		set to the instance, the first argument as the name of the property, the
+          //		second argument as the old value and the third argument as the new value.
+
+          var callbacks = this._watchCallbacks;
+          if(!this.hasOwnProperty("_watchCallbacks")) {
+            var self = this;
+            callbacks = this._watchCallbacks = function(name, oldValue, value, ignoreCatchall){
+              var notify = function(propertyCallbacks){
+                if(propertyCallbacks){
+                  propertyCallbacks = propertyCallbacks.slice();
+                  for(var i = 0, l = propertyCallbacks.length; i < l; i++){
+                    propertyCallbacks[i].call(self, name, oldValue, value);
+                  }
+                }
+              };
+              notify(callbacks['_' + name]);
+              if(!ignoreCatchall){
+                notify(callbacks["*"]); // the catch-all
+              }
+            }; // we use a function instead of an object so it will be ignored by JSON conversion
+          }
+          // for the rest, we reuse the code of Stateful; there the above if will now always be skipped
+          return this.inherited(arguments);
+        },
+
         _editableSetter: function(value) {
           // summary:
           //   Default is that this cannot be set in the application, but can be overridden.
