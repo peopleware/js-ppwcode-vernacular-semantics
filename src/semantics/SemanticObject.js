@@ -51,15 +51,9 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
             to the minimum requirement, certainly not to send events.
        */
 
-      // HACK Stateful adapation: Do not blindly copy all properties of the kwargs
-//      var statefulPrototype = Stateful.prototype;
-//      delete statefulPrototype.postscript;
-      // now hack is replaced by overriding postscript in our class; no side effects that way
-
       function areDifferentValues(newValue, oldValue) {
         var result;
-        switch (js.typeOf(newValue)) {
-          case "array":
+        if (js.typeOf(newValue) === "array") {
             result = (
               js.typeOf(oldValue) !== "array") ||
               (newValue.length === 0 && oldValue.length !== 0) ||
@@ -67,9 +61,12 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
                 return areDifferentValues(element, oldValue[index]);
               }
             );
-            break;
-          default:
-            result = (newValue != oldValue);
+        }
+        else if (newValue !== undefined && newValue !== null && newValue.equals) {
+          result = !(newValue.equals(oldValue));
+        }
+        else {
+          result = (newValue != oldValue);
         }
         return result;
       }
@@ -162,7 +159,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
           if(this._watchCallbacks) {
             // HACK send the actual new value in the event, not the supplied value
             var newValue = this.get(name);
-            // HACK only send if something changed; changed takes into account array-values
+            // HACK only send if something changed; changed takes into account array-values and objects that have an equals method
             if (areDifferentValues(newValue, oldValue)) {
               // HACK send the actual new value in the event, not the supplied value
               this._watchCallbacks(name, oldValue, newValue);
