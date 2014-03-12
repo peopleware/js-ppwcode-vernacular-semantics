@@ -92,22 +92,28 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
 
         constructor: function() {
           var self = this;
-          var previousWildExceptions = {wildExceptions: new CompoundSemanticException()};
+
+          function calcPerProperty(currentWildExceptions) {
+            var perProperty = currentWildExceptions.children.reduce(
+              function(acc, semanticException) {
+                if (semanticException.isInstanceOf(PropertyException) && semanticException.sender === self) {
+                  if (!acc[semanticException.propertyName]) {
+                    acc[semanticException.propertyName] = new CompoundSemanticException();
+                  }
+                  acc[semanticException.propertyName].add(semanticException);
+                }
+                return acc;
+              },
+              {wildExceptions: currentWildExceptions}
+            );
+            return perProperty;
+          }
+
+          var previousWildExceptions = calcPerProperty(self.getWildExceptions());
+
           var holisticWildExceptionsListener = self.watch(function(propertyName) {
             if (!propertyName || propertyName.indexOf("wildExceptions") < 0) { // otherwise we have a loop
-              var currentWildExceptions = self.getWildExceptions();
-              var perProperty = currentWildExceptions.children.reduce(
-                function(acc, semanticException) {
-                  if (semanticException.isInstanceOf(PropertyException) && semanticException.sender === self) {
-                    if (!acc[semanticException.propertyName]) {
-                      acc[semanticException.propertyName] = new CompoundSemanticException();
-                    }
-                    acc[semanticException.propertyName].add(semanticException);
-                  }
-                  return acc;
-                },
-                {wildExceptions: currentWildExceptions}
-              );
+              var perProperty = calcPerProperty(self.getWildExceptions());
               for (var propName in perProperty) {
                 if (previousWildExceptions[propName] ?
                     !perProperty[propName].like(previousWildExceptions[propName]) :
