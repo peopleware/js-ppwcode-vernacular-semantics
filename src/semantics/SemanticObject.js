@@ -127,14 +127,6 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
           });
         },
 
-        postscript: function() {
-          // summary:
-          //   Does nothing. This method is here to override the
-          //   stupid implementation of Stateful.
-
-          this._c_NOP();
-        },
-
         set: function(/*String*/name, /*Object*/value) {
           // Code copied from dojo/Stateful
           if(typeof name === "object"){
