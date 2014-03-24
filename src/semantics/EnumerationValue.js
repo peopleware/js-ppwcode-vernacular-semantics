@@ -233,10 +233,15 @@ define(["dojo/_base/declare", "./Value",
     function enumDeclare(/*Function?*/ SuperType, /*Object*/ prototypeDef, /*Array|Object*/ valueDefinitions, /*module|String*/ mod, /*String*/ bundleName) {
       if (js.typeOf(SuperType) !== "function") {
         // shift arguments
+        //noinspection AssignmentToFunctionParameterJS
         bundleName = mod;
+        //noinspection AssignmentToFunctionParameterJS
         mod = valueDefinitions;
+        //noinspection AssignmentToFunctionParameterJS
         valueDefinitions = prototypeDef;
+        //noinspection AssignmentToFunctionParameterJS
         prototypeDef = SuperType;
+        //noinspection AssignmentToFunctionParameterJS
         SuperType = EnumerationValue;
       }
 

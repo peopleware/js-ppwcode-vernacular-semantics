@@ -160,13 +160,13 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
           function() {return this.presentationModes.indexOf(this.get("presentationMode")) >= 0;},
           function() {return this.getTargetType();},
           function() {return this.getTargetType().prototype.isInstanceOf(SemanticObject);},
-          function() {return this.get("target") == null ||
+          function() {return this.get("target") === null ||
                         (this.get("target").isInstanceOf && this.get("target").isInstanceOf(this.getTargetType()));},
           function() {return this.get("stylePresentationMode");},
           function() {return this.stylePresentationModes.indexOf(this.get("stylePresentationMode")) >= 0;},
           function() {return (this.get("stylePresentationMode") === this.NOTARGET) === (this.get("target") === null);},
           function() {return this.get("target") !== null ? this.get("stylePresentationMode") === this.get("presentationMode") : true;},
-          function() {return this._wrappedDetails() != null;},
+          function() {return this._wrappedDetails() !== null;},
           function() {return lang.isArray(this._wrappedDetails());},
           {
             objectSelector: function() {
@@ -174,7 +174,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
             },
             invars: [
               function(wd) {
-                return wd && wd != null &&
+                return wd && wd !== null &&
                   wd.isInstanceOf && wd.isInstanceOf(_SemanticObjectPane);
               },
               // wrapped details might contain other objects of other types as target,
@@ -260,7 +260,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         _setTargetAttr: function(so) {
           // summary:
           //    Sets the target of this instance. Chained. Subtypes could add propagation to wrapped details.
-          this._c_pre(function() {return so == null || (so.isInstanceOf && so.isInstanceOf(this.getTargetType()));});
+          this._c_pre(function() {return so === null || (so.isInstanceOf && so.isInstanceOf(this.getTargetType()));});
 
           if (so !== this.get("target")) {
             this._set("target", so);
@@ -296,7 +296,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
           //    in the other presentationModes.
 
           // Called during create by _WidgetBase with default value automatically
-          this._c_pre(function() {return value != null});
+          this._c_pre(function() {return value !== null;});
           this._c_pre(function() {return _SemanticObjectPane.prototype.presentationModes.indexOf(value) >= 0});
 
           this._set("presentationMode", value);
