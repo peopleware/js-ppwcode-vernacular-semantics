@@ -38,7 +38,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
 
       // presentationMode and stylePresentationMode representing unacceptable data (the object is
       // not civilized, or we have other means of knowing the data is unacceptable).
-      // Interaction must be allowed to reset the object, or ammeliorate the data/
+      // Interaction must be allowed to reset the object, or ameliorate the data/
       // This means this is a sub-state of EDIT.
       "WILD",
 
