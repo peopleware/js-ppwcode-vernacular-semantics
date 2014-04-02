@@ -14,9 +14,9 @@
  limitations under the License.
 */
 
-define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "ppwcode-util-oddsAndEnds/js",
+define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_DerivedMixin", "dojo/when", "ppwcode-util-oddsAndEnds/js",
         "ppwcode-vernacular-exceptions/SemanticException", "ppwcode-vernacular-exceptions/CompoundSemanticException", "ppwcode-vernacular-exceptions/PropertyException"],
-    function(declare, PpwCodeObject, Stateful, when, js,
+    function(declare, PpwCodeObject, _DerivedMixin, when, js,
              SemanticException, CompoundSemanticException, PropertyException) {
 
       /*
@@ -71,7 +71,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
         return result;
       }
 
-      return declare([PpwCodeObject, Stateful], {
+      return declare([PpwCodeObject, _DerivedMixin], {
 
         _c_invar: [
           function() {return this._c_prop_bool("editable")},
@@ -90,7 +90,8 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
         //   The time of last reload.
         lastReloaded: null,
 
-        constructor: function() {
+        postscript: function() {
+          this.inherited(arguments);
           var self = this;
 
           function calcPerProperty(currentWildExceptions) {
@@ -299,12 +300,18 @@ define(["dojo/_base/declare", "./PpwCodeObject", "dojo/Stateful", "dojo/when", "
             // else, return the empty cpe
           }
           else { // validate the whole object
-            var allKeys = js.getAllKeys(self);
+            var allKeys = self._getAllKeys();
             allKeys.forEach(function(possiblePropertyName) {
               self.getWildExceptions(possiblePropertyName, cpe);
             });
           }
           return cpe; // return CompoundPropertyException
+        },
+
+        _getAllKeys: function() {
+          // summary:
+          //   Gets all the properties including the derived properties.
+          return js.getAllKeys(this).concat(this.getAllDerivedPropertyNames()); // return String[]
         },
 
         getLabel: function(/*Object*/ options) {
