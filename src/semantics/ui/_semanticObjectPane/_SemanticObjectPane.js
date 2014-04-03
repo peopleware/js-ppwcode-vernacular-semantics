@@ -17,13 +17,13 @@
 define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang", "dijit/registry",
         "dojo/dom-class",
         "dijit/_WidgetBase", "../../SemanticObject",
-        "dijit/form/TextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect",
+        "dijit/form/TextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/Editor",
         "dijit/form/CheckBox", "dijit/form/Select", "dijit/InlineEditBox",
         "xstyle/css!./_SemanticObjectPane.css"],
   function(declare, _ContractMixin, lang, registry,
            domClass,
            _WidgetBase, SemanticObject,
-           TextBox, Output, CheckedMultiSelect,
+           TextBox, Output, CheckedMultiSelect, Editor,
            CheckBox, Select, InlineEditBox) {
 
     var presentationModes = [
@@ -91,7 +91,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
             w.set("readOnly", widgetState.readOnly || !!(created && w.cannotBeChangedAfterCreate));
             w.set("disabled", widgetState.disabled);
           }
-          else if (w.isInstanceOf(InlineEditBox)) { // only supports disabled, which === readOnly
+          else if (w.isInstanceOf(InlineEditBox) || w.isInstanceOf(Editor)) { // only supports disabled, which === readOnly
             w.set("disabled",
                   widgetState.disabled ||
                   widgetState.readOnly ||

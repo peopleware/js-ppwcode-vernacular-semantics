@@ -111,11 +111,13 @@
   right: 10px;
 }
 
-
 .SemanticObjectPane .dojoxCheckedMultiSelectHidden {
   display: none;
 }
 
+.dijitEditorDisabled .dijitToolbar {
+  display: none;
+}
 
 
 /* labels */
