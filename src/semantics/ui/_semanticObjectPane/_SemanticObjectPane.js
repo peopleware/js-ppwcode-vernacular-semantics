@@ -70,7 +70,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         //noinspection FallthroughInSwitchStatementJS
         switch (stylePresentationMode) {
           case _SemanticObjectPane.prototype.NOTARGET:
-            widgetState = { readOnly:false, disabled:true };
+            widgetState = { readOnly:true, disabled:true };
             break;
           case _SemanticObjectPane.prototype.EDIT:
           case _SemanticObjectPane.prototype.WILD:
@@ -87,7 +87,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         innerWidgets.forEach(function (w) {
           if (w.isInstanceOf(TextBox) || w.isInstanceOf(Output)
                 || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(CheckBox)
-                || w.isInstanceOf(Select)) {
+                || w.isInstanceOf(Select) || w.stylePresentationModeDependent) {
             w.set("readOnly", widgetState.readOnly || !!(created && w.cannotBeChangedAfterCreate));
             w.set("disabled", widgetState.disabled);
           }
