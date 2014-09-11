@@ -12,14 +12,14 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
 define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang", "dijit/registry",
-        "dojo/dom-class",
-        "dijit/_WidgetBase", "../../SemanticObject",
-        "dijit/form/TextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/Editor",
-        "dijit/form/CheckBox", "dijit/form/Select", "dijit/InlineEditBox",
-        "xstyle/css!./_SemanticObjectPane.css"],
+    "dojo/dom-class",
+    "dijit/_WidgetBase", "../../SemanticObject",
+    "dijit/form/TextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/Editor",
+    "dijit/form/CheckBox", "dijit/form/Select", "dijit/InlineEditBox",
+    "xstyle/css!./_SemanticObjectPane.css"],
   function(declare, _ContractMixin, lang, registry,
            domClass,
            _WidgetBase, SemanticObject,
@@ -52,9 +52,19 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
 
 
     function recursiveChildWidgets(domNode) {
+      // summary:
+      //   Returns an Array of all input fields in all widgets, including child widgets,
+      //   that are eligible for a state change.
+      // description:
+      //   All input fields in the widgets are returned by defaults.
+      //   Widgets on which the property `ignoreStylePresentationModeChange` is set to true are ignored.
+      //   These widgets take responsibility of managing their state themselves.
+      //   This option was introduced to allow overriding the default behaviour.
       return registry.findWidgets(domNode).reduce(
         function(acc, w) {
-          acc.push(w);
+          if (!w.ignoreStylePresentationModeChange) {
+            acc.push(w);
+          }
           return acc.concat(recursiveChildWidgets(w.domNode));
         },
         []
@@ -86,20 +96,20 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         var innerWidgets = recursiveChildWidgets(domNode);
         innerWidgets.forEach(function (w) {
           if (w.isInstanceOf(TextBox) || w.isInstanceOf(Output)
-                || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(CheckBox)
-                || w.isInstanceOf(Select) || w.stylePresentationModeDependent) {
+            || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(CheckBox)
+            || w.isInstanceOf(Select) || w.stylePresentationModeDependent) {
             w.set("readOnly", widgetState.readOnly || !!(created && w.cannotBeChangedAfterCreate));
             w.set("disabled", widgetState.disabled);
           }
           else if (w.isInstanceOf(InlineEditBox) || w.isInstanceOf(Editor)) { // only supports disabled, which === readOnly
             w.set("disabled",
-                  widgetState.disabled ||
-                  widgetState.readOnly ||
-                  !!(created && w.cannotBeChangedAfterCreate));
+                widgetState.disabled ||
+                widgetState.readOnly ||
+                !!(created && w.cannotBeChangedAfterCreate));
           }
         });
         if (stylePresentationMode === _SemanticObjectPane.prototype.VIEW ||
-            stylePresentationMode === _SemanticObjectPane.prototype.EDIT) {
+          stylePresentationMode === _SemanticObjectPane.prototype.EDIT) {
           domClass.replace(domNode,
             "SemanticObjectPane_enabled",
             "SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error SemanticObjectPane_notarget");
@@ -166,7 +176,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         function() {return this.getTargetType();},
         function() {return this.getTargetType().prototype.isInstanceOf(SemanticObject);},
         function() {return this.get("target") === null ||
-                      (this.get("target").isInstanceOf && this.get("target").isInstanceOf(this.getTargetType()));},
+          (this.get("target").isInstanceOf && this.get("target").isInstanceOf(this.getTargetType()));},
         function() {return this.get("stylePresentationMode");},
         function() {return this.stylePresentationModes.indexOf(this.get("stylePresentationMode")) >= 0;},
         function() {return (this.get("stylePresentationMode") === this.NOTARGET) === (this.get("target") === null);},
