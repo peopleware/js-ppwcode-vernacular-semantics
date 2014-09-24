@@ -17,7 +17,7 @@
 /*
   Vertical position is controlled by using full-width block-elements, e.g., .formRow.
   These elements should have a definite height, expressed relative to the font (e.g., ex or em).
-  All these block-elements should be set to a heigth that includes all there children effectively.
+  All these block-elements should be set to a height that includes all their children effectively.
 
   Horizontal positioning is done with absolute positioning, on px basis, within the block-elements
   that control vertical positioning. The absolute positioning anchor is the semantic object pane,
