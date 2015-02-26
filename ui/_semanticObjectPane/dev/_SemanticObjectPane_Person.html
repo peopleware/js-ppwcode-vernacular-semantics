@@ -43,21 +43,27 @@
 
   <script type="text/javascript">
     function cycle() {
+      //noinspection MagicNumberJS
       setTimeout(function() {
         person.set("name", "NEW NAME");
       }, 1000);
+      //noinspection MagicNumberJS
       setTimeout(function() {
         subject.set("presentationMode", subject.EDIT);
       }, 2000);
+      //noinspection MagicNumberJS
       setTimeout(function() {
         subject.set("presentationMode", subject.BUSY);
       }, 3000);
+      //noinspection MagicNumberJS
       setTimeout(function() {
         subject.set("presentationMode", subject.WILD);
       }, 4000);
+      //noinspection MagicNumberJS
       setTimeout(function() {
         subject.set("presentationMode", subject.ERROR);
       }, 5000);
+      //noinspection MagicNumberJS
       setTimeout(function() {
         subject.set("presentationMode", subject.VIEW);
       }, 6000);
