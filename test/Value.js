@@ -66,7 +66,7 @@ define(["ppwcode-util-contracts/doh",
 
     function subjectValue(subject, propertyName, json2objectPropertyNames) {
       return json2objectPropertyNames && json2objectPropertyNames.hasOwnProperty(propertyName)
-        ? subject[json2objectPropertyNames[propertyName]]
+        ? subject[json2objectPropertyNames[propertyName]] // jshint ignore:line
         : subject[propertyName];
     }
 
@@ -79,7 +79,7 @@ define(["ppwcode-util-contracts/doh",
         throw "CANNOT CREATE TESTS: no value type constructor.";
       }
       if (!Constructor.mid) {
-        throw "CANNOT CREATE TESTS: value type constructor has no mid"
+        throw "CANNOT CREATE TESTS: value type constructor has no mid";
       }
       doh.register(Constructor.mid, [
 
@@ -327,7 +327,7 @@ define(["ppwcode-util-contracts/doh",
           }
         }
 
-      ])
+      ]);
     }
 
     testGeneratorValue(

@@ -53,7 +53,7 @@ define(["dojo/_base/declare", "dojo/Stateful", "ppwcode-util-contracts/_Mixin", 
                 // fake the events
                 self._watchCallbacks(dependentPropertyName, previousValue, newValue);
               }
-            }
+            };
           }
 
           self.inherited(arguments);

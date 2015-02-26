@@ -32,11 +32,11 @@ define(["dojo/_base/declare"],
         return declare([BaseType], {
 
           _c_invar:[
-            function() {return this._c_prop_string("name")},
-            function() {return this._c_prop_string("street")},
-            function() {return this._c_prop_string("zip")},
-            function() {return this._c_prop_string("city")},
-            function() {return this._c_prop_string("tel")}
+            function() {return this._c_prop_string("name");},
+            function() {return this._c_prop_string("street");},
+            function() {return this._c_prop_string("zip");},
+            function() {return this._c_prop_string("city");},
+            function() {return this._c_prop_string("tel");}
           ],
 
           name: null,
@@ -55,7 +55,7 @@ define(["dojo/_base/declare"],
 
           reload: function(json) {
             this._c_pre(function() { return (json !== null); });
-            this._c_pre(function() {return json.name && json.name !== null && json.name !== ""});
+            this._c_pre(function() {return json.name && json.name !== null && json.name !== "";});
 
             this.set("name", json.name);
             this.set("street", nonEmptyStringOrNull(json.street));
@@ -90,14 +90,14 @@ define(["dojo/_base/declare"],
         return declare([Person], {
 
           _c_invar:[
-            function() {return this._c_prop_string("email")}
+            function() {return this._c_prop_string("email");}
           ],
 
           email: null,
 
           reload: function(json) {
             this._c_pre(function() { return (json !== null); });
-            this._c_pre(function() {return json.name && json.name !== null && json.name !== ""});
+            this._c_pre(function() {return json.name && json.name !== null && json.name !== "";});
 
             this.set("email", nonEmptyStringOrNull(json.email));
           },

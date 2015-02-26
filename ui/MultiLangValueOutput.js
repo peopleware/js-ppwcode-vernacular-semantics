@@ -32,7 +32,7 @@ define(["dojo/_base/declare", "ppwcode-util-oddsAndEnds/ui/MultiLangFormatOutput
       value: null,
 
       format: function(/*Value*/ value, /*Object*/ options) {
-        return value.constructor.format(value, options)
+        return value.constructor.format(value, options);
       }
 
     });

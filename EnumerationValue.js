@@ -37,7 +37,7 @@ define(["dojo/_base/declare", "./Value",
       //   If we don't find a locale in the options, we use the default locale.
 
       _c_invar: [
-        function() {return js.typeOf(this.toJSON()) === "string" && this.toJSON() != "";}
+        function() {return js.typeOf(this.toJSON()) === "string" && this.toJSON() !== "";}
       ],
 
       // _representation: String
@@ -107,7 +107,12 @@ define(["dojo/_base/declare", "./Value",
 
       if (!EnumDef._values) {
         EnumDef._values = Object.keys(EnumDef).
-          filter(function(key) {return key != "superclass" && EnumDef[key] && EnumDef[key].isInstanceOf && EnumDef[key].isInstanceOf(EnumerationValue)}).
+          filter(function(key) {
+            return key !== "superclass" &&
+                   EnumDef[key] &&
+                   EnumDef[key].isInstanceOf &&
+                   EnumDef[key].isInstanceOf(EnumerationValue);
+          }).
           map(function(key) {return EnumDef[key];});
       }
       return EnumDef._values;
@@ -193,7 +198,7 @@ define(["dojo/_base/declare", "./Value",
         actualKey += "_" + options.keyExtension;
       }
       var result = getBundle(v.constructor, lang)[actualKey];
-      if (!result && result != "") {
+      if (!result && result !== "") {
         if (!(options && options.keyExtension)) {
           return v._representation;
         }
@@ -230,7 +235,11 @@ define(["dojo/_base/declare", "./Value",
       return lang.partial(f, EnumValueConstructor);
     }
 
-    function enumDeclare(/*Function?*/ SuperType, /*Object*/ prototypeDef, /*Array|Object*/ valueDefinitions, /*module|String*/ mod, /*String*/ bundleName) {
+    function enumDeclare(/*Function?*/ SuperType,
+                         /*Object*/ prototypeDef,
+                         /*Array|Object*/ valueDefinitions,
+                         /*module|String*/ mod,
+                         /*String*/ bundleName) {
       if (js.typeOf(SuperType) !== "function") {
         // shift arguments
         //noinspection AssignmentToFunctionParameterJS
@@ -266,7 +275,7 @@ define(["dojo/_base/declare", "./Value",
           });
           break;
         default:
-          // NOP
+        // NOP
       }
       Enum.isJson = methodFactory(Enum, isEnumJson);
       Enum.revive = methodFactory(Enum, enumRevive);
