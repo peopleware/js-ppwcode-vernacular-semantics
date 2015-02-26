@@ -75,6 +75,9 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
     function setStylePresentationMode(sop, stylePresentationMode, /*Boolean?*/ created) {
       // create:
       //   Only relevant for "EDIT". Falsy if we are editing a fresh object, truthy if not.
+
+      // TODO method to complex. refactor.
+
       var domNode = sop.get("domNode");
       if (domNode) {
         var widgetState = null;
