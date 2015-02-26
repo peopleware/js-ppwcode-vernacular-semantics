@@ -14,11 +14,11 @@
  limitations under the License.
 */
 
-define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_DerivedMixin", "dojo/when",
+define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_DerivedMixin",
         "ppwcode-util-oddsAndEnds/js",
         "ppwcode-vernacular-exceptions/SemanticException", "ppwcode-vernacular-exceptions/CompoundSemanticException",
         "ppwcode-vernacular-exceptions/PropertyException"],
-  function(declare, PpwCodeObject, _DerivedMixin, when, js,
+  function(declare, PpwCodeObject, _DerivedMixin, js,
            SemanticException, CompoundSemanticException, PropertyException) {
 
     /*
