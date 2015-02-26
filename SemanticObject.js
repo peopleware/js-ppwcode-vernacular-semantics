@@ -73,10 +73,10 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
     return declare([PpwCodeObject, _DerivedMixin], {
 
       _c_invar: [
-        function() {return this._c_prop_bool("editable")},
-        function() {return this._c_prop_mandatory("editable")},
-        function() {return this._c_prop_bool("deletable")},
-        function() {return this._c_prop_mandatory("deletable")}
+        function() {return this._c_prop_bool("editable");},
+        function() {return this._c_prop_mandatory("editable");},
+        function() {return this._c_prop_bool("deletable");},
+        function() {return this._c_prop_mandatory("deletable");}
       ],
 
       "-chains-": {
@@ -132,7 +132,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
         // Code copied from dojo/Stateful
         if (typeof name === "object") {
           for (var x in name) {
-            if (name.hasOwnProperty(x) && x != "_watchCallbacks") {
+            if (name.hasOwnProperty(x) && x !== "_watchCallbacks") {
               this.set(x, name[x]);
             }
           }
@@ -198,7 +198,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
                 }
               }
             };
-            notify(callbacks['_' + name]);
+            notify(callbacks["_" + name]);
             if (!ignoreCatchall) {
               notify(callbacks["*"]); // the catch-all
             }
@@ -234,7 +234,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
         // summary:
         //   Default is true, but can be overridden.
 
-        return true
+        return true;
       },
 
       _wildExceptionsGetter: function() {
