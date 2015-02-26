@@ -15,9 +15,9 @@
 */
 
 define(["./mockGenerator", "./Person"],
-    function (generator, Person) {
+    function (mockGenerator, Person) {
 
-      return generator.specialPersonClass(Person);
+      return mockGenerator.specialPersonClass(Person);
 
     }
 );

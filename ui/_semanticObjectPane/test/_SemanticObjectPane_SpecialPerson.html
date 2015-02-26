@@ -49,18 +49,25 @@ limitations under the License.
 
 <script type="text/javascript">
 require(["dojo/parser",
-        "ppwcode-util-contracts/doh",
-        "ppwcode-vernacular-semantics/SemanticObject",
-        "ppwcode-vernacular-semantics/ui/test/mock/SpecialPerson",
-        "dijit/registry",
-        "ppwcode-vernacular-semantics/ui/_semanticObjectPane/test/semanticObjectPaneTestGenerator",
-        "ppwcode-vernacular-semantics/ui/_semanticObjectPane/test/mock/SpecialPersonPane",
-        "dojo/domReady!"],
-  function(parser, doh, SemanticObject, SpecialPerson, registry, generator) {
+         "ppwcode-util-contracts/doh",
+         "ppwcode-vernacular-semantics/SemanticObject",
+         "ppwcode-vernacular-semantics/ui/test/mock/SpecialPerson",
+         "dijit/registry",
+         "ppwcode-vernacular-semantics/ui/_semanticObjectPane/test/semanticObjectPaneTestGenerator",
+         "ppwcode-vernacular-semantics/ui/_semanticObjectPane/test/mock/SpecialPersonPane",
+         "dojo/domReady!"],
+  function(parser, doh, SemanticObject, SpecialPerson, registry, semanticObjectPaneTestGenerator) {
 
     var parsePromise = parser.parse();
     parsePromise.then(function() {
-      var json = {"name":"Pete Peeters","street":"Avenue de rue 93","zip":"1040 CAA","city":"Cité de Beauté","tel":"0322 44 442 22","email":"jandockx@hhh.org"};
+      var json = {
+        "name": "Pete Peeters",
+        "street": "Avenue de rue 93",
+        "zip": "1040 CAA",
+        "city": "Cité de Beauté",
+        "tel": "0322 44 442 22",
+        "email": "jandockx@hhh.org"
+      };
 
       function createSpecialPerson() {
         var person = new SpecialPerson();
@@ -75,7 +82,7 @@ require(["dojo/parser",
 
       doh.register(
         "_Semantic Object Pane - SpecialPerson",
-        generator(subject, SemanticObject, createSpecialPerson, "name", "NEW NAME", "_personPane.txtName")
+        semanticObjectPaneTestGenerator(subject, SemanticObject, createSpecialPerson, "name", "NEW NAME", "_personPane.txtName")
       );
       doh.run();
     });
@@ -86,7 +93,8 @@ require(["dojo/parser",
 
 <body class="claro">
 <!-- Define an instance of the widget to test. -->
-<div id="subject" data-dojo-type="ppwcode-vernacular-semantics/ui/_semanticObjectPane/test/mock/SpecialPersonPane"></div>
+<div id="subject"
+     data-dojo-type="ppwcode-vernacular-semantics/ui/_semanticObjectPane/test/mock/SpecialPersonPane"></div>
 </body>
 
 </html>

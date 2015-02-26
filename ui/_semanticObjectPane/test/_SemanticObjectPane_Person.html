@@ -55,11 +55,17 @@
              "ppwcode-vernacular-semantics/ui/_semanticObjectPane/test/semanticObjectPaneTestGenerator",
              "ppwcode-vernacular-semantics/ui/_semanticObjectPane/test/mock/PersonPane",
              "dojo/domReady!"],
-      function(parser, doh, SemanticObject, Person, registry, generator) {
+      function(parser, doh, SemanticObject, Person, registry, semanticObjectPaneTestGenerator) {
 
         var parsePromise = parser.parse();
         parsePromise.then(function() {
-          var json = {"name":"Pete Peeters","street":"Avenue de rue 93","zip":"1040 CAA","city":"Cité de Beauté","tel":"0322 44 442 22"};
+          var json = {
+            "name": "Pete Peeters",
+            "street": "Avenue de rue 93",
+            "zip": "1040 CAA",
+            "city": "Cité de Beauté",
+            "tel": "0322 44 442 22"
+          };
 
           function createPerson() {
             var person = new Person();
@@ -74,7 +80,7 @@
 
           doh.register(
             "_Semantic Object Pane - Person",
-            generator(subject, SemanticObject, createPerson, "name", "NEW NAME", "txtName")
+            semanticObjectPaneTestGenerator(subject, SemanticObject, createPerson, "name", "NEW NAME", "txtName")
           );
           doh.run();
         });

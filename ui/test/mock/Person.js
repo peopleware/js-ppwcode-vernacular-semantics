@@ -15,9 +15,9 @@
 */
 
 define(["./mockGenerator", "../../../SemanticObject"],
-    function (generator, SemanticObject) {
+    function (mockGenerator, SemanticObject) {
 
-      return generator.personClass(SemanticObject);
+      return mockGenerator.personClass(SemanticObject);
 
     }
 );
