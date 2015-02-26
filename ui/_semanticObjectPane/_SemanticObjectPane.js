@@ -15,11 +15,11 @@
  */
 
 define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang", "dijit/registry",
-    "dojo/dom-class",
-    "dijit/_WidgetBase", "../../SemanticObject",
-    "dijit/form/TextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/Editor",
-    "dijit/form/CheckBox", "dijit/form/Select", "dijit/InlineEditBox",
-    "xstyle/css!./_SemanticObjectPane.css"],
+        "dojo/dom-class",
+        "dijit/_WidgetBase", "../../SemanticObject",
+        "dijit/form/TextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/Editor",
+        "dijit/form/CheckBox", "dijit/form/Select", "dijit/InlineEditBox",
+        "xstyle/css!./_SemanticObjectPane.css"],
   function(declare, _ContractMixin, lang, registry,
            domClass,
            _WidgetBase, SemanticObject,
@@ -81,36 +81,38 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         //noinspection FallthroughInSwitchStatementJS
         switch (stylePresentationMode) {
           case _SemanticObjectPane.prototype.NOTARGET:
-            widgetState = { readOnly:true, disabled:true };
+            widgetState = {readOnly: true, disabled: true};
             break;
           case _SemanticObjectPane.prototype.EDIT:
           case _SemanticObjectPane.prototype.WILD:
-            widgetState = { readOnly:false, disabled:false };
+            widgetState = {readOnly: false, disabled: false};
             break;
           case _SemanticObjectPane.prototype.BUSY:
           case _SemanticObjectPane.prototype.ERROR:
-            widgetState = { readOnly:false, disabled:true };
+            widgetState = {readOnly: false, disabled: true};
             break;
           default: // VIEW
-            widgetState = { readOnly:true, disabled:false };
+            widgetState = {readOnly: true, disabled: false};
         }
         var innerWidgets = recursiveChildWidgets(domNode);
-        innerWidgets.forEach(function (w) {
-          if (w.isInstanceOf(TextBox) || w.isInstanceOf(Output)
-            || w.isInstanceOf(CheckedMultiSelect) || w.isInstanceOf(CheckBox)
-            || w.isInstanceOf(Select) || w.stylePresentationModeDependent) {
+        innerWidgets.forEach(function(w) {
+          if (w.isInstanceOf(TextBox) ||
+              w.isInstanceOf(Output) ||
+              w.isInstanceOf(CheckedMultiSelect) ||
+              w.isInstanceOf(CheckBox) ||
+              w.isInstanceOf(Select) ||
+              w.stylePresentationModeDependent) {
             w.set("readOnly", widgetState.readOnly || !!(created && w.cannotBeChangedAfterCreate));
             w.set("disabled", widgetState.disabled);
           }
           else if (w.isInstanceOf(InlineEditBox) || w.isInstanceOf(Editor)) { // only supports disabled, which === readOnly
             w.set("disabled",
-                widgetState.disabled ||
-                widgetState.readOnly ||
-                !!(created && w.cannotBeChangedAfterCreate));
+              widgetState.disabled ||
+              widgetState.readOnly || !!(created && w.cannotBeChangedAfterCreate));
           }
         });
         if (stylePresentationMode === _SemanticObjectPane.prototype.VIEW ||
-          stylePresentationMode === _SemanticObjectPane.prototype.EDIT) {
+            stylePresentationMode === _SemanticObjectPane.prototype.EDIT) {
           domClass.replace(domNode,
             "SemanticObjectPane_enabled",
             "SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error SemanticObjectPane_notarget");
@@ -138,6 +140,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
       }
     }
 
+    //noinspection LocalVariableNamingConventionJS
     var _SemanticObjectPane = declare([_WidgetBase, _ContractMixin], {
       // summary:
       //   Widget that represents a SemanticObject in detail, and that gives the opportunity
@@ -176,12 +179,18 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         function() {return this.presentationModes.indexOf(this.get("presentationMode")) >= 0;},
         function() {return this.getTargetType();},
         function() {return this.getTargetType().prototype.isInstanceOf(SemanticObject);},
-        function() {return this.get("target") === null ||
-          (this.get("target").isInstanceOf && this.get("target").isInstanceOf(this.getTargetType()));},
+        function() {
+          return this.get("target") === null ||
+                 (this.get("target").isInstanceOf && this.get("target").isInstanceOf(this.getTargetType()));
+        },
         function() {return this.get("stylePresentationMode");},
         function() {return this.stylePresentationModes.indexOf(this.get("stylePresentationMode")) >= 0;},
         function() {return (this.get("stylePresentationMode") === this.NOTARGET) === (this.get("target") === null);},
-        function() {return this.get("target") !== null ? this.get("stylePresentationMode") === this.get("presentationMode") : true;},
+        function() {
+          return this.get("target") !== null
+            ? this.get("stylePresentationMode") === this.get("presentationMode") // jshint ignore:line
+            : true;
+        },
         function() {return this._wrappedDetails() !== null;},
         function() {return lang.isArray(this._wrappedDetails());},
         {
@@ -191,7 +200,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
           invars: [
             function(wd) {
               return wd && wd !== null &&
-                wd.isInstanceOf && wd.isInstanceOf(_SemanticObjectPane);
+                     wd.isInstanceOf && wd.isInstanceOf(_SemanticObjectPane);
             },
             // wrapped details might contain other objects of other types as target,
             // or null, but the presentationMode needs to be in sync. The stylePresentationMode
@@ -240,7 +249,9 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         //    This is in a `stylePresentationMode` that allows the user to change the values, if there is a target and
         //    it is editable.
         return this.target &&
-          (this.presentationMode === this.EDIT || this.presentationMode === this.BUSY || this.presentationMode === this.WILD);
+               (this.presentationMode === this.EDIT ||
+                this.presentationMode === this.BUSY ||
+                this.presentationMode === this.WILD);
       },
 
       _wrappedDetails: function() {
