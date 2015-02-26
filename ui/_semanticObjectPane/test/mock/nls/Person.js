@@ -17,10 +17,10 @@
 define({
   root:{
     name: "Name",
-    address: "Adress",
+    address: "Address",
     street: "Street + nr",
     zip: "Zip",
-    city: "Muincipality",
+    city: "Municipality",
     tel: "Tel."
   }
 });

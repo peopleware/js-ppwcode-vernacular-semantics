@@ -71,7 +71,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-contracts/_Mixin"
         equals: function(/*Value*/ other) {
           // summary:
           // description:
-          //   Must be overriden in subtypes with the pattern:
+          //   Must be overridden in subtypes with the pattern:
           //   | return this.inherited(arguments) && (EXTRA CONDITIONS);
           //   This implementation checks whether other is null.
           //

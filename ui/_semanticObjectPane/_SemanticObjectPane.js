@@ -42,7 +42,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
       // This means this is a sub-state of EDIT.
       "WILD",
 
-      // presentationMode and stylePresentationMode representing an error occured. We cannot proceed. The widget
+      // presentationMode and stylePresentationMode representing an error occurred. We cannot proceed. The widget
       // and its object must be destroyed.
       "ERROR"];
 
@@ -60,7 +60,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
       //   Widgets on which the property `ignoreStylePresentationModeChange` is set to true are ignored.
       //   These widgets take responsibility of managing their state themselves.
       //   This option was introduced to allow overriding the default behaviour.
-      
+
       return registry.findWidgets(domNode).reduce(
         function(acc, w) {
           if (!w.ignoreStylePresentationModeChange) {
