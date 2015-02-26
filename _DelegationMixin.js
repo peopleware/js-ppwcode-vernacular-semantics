@@ -99,7 +99,8 @@ define(["dojo/_base/declare", "dojo/Stateful", "ppwcode-util-contracts/_Mixin", 
               return lastContext.set(this["-delegated-"][propName].lastName, value);
             }
             else {
-              return lastContext[this["-delegated-"][propName].lastName] = value;
+              lastContext[this["-delegated-"][propName].lastName] = value;
+              return value;
             }
           }
           return this.inherited(arguments);

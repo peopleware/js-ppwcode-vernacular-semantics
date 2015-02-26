@@ -188,12 +188,12 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
           var callbacks = this._watchCallbacks;
           if(!this.hasOwnProperty("_watchCallbacks")) {
             var self = this;
-            callbacks = this._watchCallbacks = function(name, oldValue, value, ignoreCatchall){
-              var notify = function(propertyCallbacks){
-                if(propertyCallbacks){
-                  propertyCallbacks = propertyCallbacks.slice();
-                  for(var i = 0, l = propertyCallbacks.length; i < l; i++){
-                    propertyCallbacks[i].call(self, name, oldValue, value);
+            callbacks = function(name, oldValue, value, ignoreCatchall) {
+              var notify = function(propertyCallbacks) {
+                if(propertyCallbacks) {
+                  var localCallbacks = propertyCallbacks.slice();
+                  for(var i = 0; i < localCallbacks.length; i++){
+                    localCallbacks[i].call(self, name, oldValue, value);
                   }
                 }
               };
@@ -202,6 +202,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
                 notify(callbacks["*"]); // the catch-all
               }
             }; // we use a function instead of an object so it will be ignored by JSON conversion
+            this._watchCallbacks = callbacks;
           }
           // for the rest, we reuse the code of Stateful; there the above if will now always be skipped
           return this.inherited(arguments);
