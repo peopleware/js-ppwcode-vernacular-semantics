@@ -65,7 +65,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
         result = !(newValue.equals(oldValue));
       }
       else {
-        result = (newValue != oldValue);
+        result = (newValue !== oldValue);
       }
       return result;
     }
