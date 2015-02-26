@@ -111,6 +111,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
 
         var previousWildExceptions = calcPerProperty(self.getWildExceptions());
 
+        // TODO code inspection flags this: variable is unused. What does this do? Do we have a memory leak? (own?)
         var holisticWildExceptionsListener = self.watch(function(propertyName) {
           if (!propertyName || propertyName.indexOf("wildExceptions") < 0) { // otherwise we have a loop
             var perProperty = calcPerProperty(self.getWildExceptions());
@@ -139,7 +140,6 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
         }
 
         var names = this._getAttrNames(name);
-        var oldValue = this._get(name, names);
         var setter = this[names.s];
         if (typeof setter === "function") {
           // use the explicit setter
@@ -213,7 +213,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
         // summary:
         //   Default is that this cannot be set in the application, but can be overridden.
 
-        throw "ERROR: editable is read-only - calculated in the server";
+        throw "ERROR: editable is read-only - calculated in the server (" + value + ")";
       },
 
       _editableGetter: function() {
@@ -227,7 +227,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
         // summary:
         //   Default is that this cannot be set in the application, but can be overridden.
 
-        throw "ERROR: deletable is read-only - calculated in the server";
+        throw "ERROR: deletable is read-only - calculated in the server (" + value + ")";
       },
 
       _deletableGetter: function() {
@@ -285,6 +285,8 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
             validatorResult.forEach(function(wildExceptionDefinition) {
               if (js.typeOf(wildExceptionDefinition) === "string") {
                 // just a key; create a PropertyException for this propertyName and this
+                // PropertyException is a subtype of SemanticException
+                //noinspection JSCheckFunctionSignatures
                 cpe.add(new PropertyException({
                   key: wildExceptionDefinition,
                   sender: self,
@@ -297,6 +299,8 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
               }
               else if (wildExceptionDefinition.sender || wildExceptionDefinition.propertyName) {
                 // we interpret it as the kwargs of a PropertyException if we have a sender or a propertyName
+                // PropertyException is a subtype of SemanticException
+                //noinspection JSCheckFunctionSignatures
                 cpe.add(new PropertyException(wildExceptionDefinition));
               }
               else {
