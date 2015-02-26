@@ -254,7 +254,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
           //   If a CompoundPropertyException is given as the second argument, it is returned, with optionally
           //   children added to it. If no second argument is given, a new CompoundPropertyException is returned.
           // description:
-          //   To calculate the wild exceptions for a given property, add a method with name "_PROPERTYNAMEValidator".
+          //   To calculate the wild exceptions for a given property, add a method with name "_PROPERTY_NAMEValidator".
           //   It will be called with the current value of the given property as argument. The method must return an array
           //   always, that might be empty. The elements of the array are, or represent, SemanticExceptions.
           //   If the element is not a SemanticException, but a String, we create a PropertyException for you,
@@ -266,7 +266,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
           //   Pseudo-properties exist for the validation of each property, and the object as a whole. These are provided
           //   to make it possible to bind to the validation state of each property or the object as a whole. Events
           //   are send for the pseudo-properties when the validation state of a property changes.
-          //   The name of the pseudo-property for a given PROPERTYNAME is "PROPERTYNAME-wildExceptions".
+          //   The name of the pseudo-property for a given PROPERTY_NAME is "PROPERTY_NAME-wildExceptions".
           //   The name of the pseudo-property for the object as a whole is "wildExceptions".
 
           var self = this;
