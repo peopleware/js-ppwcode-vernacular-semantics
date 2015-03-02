@@ -45,7 +45,8 @@
 
 .SemanticObjectPane .dijitTextBoxReadOnly input,
 .SemanticObjectPane .dijitValidationTextBoxReadOnly input {
-  white-space: nowrap;
+  white-space: nowrap; /* TODO this will never work on an input as an inline element, will it?
+                               For ellipsis, we need a block. */
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -133,10 +134,11 @@
 /* labels */
 
 .SemanticObjectPane label {
-  color: darkslategrey;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: darkslategrey; /* TODO like it was, it makes no sense. Do we want nowrap, and ellipsis? or wrap? but we do need more spacing. See /LES */
+  /*display: block;*/
+  /*white-space: nowrap;*/
+  /*overflow: hidden;*/
+  /*text-overflow: ellipsis;*/
 }
 
 .SemanticObjectPane label.fixedLabel {
