@@ -62,12 +62,10 @@
   margin-bottom: 0.5ex;
 }
 
-.SemanticObjectPane .secondary,
-.miniWidget .secondary {
+.SemanticObjectPane .secondary {
   float: right;
   color: gray;
   font-size: 75%;
-  /*padding-right: 2px allow space for italic last letter */
 }
 
 .SemanticObjectPane .fillToLeft,
@@ -145,15 +143,6 @@
   padding: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-
-
-
-
-/* mini-widgets */
-
-.miniWidget {
 }
 
 
