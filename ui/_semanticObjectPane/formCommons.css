@@ -62,10 +62,22 @@
   margin-bottom: 0.5ex;
 }
 
+/* A "secondary" shows secondary identifying information, in a smaller font, gray, to the right.
+   It is intended for other content in the encompassing block to flow around it, if the other content gets large enough.
+   The "secondary" entry is intended to be short, and to text-align the base line with the first line of the other
+   content. We use float: right, with an explicit top margi, to get this. The top margin is measured to be next to
+   an .identifyingField.
+   The maximum width will be 50% of the parent, and this is forced to be 1 line. Overflow is shown with an ellipsis. */
 .SemanticObjectPane .secondary {
-  float: right;
   color: gray;
   font-size: 75%;
+  float: right;
+  margin-top: 1.5ex; /* measured in Chrome, Mac OS X 100%; probably doesn't work ... :-( */
+  max-width: 50%;
+  display: block; /* only thing that makes sense for a float; necessary to make ellipsis work */
+  white-space: nowrap;
+  overflow: hidden; /* necessary to make ellipsis work */
+  text-overflow: ellipsis;
 }
 
 .SemanticObjectPane .fillToLeft,
