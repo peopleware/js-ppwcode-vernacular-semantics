@@ -132,6 +132,9 @@
 }
 
 
+
+
+
 /* labels */
 
 .SemanticObjectPane label {
@@ -198,8 +201,10 @@
 }
 
 
-/* lists */
 
+
+
+/* lists */
 
 .SemanticObjectPane .dgrid-no-data,
 .SemanticObjectPane .dgrid-loading {
@@ -214,6 +219,7 @@
 
 
 
+/* properties */
 
 .SemanticObjectPane .properties .propertiesTop {
   height: 36px;  /* icon button + padding */
@@ -245,11 +251,19 @@
 
 
 
+
+
+/* extra buttons */
+
 .extraButtons .dijitButton,
 .extraButtons .dijitDropDownButton,
 .extraButtons .dijitToggleButton{
   float: right;
 }
+
+
+
+
 
 /* dgrid list rows */
 
