@@ -29,6 +29,10 @@
 
 /* fields */
 
+.SemanticObjectPane .dijitContentPane {
+  padding: 0;
+}
+
 .SemanticObjectPane div.formRow {
   /*position: relative;*/
   padding-top: 0;
@@ -274,10 +278,6 @@
 }
 
 
-
-.extraButtons.dijitContentPane {
-  padding: 0;
-}
 
 .extraButtons .dijitButton,
 .extraButtons .dijitDropDownButton,
