@@ -135,11 +135,7 @@
 /* labels */
 
 .SemanticObjectPane label {
-  color: darkslategrey; /* TODO like it was, it makes no sense. Do we want nowrap, and ellipsis? or wrap? but we do need more spacing. See /LES */
-  /*display: block;*/
-  /*white-space: nowrap;*/
-  /*overflow: hidden;*/
-  /*text-overflow: ellipsis;*/
+  color: darkslategrey;
 }
 
 .SemanticObjectPane label.fixedLabel {
@@ -149,6 +145,9 @@
   font-weight: bold;
   font-size: 90%;
   padding-top: 0.3ex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .SemanticObjectPane fieldset {
