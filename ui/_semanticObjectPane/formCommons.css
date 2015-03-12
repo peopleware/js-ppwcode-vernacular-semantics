@@ -107,7 +107,7 @@
 .SemanticObjectPane .afterLabel,
 /* extra mentions necessary to force text boxes to listen */
 .SemanticObjectPane .dijitTextBox.afterLabel {
-  left: 90px !important; /* see fixedLabel */
+  left: 90px; /* see fixedLabel */
 }
 
 .SemanticObjectPane .fillToRight,
