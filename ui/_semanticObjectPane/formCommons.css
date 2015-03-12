@@ -55,6 +55,14 @@
   text-overflow: ellipsis;
 }
 
+.SemanticObjectPane .formRow .dijitSelectReadOnly .dijitButtonNode {
+  display: none;
+}
+
+.SemanticObjectPane .formRow .dijitSelectReadOnly .dijitButtonContents {
+  border-right-style: none;
+}
+
 .SemanticObjectPane .formRow .dijitCheckBox {
   padding-top: 1.1ex;
   margin-left: 3px;
