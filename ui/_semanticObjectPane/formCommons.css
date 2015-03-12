@@ -94,16 +94,6 @@
 }
 
 .SemanticObjectPane .fillToLeft,
-.SemanticObjectPane .afterLabel,
-.SemanticObjectPane .fillToRight,
-  /* extra mentions necessary to force text boxes to listen */
-.SemanticObjectPane .dijitTextBox.fillToLeft,
-.SemanticObjectPane .dijitTextBox.afterLabel,
-.SemanticObjectPane .dijitTextBox.fillToRight {
-  width: inherit !important;
-}
-
-.SemanticObjectPane .fillToLeft,
 /* extra mentions necessary to force text boxes to listen */
 .SemanticObjectPane .dijitTextBox.fillToLeft,
 .SemanticObjectPane label.fixedLabel {
