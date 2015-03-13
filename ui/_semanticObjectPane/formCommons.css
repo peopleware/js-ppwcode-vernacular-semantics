@@ -327,11 +327,11 @@
   text-overflow: ellipsis;
 }
 
-.SemanticObjectPane .listRow label.listRowIdentifyingField {
+.SemanticObjectPane div.listRow div.listRowIdentifyingField {
   font-weight: bolder;
 }
 
-.SemanticObjectPane .listRow label.listRowBottomRightMinor {
+.SemanticObjectPane div.listRow div.listRowBottomRightMinor {
   margin-top: 4px;
   padding-right: 2px;  /*allow space for italic last letter*/
   color: gray;
