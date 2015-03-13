@@ -131,6 +131,11 @@
   display: none;
 }
 
+/* Buttons with text are smaller in the pane's */
+.SemanticObjectPane .dijitButtonNode .dijitButtonText {
+  font-size: 75%;
+}
+
 
 
 
