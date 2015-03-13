@@ -137,39 +137,6 @@
 
 /* </editor-fold> */
 
-/* <editor-fold desc="Links"> */
-
-.SemanticObjectPane .link,
-.SemanticObjectPane .externalLink {
-  /* default: disabled; add "enabled" to enable */
-  text-decoration: none;
-  color: #A5A5CF;
-  cursor: default;
-}
-
-.SemanticObjectPane .link.enabled,
-.SemanticObjectPane .externalLink.enabled {
-  color: #0000d0;
-  cursor: pointer;
-}
-
-.SemanticObjectPane .link.enabled:hover,
-.SemanticObjectPane .externalLink.enabled:hover {
-  color: #0000ff;
-  text-decoration: underline;
-}
-
-.SemanticObjectPane .link.enabled:active,
-.SemanticObjectPane .externalLink.enabled:active {
-  color: #0000aa;
-}
-
-.SemanticObjectPane .externalLink::after {
-  content: "➚";
-}
-
-/* </editor-fold> */
-
 /* <editor-fold desc="Labels"> */
 
 .SemanticObjectPane label {
