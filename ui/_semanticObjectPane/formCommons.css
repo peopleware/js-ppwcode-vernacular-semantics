@@ -339,6 +339,10 @@
   text-align: right;
 }
 
+/* </editor-fold> */
+
+/* <editor-fold desc="Dangerous Operation"> */
+
 .dijitMenuItem.dangerousOperation {
   color: #000000;
   background-color: #ffff00;
