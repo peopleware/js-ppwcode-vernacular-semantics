@@ -290,7 +290,7 @@
 
 /* <editor-fold desc="dgrid List Rows"> */
 
-.SemanticObjectPane .listRow {
+.SemanticObjectPane div.listRow {
   padding: 5px;
   margin-bottom: 3px;
   margin-top: 3px;
@@ -302,23 +302,23 @@
   border-radius: 3px;
 }
 
-.claro .SemanticObjectPane .listRow.ui-state-default:hover {
+.claro .SemanticObjectPane div.listRow.ui-state-default:hover {
   background-color: #e9f2fe !important;
 }
 
-.claro .SemanticObjectPane .listRow.ui-state-active {
+.claro .SemanticObjectPane div.listRow.ui-state-active {
   background-color: #cee6fa !important;
 }
 
-.claro .SemanticObjectPane .listRow.ui-state-active:hover {
+.claro .SemanticObjectPane div.listRow.ui-state-active:hover {
   background-color: #9bc6f2 !important;
 }
 
-.claro .listRow.ui-state-highlight {
+.claro div.listRow.ui-state-highlight {
   background-color: #ff6 !important;
 }
 
-.SemanticObjectPane .listRow label {
+.SemanticObjectPane div.listRow div {
   display: block;
   margin-top: 3px;
   white-space: nowrap;
