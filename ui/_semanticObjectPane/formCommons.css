@@ -144,14 +144,14 @@
 
 .SemanticObjectPane label {
   color: darkslategrey;
+  font-weight: bold;
+  font-size: 90%;
 }
 
 .SemanticObjectPane label.fixedLabel {
   position: absolute;
   width: 75px; /* see .dijitTextBox.afterLabel */
   display: inline-block;
-  font-weight: bold;
-  font-size: 90%;
   padding-top: 0.3ex;
   white-space: nowrap;
   overflow: hidden;
@@ -232,9 +232,7 @@
 }
 
 .SemanticObjectPane .properties .propertiesTop label {
-  font-size: 90%;
-  line-height: 35px;
-  font-weight: bold;
+  line-height: 35px; /* icon */ /* IDEA: isn't margin top better? */
 }
 
 .SemanticObjectPane .properties .propertiesTop .dijitButton,
