@@ -26,8 +26,7 @@
   Tabs are imagined at 10px and 90px, and a right tab at -10px from the right.
 */
 
-
-/* fields */
+/* <editor-fold desc="Fields"> */
 
 .SemanticObjectPane .dijitContentPane {
   padding: 0;
@@ -136,11 +135,9 @@
   font-size: 75%;
 }
 
+/* </editor-fold> */
 
-
-
-
-/* labels */
+/* <editor-fold desc="Labels"> */
 
 .SemanticObjectPane label {
   color: darkslategrey;
@@ -167,11 +164,9 @@
   margin-bottom: 10px;
 }
 
+/* </editor-fold> */
 
-
-
-
-/* layout */
+/* <editor-fold desc="Layout"> */
 
 .SemanticObjectPane .fields.dijitLayoutContainerPane {
   padding: 0; /* override dijit ContentPane setting */
@@ -205,11 +200,9 @@
   border-width: 0;
 }
 
+/* </editor-fold> */
 
-
-
-
-/* lists */
+/* <editor-fold desc="Lists"> */
 
 .SemanticObjectPane .dgrid-no-data,
 .SemanticObjectPane .dgrid-loading {
@@ -220,11 +213,9 @@
   color: gray;
 }
 
+/* </editor-fold> */
 
-
-
-
-/* properties */
+/* <editor-fold desc="Properties"> */
 
 .SemanticObjectPane .properties .propertiesTop {
   height: 36px;  /* icon button + padding */
@@ -252,11 +243,9 @@
   background-color: transparent !important;
 }
 
+/* </editor-fold> */
 
-
-
-
-/* extra buttons */
+/* <editor-fold desc="Extra Buttons"> */
 
 .extraButtons .dijitButton,
 .extraButtons .dijitDropDownButton,
@@ -264,11 +253,9 @@
   float: right;
 }
 
+/* </editor-fold> */
 
-
-
-
-/* dgrid list rows */
+/* <editor-fold desc="dgrid List Rows"> */
 
 .SemanticObjectPane .listRow {
   padding: 5px;
@@ -345,3 +332,5 @@
   height: 18px;
   text-align: center;
 }
+
+/* </editor-fold> */
