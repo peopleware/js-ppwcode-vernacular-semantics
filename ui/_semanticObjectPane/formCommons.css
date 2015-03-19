@@ -261,6 +261,10 @@
 
 /* <editor-fold desc="dgrid List Rows"> */
 
+.SemanticObjectPane .dgrid-scroller {
+  overflow-y: auto;
+}
+
 .SemanticObjectPane div.listRow {
   padding: 5px;
   margin-bottom: 1px;
