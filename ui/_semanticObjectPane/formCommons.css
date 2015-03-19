@@ -189,15 +189,19 @@
 
 .SemanticObjectPane .dijitAccordionContainer .dijitAccordionChildWrapper,
 .SemanticObjectPane .dijitAccordionContainer .dijitAccordionContainer-child,
-.SemanticObjectPane .dijitAccordionContainer .dijitAccordionInnerContainerSelected {
+.SemanticObjectPane .dijitAccordionContainer .dijitAccordionInnerContainer {
   padding: 0;
   background-color: transparent;
 }
 
-.SemanticObjectPane .dijitAccordionContainer .dijitAccordionChildWrapper {
-  margin: 0;
+.SemanticObjectPane .dijitAccordionContainer .dijitAccordionChildWrapper,
+.SemanticObjectPane .dijitAccordionContainer .dijitAccordionInnerContainer {
   border-style: none;
   border-width: 0;
+}
+
+.SemanticObjectPane .dijitAccordionContainer .dijitAccordionChildWrapper {
+  margin: 0;
 }
 
 /* </editor-fold> */
@@ -260,14 +264,30 @@
 .SemanticObjectPane div.listRow {
   padding: 5px;
   margin-bottom: 1px;
-  margin-top: 1px;
+  margin-top: 0;
   margin-left: 0;
   border-left-style: none;
   border-right-style: none;
-  border-top-style: solid;
+  border-top-style: none;
   border-bottom-style: solid;
   border-color: gray;
   border-width: 1px;
+}
+
+/* All listRows, except the first (all listRows preceded by a listRow).
+   See http://stackoverflow.com/questions/2717480/css-selector-for-first-element-with-class for selector. */
+.SemanticObjectPane div.listRow ~ div.listRow {
+  margin-top: 1px;
+  border-top-style: solid;
+}
+
+/* All listRows, except the last
+   This is not very stable, but there is no way to do it like for the first (see above), since there is no
+   "before" equivalent for "~". This depends on the fact that the list contains 1 more div, the "dgrid-preload",
+   after the last listRow. */
+.SemanticObjectPane div.listRow:nth-last-child(2) {
+  margin-bottom: 0;
+  border-bottom-style: none;
 }
 
 .claro .SemanticObjectPane div.listRow.ui-state-default:hover {
