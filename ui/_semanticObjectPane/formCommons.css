@@ -149,7 +149,7 @@
   position: absolute;
   width: 75px; /* see .dijitTextBox.afterLabel */
   display: inline-block;
-  padding-top: 0.3ex;
+  padding-top: 0.4ex;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
