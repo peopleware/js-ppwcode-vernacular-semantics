@@ -26,6 +26,12 @@
   Tabs are imagined at 10px and 90px, and a right tab at -10px from the right.
 */
 
+.SemanticObjectPane {
+  /* fix reference font-size and line-height for stuff in SemanticObjectpanes */
+  font-size: 16px;
+  line-height: 1.2; /* the default of most browsers; but enforce because in .secondary we depend on it */
+}
+
 /* <editor-fold desc="Fields"> */
 
 .SemanticObjectPane .dijitContentPane {
@@ -83,7 +89,20 @@
   color: gray;
   font-size: 75%;
   float: right;
-  margin-top: 1.5ex; /* measured in Chrome, Mac OS X 100%; probably doesn't work ... :-( */
+  /* To have the baseline of .secondary aligned with the baseline of the first line of .identifying field, we
+     add padding to the top of .secondary. There are no borders and no top margin or top padding on .identifying field
+     or .secondary, and no bottom margin or padding on .secondary. So, we can assume that the height of .secondary
+     equals its line-height, and that the baseline of .identifyingField is its line height below the top of
+     .identifyingField:
+     line-height of .identifyingField : 150% of 16px * 1.2 = 28.8px
+     line-height of .secondary: 75% of 16px * 1.2 = 14.4px
+     A top padding of 28.8px - 14.4px = 14.4px should align the base lines.
+
+     And that doesn't work either: the baseline isn't the bottom: look at the g, y, p, q (descenders).
+
+     So, it's trial and error. But is this cross-browsers and cross-platform?
+     */
+  padding-top: 10.5px;
   max-width: 50%;
   display: block; /* only thing that makes sense for a float; necessary to make ellipsis work */
   white-space: nowrap;
