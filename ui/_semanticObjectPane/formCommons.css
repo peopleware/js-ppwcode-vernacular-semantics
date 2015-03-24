@@ -28,7 +28,7 @@
 
 .SemanticObjectPane {
   /* fix reference font-size and line-height for stuff in SemanticObjectpanes */
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.2; /* the default of most browsers; but enforce because in .secondary we depend on it */
 }
 
@@ -102,7 +102,7 @@
 
      So, it's trial and error. But is this cross-browsers and cross-platform?
      */
-  padding-top: 10.5px;
+  padding-top: 9.6px;
   max-width: 50%;
   display: block; /* only thing that makes sense for a float; necessary to make ellipsis work */
   white-space: nowrap;
