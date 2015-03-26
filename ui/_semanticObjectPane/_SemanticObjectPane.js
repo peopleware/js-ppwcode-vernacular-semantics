@@ -235,6 +235,10 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
       //   (which is mostly linked to the current one)
       opener: null,
 
+      // summary:
+      //   Function that returns a div, representing a given object in a list.
+      renderItemListRow: null,
+
       postCreate: function() {
         this.inherited(arguments);
         domClass.add(this.get("domNode"), "SemanticObjectPane");
