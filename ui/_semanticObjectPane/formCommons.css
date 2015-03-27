@@ -42,7 +42,7 @@
   /*position: relative;*/
   padding-top: 0;
   padding-bottom: 0;
-  height: 3.4ex;
+  height: 24px;
 }
 
 .SemanticObjectPane .dijitTextBoxReadOnly,
@@ -58,6 +58,12 @@
                                For ellipsis, we need a block. */
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.SemanticObjectPane .formRow .dijitButton,
+.SemanticObjectPane .formRow .dijitToggleButton {
+  float: right;
+  margin-top: 0.7px; /* align baseline */
 }
 
 .SemanticObjectPane .formRow .dijitSelectReadOnly .dijitButtonNode {
