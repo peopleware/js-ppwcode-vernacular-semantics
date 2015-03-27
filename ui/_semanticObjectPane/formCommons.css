@@ -34,6 +34,12 @@
 
 /* <editor-fold desc="Fields"> */
 
+.SemanticObjectPane div.fields.dijitContentPane {
+  position: relative;
+  margin-bottom: 20px;
+  padding-bottom: 2px !important; /* fixes a bug where the height calculation for layouts is 1px off */
+}
+
 .SemanticObjectPane .dijitContentPane {
   padding: 0;
 }
