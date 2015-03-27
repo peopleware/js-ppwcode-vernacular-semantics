@@ -82,7 +82,7 @@
 /* A "secondary" shows secondary identifying information, in a smaller font, gray, to the right.
    It is intended for other content in the encompassing block to flow around it, if the other content gets large enough.
    The "secondary" entry is intended to be short, and to text-align the base line with the first line of the other
-   content. We use float: right, with an explicit top margi, to get this. The top margin is measured to be next to
+   content. We use float: right, with an explicit top margin, to get this. The top margin is measured to be next to
    an .identifyingField.
    The maximum width will be 50% of the parent, and this is forced to be 1 line. Overflow is shown with an ellipsis. */
 .SemanticObjectPane .secondary {
@@ -133,6 +133,10 @@
 /* extra mentions necessary to force text boxes to listen */
 .SemanticObjectPane .dijitTextBox.afterLabel {
   left: 90px; /* see fixedLabel */
+}
+
+.SemanticObjectPane span.afterLabel {
+  margin-top: 1.7px; /* align baseline, only for spans */
 }
 
 .SemanticObjectPane .fillToRight,
