@@ -119,6 +119,7 @@
 .SemanticObjectPane .fillToLeft,
 .SemanticObjectPane .afterLabel,
 .SemanticObjectPane .fillToRight,
+.SemanticObjectPane .valueAsLabel,
 /* extra mentions necessary to force text boxes to listen */
 .SemanticObjectPane .dijitTextBox.fillToLeft,
 .SemanticObjectPane .dijitTextBox.afterLabel,
@@ -131,6 +132,7 @@
 .SemanticObjectPane .fillToLeft,
 /* extra mentions necessary to force text boxes to listen */
 .SemanticObjectPane .dijitTextBox.fillToLeft,
+.SemanticObjectPane .valueAsLabel,
 .SemanticObjectPane label.fixedLabel {
   left: 10px;
 }
@@ -164,17 +166,27 @@
   font-size: 75%;
 }
 
+.SemanticObjectPane .valueAsLabel {
+  /* width might should probably be overridden */
+}
+
+.SemanticObjectPane .dijitSelect.valueAsLabel {
+  left: 7px;
+}
+
 /* </editor-fold> */
 
 /* <editor-fold desc="Labels"> */
 
-.SemanticObjectPane label {
+.SemanticObjectPane label,
+.SemanticObjectPane .valueAsLabel {
   color: darkslategrey;
   font-weight: bold;
   font-size: 90%;
 }
 
-.SemanticObjectPane label.fixedLabel {
+.SemanticObjectPane label.fixedLabel,
+.SemanticObjectPane .valueAsLabel {
   position: absolute;
   width: 75px; /* see .dijitTextBox.afterLabel */
   display: inline-block;
