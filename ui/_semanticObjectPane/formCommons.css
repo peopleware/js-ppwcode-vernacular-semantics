@@ -27,7 +27,7 @@
 */
 
 .SemanticObjectPane {
-  /* fix reference font-size and line-height for stuff in SemanticObjectpanes */
+  /* fix reference font-size and line-height for stuff in SemanticObjectPanes */
   font-size: 14px;
   line-height: 1.2; /* the default of most browsers; but enforce because in .secondary we depend on it */
 }
