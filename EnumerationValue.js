@@ -239,7 +239,7 @@ define(["dojo/_base/declare", "./Value",
                          /*Object*/ prototypeDef,
                          /*Array|Object*/ valueDefinitions,
                          /*module|String*/ mod,
-                         /*String*/ bundleName) {
+                         /*String?*/ bundleName) {
       if (js.typeOf(SuperType) !== "function") {
         // shift arguments
         //noinspection AssignmentToFunctionParameterJS
