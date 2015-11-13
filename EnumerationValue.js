@@ -171,7 +171,7 @@ define(["dojo/_base/declare", "./Value",
     function getParentDirectory(/*Function*/ EnumValueConstructor) {
       if (!EnumValueConstructor._parentDirectory) {
         if (!EnumValueConstructor.mid) {
-          throw "ERROR you must defined a property `mid` on the enumeration value constructor";
+          throw "ERROR you must define a property `mid` on the enumeration value constructor";
         }
         EnumValueConstructor._parentDirectory = dirFromMid(EnumValueConstructor.mid);
       }
