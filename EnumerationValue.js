@@ -118,11 +118,16 @@ define(["dojo/_base/declare", "./Value",
         EnumDef._values = Object.keys(EnumDef).
           filter(function(key) {
             return key !== "superclass" &&
+                   key !== "DEFAULT" &&
                    EnumDef[key] &&
                    EnumDef[key].isInstanceOf &&
                    EnumDef[key].isInstanceOf(EnumerationValue);
           }).
           map(function(key) {return EnumDef[key];});
+        if (EnumDef._values.indexOf(EnumDef.DEFAULT) < 0) {
+          // default is not known under another name
+          EnumDef._values.unshift(EnumDef.DEFAULT);
+        }
       }
       return EnumDef._values;
     }
@@ -149,7 +154,10 @@ define(["dojo/_base/declare", "./Value",
       if (!json) {
         return undefined;
       }
-      var match = Object.keys(EnumDef).filter(function(ed) {return EnumDef[ed]._representation === json;});
+      if (json == "DEFAULT") {
+        return EnumDef.DEFAULT;
+      }
+      var match = Object.keys(EnumDef).filter(function(ed) {return ed !== "DEFAULT" && EnumDef[ed]._representation === json;});
       if (match.length > 1) {
         throw "Error: there are different values in enum type " + EnumDef + " with the same value.";
       }
