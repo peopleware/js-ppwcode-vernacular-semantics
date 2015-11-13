@@ -28,11 +28,20 @@ define(["dojo/_base/declare", "./Value",
       //   This class thus defines the values, but not the type.
       //   This hash is referenced with a Capitalized name, like a Constructor (although it is an object,
       //   and not a function).
+      //
+      //   Enumeration types always have a `DEFAULT` value. `DEFAULT` is reserved, and cannot be used
+      //   as the name of a specific enumeration value. If is a reference to an existing value.
+      //   Sometimes a default for an enumeration type is needed, most often there is no semantic meaning to it.
+      //   Therefor, the code chooses a DEFAULT by default if none is appointed explicitly (the first value
+      //   offered, i.e., `values()[0]`).
+      //
       //   An enumeration value can have a label (a human representation) that is different in different
       //   languages. To enable this, place a set of nls files in the nls directory next to the module
       //   defining the enumeration type with the same name as the module itself (or define the
       //   name used in `bundleName`). The Constructor needs to have a property `mid` containing the
-      //   module id for this to work. The EnumerationValue Constructor then has a `format` and `parse`
+      //   module id for this to work.
+      //
+      //   The EnumerationValue Constructor then has a `format` and `parse`
       //   method, that can take an options-argument that has a locale in the regular way.
       //   If we don't find a locale in the options, we use the default locale.
 
@@ -239,9 +248,12 @@ define(["dojo/_base/declare", "./Value",
                          /*Object*/ prototypeDef,
                          /*Array|Object*/ valueDefinitions,
                          /*module|String*/ mod,
-                         /*String?*/ bundleName) {
+                         /*String?*/ bundleName,
+                         /*String?*/ defaultInstanceName) {
       if (js.typeOf(SuperType) !== "function") {
         // shift arguments
+        //noinspection AssignmentToFunctionParameterJS
+        defaultInstanceName = bundleName;
         //noinspection AssignmentToFunctionParameterJS
         bundleName = mod;
         //noinspection AssignmentToFunctionParameterJS
@@ -288,6 +300,13 @@ define(["dojo/_base/declare", "./Value",
       if (bundleName) {
         Enum.bundleName = bundleName;
       }
+      if (js.typeOf(defaultInstanceName) === "string" && !!Enum[defaultInstanceName]) {
+        Enum.DEFAULT = Enum[defaultInstanceName];
+      }
+      else if (Enum._values.length > 0) {
+        Enum.DEFAULT = Enum._values[0];
+      }
+      // otherwise, there can be no default value; there are no values
       return Enum;
     }
 
