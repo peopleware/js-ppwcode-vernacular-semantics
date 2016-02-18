@@ -33,6 +33,9 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
       // presentationMode and stylePresentationMode for editing the data. Interaction allowed.
       "EDIT",
 
+      // presentationMode and stylePresentationMode for in which delete is possible, but not other edits.
+      "DELETE_ONLY",
+
       // presentationMode and stylePresentationMode while the SemanticObject is busy. No interaction allowed.
       "BUSY",
 
@@ -94,7 +97,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
           case _SemanticObjectPane.prototype.ERROR:
             widgetState = {readOnly: false, disabled: true};
             break;
-          default: // VIEW
+          default: // VIEW, DELETE_ONLY
             widgetState = {readOnly: true, disabled: false};
         }
         var innerWidgets = recursiveChildWidgets(domNode);
@@ -115,7 +118,8 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
           }
         });
         if (stylePresentationMode === _SemanticObjectPane.prototype.VIEW ||
-            stylePresentationMode === _SemanticObjectPane.prototype.EDIT) {
+            stylePresentationMode === _SemanticObjectPane.prototype.EDIT ||
+            stylePresentationMode === _SemanticObjectPane.prototype.DELETE_ONLY) {
           domClass.replace(domNode,
             "SemanticObjectPane_enabled",
             "SemanticObjectPane_busy SemanticObjectPane_wild SemanticObjectPane_disabled SemanticObjectPane_error SemanticObjectPane_notarget");
