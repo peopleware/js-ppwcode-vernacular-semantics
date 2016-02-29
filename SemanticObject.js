@@ -71,6 +71,10 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
     }
 
     return declare([PpwCodeObject, _DerivedMixin], {
+      // summary:
+      //   Any Semantic Object.
+      // description:
+      //   Immediately after construction, `canReload` must be `true`.
 
       _c_invar: [
         function() {return this._c_prop_bool("editable");},
