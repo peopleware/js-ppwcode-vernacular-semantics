@@ -350,6 +350,21 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
         return this.toString();
       },
 
+      canReload: function(/*Object*/ json) {
+        // summary:
+        //   Derived. Default is true, but can be overridden.
+        // description:
+        //   Abstract precondition on `reload`. This must be defined here, since we cannot add preconditions
+        //   in subclasses.
+        //
+        //   Note the reversed logic in the postcondition:
+        //
+        //   Postcondition: result ==> true
+        this._c_pre(function() {return json;});
+
+        return true;
+      },
+
       reload: function(/*Object*/ json) {
         // summary:
         //   Chained method that loads data from `json`.
@@ -359,6 +374,10 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
         //   in that subclass.
         //   See also _extendJsonObject.
         //   The time of reload is remembered in lastReloaded.
+        //
+        //   This method should only be called when `canReload` is thruthy.
+        this._c_pre(function() {return json;});
+        this._c_pre(function() {return this.canReload(json);});
 
         this._changeAttrValue("lastReloaded", new Date());
       },
