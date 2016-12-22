@@ -161,6 +161,26 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-contracts/_Mixin"
 
       });
 
+      Value.compare = function(/*anything*/ v1, /*anything*/ v2) {
+        // summary:
+        //   Return a negative number if `v1` is considered smaller than `v2`;
+        //   return a positive number if `v1` is considered larger than `v2`;
+        //   return 0 is `v1`.equals(v2)`, or both are falsy.
+        //   In the order, undefined comes first and null comes second.
+        //   This method also deals with non-Values in the default way (see language definition of `<` and `>`).
+
+        //noinspection JSUnresolvedFunction,JSUnresolvedVariable
+        return  v1 === v2 ? 0
+                : typeof v1 === "undefined" ? (typeof v2 === "undefined" ? 0 : -1)
+                : typeof v2 === "undefined" ? +1
+                : v1 === null ? -1
+                : v2.isInstanceOf && v2.isInstanceOf(v1.constructor) ? v1.compare(v2)
+                : typeof v1 == "number" && typeof v2 == "number" ?  ((isNaN(v1) && isNaN(v2)) ? 0 : v1 - v2)
+                : v1 > v2 ? +1
+                : v1 < v2 ? -1
+                : 0;
+      };
+
       Value.mid = module.id;
 
       return Value;
