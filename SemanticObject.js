@@ -54,6 +54,18 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
      */
 
     function areDifferentValues(newValue, oldValue) {
+
+      function mapWrappedToPrimitive(value) {
+        return (value !== null
+                && typeof value === "object"
+                && (value instanceof Number
+                    || value instanceof Boolean
+                    || value instanceof String
+                    || value instanceof Date))
+          ? value.valueOf()
+          : value;
+      }
+
       var result;
       if (js.typeOf(newValue) === "array") {
         result = (js.typeOf(oldValue) !== "array") || (newValue.length === 0 && oldValue.length !== 0) ||
@@ -65,7 +77,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
         result = !(newValue.equals(oldValue));
       }
       else {
-        result = (newValue !== oldValue);
+        result = (mapWrappedToPrimitive(newValue) !== mapWrappedToPrimitive(oldValue));
       }
       return result;
     }
