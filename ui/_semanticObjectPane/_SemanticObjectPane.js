@@ -18,13 +18,13 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
         "dojo/dom-class",
         "dijit/_WidgetBase", "../../SemanticObject",
         "dijit/form/TextBox", "dojox/mvc/Output", "dojox/form/CheckedMultiSelect", "dijit/Editor",
-        "dijit/form/CheckBox", "dijit/form/Select", "dijit/InlineEditBox",
+        "dijit/form/CheckBox", "dijit/form/Select", "dijit/InlineEditBox", "dojox/form/TriStateCheckBox",
         "xstyle/css!./_SemanticObjectPane.css"],
   function(declare, _ContractMixin, lang, registry,
            domClass,
            _WidgetBase, SemanticObject,
            TextBox, Output, CheckedMultiSelect, Editor,
-           CheckBox, Select, InlineEditBox) {
+           CheckBox, Select, InlineEditBox, TriStateCheckBox) {
 
     var presentationModes = [
       // presentationMode and stylePresentationMode for viewing the data. No interaction allowed.
@@ -106,6 +106,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "dojo/_base/lang"
               w.isInstanceOf(Output) ||
               w.isInstanceOf(CheckedMultiSelect) ||
               w.isInstanceOf(CheckBox) ||
+              w.isInstanceOf(TriStateCheckBox) ||
               w.isInstanceOf(Select) ||
               w.stylePresentationModeDependent) {
             w.set("readOnly", widgetState.readOnly || !!(created && w.cannotBeChangedAfterCreate));
