@@ -174,6 +174,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-contracts/_Mixin"
                 : typeof v1 === "undefined" ? (typeof v2 === "undefined" ? 0 : -1)
                 : typeof v2 === "undefined" ? +1
                 : v1 === null ? -1
+                : v2 === null ? +1
                 : v2.isInstanceOf && v2.isInstanceOf(v1.constructor) ? v1.compare(v2)
                 : typeof v1 == "number" && typeof v2 == "number" ?  ((isNaN(v1) && isNaN(v2)) ? 0 : v1 - v2)
                 : v1 > v2 ? +1
