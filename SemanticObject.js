@@ -15,10 +15,10 @@
 */
 
 define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_DerivedMixin",
-        "ppwcode-util-oddsAndEnds/js",
+        "ppwcode-util-oddsAndEnds/js", "dojo/aspect",
         "ppwcode-vernacular-exceptions/SemanticException", "ppwcode-vernacular-exceptions/CompoundSemanticException",
         "ppwcode-vernacular-exceptions/PropertyException"],
-  function(declare, PpwCodeObject, _DerivedMixin, js,
+  function(declare, PpwCodeObject, _DerivedMixin, js, aspect,
            SemanticException, CompoundSemanticException, PropertyException) {
 
     /*
@@ -105,6 +105,11 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
       //   The time of last reload.
       lastReloaded: null,
 
+      // dirty: Boolean
+      //    True if _changeAttrValue actually changed something. Reset to false after reload().
+      //    Does not send events.
+      dirty: false,
+
       postscript: function() {
         this.inherited(arguments);
         var self = this;
@@ -142,6 +147,10 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
             }
           }
         });
+
+        aspect.after(self, "reload", function() {
+          self.dirty = false;
+        })
       },
 
       set: function(/*String*/name, /*Object*/value) {
@@ -177,6 +186,7 @@ define(["dojo/_base/declare", "./PpwCodeObject", "ppwcode-util-oddsAndEnds/_Deri
           // HACK only send if something changed; changed takes into account array-values and objects that have an
           // equals method
           if (areDifferentValues(newValue, oldValue)) {
+            this.dirty = true;
             // HACK send the actual new value in the event, not the supplied value
             this._watchCallbacks(name, oldValue, newValue);
           }
